@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Requirements Document (BRD) - HR Agentic Solution (MVP 1)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --primary-light: #e8f0fe;
+      --success: #137333;
+      --success-bg: #e6f4ea;
+      --warning: #b06000;
+      --warning-bg: #fef7e0;
+      --surface: #ffffff;
+      --background: #f8f9fa;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --border: #dadce0;
+      --border-light: #e8eaed;
+      --shadow-sm: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      --shadow-md: 0 4px 12px rgba(60,64,67,0.08);
+      --radius-lg: 12px;
+      --radius-md: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: #ffffff;
+      padding: 36px 40px;
+    }
+
+    header h1 {
+      font-family: "Google Sans", sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-right: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-family: "Google Sans", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a73e8;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      font-family: "Google Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #3c4043;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: #3c4043;
+      font-size: 14px;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+      color: #3c4043;
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .exec-summary {
+      background: #f8fafd;
+      border-left: 4px solid var(--primary);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-bottom: 24px;
+      font-size: 15px;
+      color: #202124;
+      line-height: 1.7;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f3f4;
+      color: #202124;
+      font-weight: 600;
+      font-family: "Google Sans", sans-serif;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: top;
+      color: #3c4043;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+
+    tr:hover {
+      background-color: #f1f6fd;
+    }
+
+    code {
+      font-family: "Roboto Mono", monospace;
+      font-size: 12px;
+      background-color: #f1f3f4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #d93025;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .tag-blue { background: var(--primary-light); color: var(--primary-dark); }
+    .tag-green { background: var(--success-bg); color: var(--success); }
+    .tag-yellow { background: var(--warning-bg); color: var(--warning); }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      background: #fafafa;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div style="margin-bottom: 8px;">
+      <span class="badge-pill">MVP 1 Release</span>
+      <span class="badge-pill">Enterprise HR & IT</span>
+      <span class="badge-pill">Internal Confidential</span>
+    </div>
+    <h1>Business Requirements Document (BRD)</h1>
+    <div style="font-size: 15px; opacity: 0.9;">HR Agentic Solution — Cross-System Virtual Assistant</div>
+  </header>
+
+  <div class="content">
+
+    <section>
+      <h2>Executive Summary</h2>
+      <div class="exec-summary">
+        The <strong>HR Agentic Solution</strong> is a secure, AI-driven virtual assistant designed to provide employees with immediate, conversational access to HR services. By seamlessly orchestrating workflows across core enterprise systems (<strong>WorkWeek</strong>, <strong>ServiceImmediately</strong>) and querying internal HR policies, the assistant will automate routine inquiries and facilitate self-service transactions.<br><br>
+        To ensure strict enterprise governance and zero-trust security, this solution will be deployed on a secure, scalable agent orchestration platform, enforce traceably bounded execution, authenticate the automation's origin for all backend operations, and dynamically validate all interactions to protect against malicious instruction overrides and safeguard sensitive information.
+      </div>
+    </section>
+
+    <section>
+      <h2>1. Project Objectives</h2>
+      <ul>
+        <li><strong>Deflect Tier 1 HR Inquiries:</strong> Reduce routine HR and IT helpdesk ticket volume by at least 40% within the first six months by automating responses to common policy and status queries.</li>
+        <li><strong>Streamline HR Transactions:</strong> Enable employees to perform core self-service actions (leave submission, Incident ticket updates) conversationally without navigating complex backend UIs.</li>
+        <li><strong>Validate Cross-System Orchestration:</strong> Demonstrate the capability to chain actions across HR policies, WorkWeek, and ServiceImmediately to fulfill complex user intents, serving as a critical evaluation benchmark for prototype success before scaling.</li>
+        <li><strong>Enhance Employee Experience:</strong> Provide a unified conversational capability capable of orchestrating complex workflows across multiple backend systems (HCM, ITSM) and knowledge bases.</li>
+        <li><strong>Ensure Enterprise AI Governance:</strong> Maintain 100% visibility over the solution's deployment state, versioning, and authorized tool access limits.</li>
+        <li><strong>Mitigate AI Risks:</strong> Achieve zero policy violations and data leaks by intercepting and validating all user inputs and AI-generated outputs through dynamic interaction safeguards.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Project Scope (MVP 1)</h2>
+      <h3>2.1. Functional Scope (In-Scope for MVP 1)</h3>
+      <ul>
+        <li><strong>Conversational User Interface (UI):</strong> Standard web-based chat interface or integration with an enterprise chat client.</li>
+        <li><strong>Policy & Informational Queries:</strong> Static approved documents answering policy, benefit, and procedure questions.</li>
+        <li><strong>Employee Self-Service Transactions (WorkWeek):</strong> Real-time profile details, leave balances, contact updates, and leave submissions.</li>
+        <li><strong>Support Desk Management (ServiceImmediately):</strong> Ticket status/comment queries, incident creation, comments, and state transitions.</li>
+        <li><strong>Cross-System Orchestration:</strong> Chaining actions across policy knowledge, HCM, and ITSM.</li>
+      </ul>
+
+      <h3>2.2. Data Scope</h3>
+      <ul>
+        <li><strong>Static HR Policies:</strong> Leave Policies, Expense Guidelines, Remote Work Policy, Code of Conduct.</li>
+        <li><strong>WorkWeek Data Elements:</strong> Profile (ID, Name, Email, Dept, Role, Manager, Hire Date), Contact (Address, Phone), Leave Balances (Vacation, Sick).</li>
+        <li><strong>ServiceImmediately Data Elements:</strong> Incident Record (ID, Descriptions, Category, Priority, State, Assignee, Timeline).</li>
+      </ul>
+
+      <h3>2.3. Out of Scope for MVP 1</h3>
+      <ul>
+        <li>Integration with systems other than WorkWeek, ServiceImmediately, and designated Policy Repository.</li>
+        <li>Multi-Lingual capabilities.</li>
+        <li>Processing of payroll data, performance reviews, or compensation details.</li>
+        <li>Voice-based interactions.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. MVP 1 Use Cases and Interaction Examples</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 90px;">Use Case ID</th>
+              <th style="width: 150px;">Category</th>
+              <th style="width: 250px;">Triggering Prompt</th>
+              <th style="width: 160px;">Systems</th>
+              <th>System Actions & Expected Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-blue">UC-1.1</span></td>
+              <td>Policy Q&A</td>
+              <td><em>"What is the company's bereavement leave policy?"</em> or <em>"Are employees allowed to expense noise-canceling headphones?"</em></td>
+              <td>Policy Docs</td>
+              <td>Query policy documents, retrieve relevant sections, and present a grounded answer with citation metadata (URLs/Deep Links).</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-blue">UC-1.2</span></td>
+              <td>HR Self-Service</td>
+              <td><em>"How many hours of PTO do I currently have accrued?"</em> or <em>"Please submit a time-off request for this coming Thursday and Friday."</em></td>
+              <td>WorkWeek (HCM)</td>
+              <td>Retrieve current leave balances or validate and submit a time-off request in WorkWeek.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-blue">UC-1.3</span></td>
+              <td>IT Incident Mgmt</td>
+              <td><em>"What is the status of ticket INC123456?"</em> or <em>"Create an IT ticket because my VPN connection keeps dropping."</em></td>
+              <td>ServiceImmediately (ITSM)</td>
+              <td>Query status/comments or create a new support incident ticket in ServiceImmediately.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-green">UC-2.1</span></td>
+              <td>Cross-System: Equipment Procurement</td>
+              <td><em>"I just read the remote work policy and saw I'm eligible for a home office monitor. Can you verify my remote status and order one for me?"</em></td>
+              <td>Policy Docs, WorkWeek, ServiceImmediately</td>
+              <td>1. Query remote work policy.<br>2. Verify user location/status in WorkWeek.<br>3. Generate hardware request in ServiceImmediately with shipping details.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-green">UC-2.2</span></td>
+              <td>Cross-System: Medical Leave</td>
+              <td><em>"I need to take short-term medical leave starting next Monday. What is the process, and can you set it up for me?"</em></td>
+              <td>Policy Docs, WorkWeek, ServiceImmediately</td>
+              <td>1. Quote leave procedure from policy documents.<br>2. Submit Leave of Absence in WorkWeek.<br>3. Open ticket in ServiceImmediately to route user email access to manager.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-green">UC-2.3</span></td>
+              <td>Cross-System: Relocation</td>
+              <td><em>"I'm transferring to the London office next month. Can you tell me the relocation allowance, update my record, and get my building access sorted?"</em></td>
+              <td>Policy Docs, WorkWeek, ServiceImmediately</td>
+              <td>1. Quote relocation limits from policy documents.<br>2. Prompt address update in WorkWeek.<br>3. Open facilities badge ticket in ServiceImmediately.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Functional Requirements</h2>
+      
+      <h3>4.1. AI Governance & Security Infrastructure</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>FR-1.1</code></td>
+              <td><strong>Capability & Lifecycle Governance</strong></td>
+              <td>The system must track ownership, version history, and enforce strict boundaries on authorized external tools (WorkWeek, ServiceImmediately, Document Repo). Unregistered tool invocations must be blocked.</td>
+            </tr>
+            <tr>
+              <td><code>FR-1.2</code></td>
+              <td><strong>Verification of Request Origin</strong></td>
+              <td>All downstream calls must verify they originate from an authorized automation entity acting on behalf of a specific user. Differentiate automated vs manual user actions in audit records.</td>
+            </tr>
+            <tr>
+              <td><code>FR-1.3</code></td>
+              <td><strong>Verification of Conversation Safety</strong></td>
+              <td><strong>Input Validation:</strong> Intercept and block prompt injection, jailbreak attempts, and off-topic interactions.<br><strong>Output Validation:</strong> Prevent toxic language, hallucinated data, and sensitive info extraction.</td>
+            </tr>
+            <tr>
+              <td><code>FR-1.4</code></td>
+              <td><strong>Data Masking / Redaction</strong></td>
+              <td>Detect and redact SPII from logs and conversation history for privacy compliance.</td>
+            </tr>
+            <tr>
+              <td><code>FR-1.5</code></td>
+              <td><strong>RBAC and Data Isolation</strong></td>
+              <td>Enforce strict Role-Based Access Control preventing unauthorized cross-user data access.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.2. Core Capabilities</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>FR-2.1</code></td>
+              <td><strong>Natural Language Understanding</strong></td>
+              <td>Accurately parse user intent across typos, synonyms, and context, subject to safety checks.</td>
+            </tr>
+            <tr>
+              <td><code>FR-2.2</code></td>
+              <td><strong>Multi-Turn Dialog</strong></td>
+              <td>Maintain state across conversation without caching sensitive data across different user sessions.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.3. WorkWeek Integration (HCM)</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description & Operations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>FR-3.1</code></td>
+              <td><strong>Delegated Authorization</strong></td>
+              <td>API calls must pass a composite authentication token scoping retrieval strictly to the calling employee.</td>
+            </tr>
+            <tr>
+              <td><code>FR-3.2</code></td>
+              <td><strong>Core Actions</strong></td>
+              <td>• <strong>Retrieve Profile:</strong> Name, email, department, role, manager, hire date, home address, phone.<br>• <strong>Update Contact:</strong> Personal home address and phone.<br>• <strong>Query PTO Balances:</strong> Accrued, used, remaining for Vacation & Sick.<br>• <strong>Submit Leave Request:</strong> Dates, leave type, work days, balance validation.</td>
+            </tr>
+            <tr>
+              <td><code>FR-3.3</code></td>
+              <td><strong>WorkWeek Operation Guardrails</strong></td>
+              <td>• <strong>Balance Constraints:</strong> Prevent requests exceeding balance.<br>• <strong>Temporal Validity:</strong> Prevent past dates or inverted date ranges.<br>• <strong>Format Restrictions:</strong> Validate syntax for profile updates.</td>
+            </tr>
+            <tr>
+              <td><code>FR-3.4</code></td>
+              <td><strong>Real-time Data Fetch</strong></td>
+              <td>Fetch profile and PTO directly on every query; no employee dynamic data cached in AI layer.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.4. ServiceImmediately Integration (ITSM/HRSD)</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description & Operations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>FR-4.1</code></td>
+              <td><strong>Auditable Ticket Creation</strong></td>
+              <td>Logs must explicitly record the verified automation source that generated the request.</td>
+            </tr>
+            <tr>
+              <td><code>FR-4.2</code></td>
+              <td><strong>Status Tracking & Management</strong></td>
+              <td>• <strong>Query Ticket:</strong> Details, status, priority, assignee, comments timeline.<br>• <strong>Create Ticket:</strong> Employee ID, category, short desc, priority (1-Critical to 4-Low).<br>• <strong>Post Comment:</strong> Append timeline notes.<br>• <strong>Update Status:</strong> Transition state (Resolved/Closed) with resolution notes.</td>
+            </tr>
+            <tr>
+              <td><code>FR-4.3</code></td>
+              <td><strong>Operation Guardrails</strong></td>
+              <td>• <strong>Transition Constraints:</strong> Enforce valid lifecycle flow.<br>• <strong>Duplication Mitigation:</strong> Detect rapid duplicate submissions.<br>• <strong>Priority Verification:</strong> Validate critical tags against criteria.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.5. Policy Document Q&A</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>FR-5.1</code></td>
+              <td><strong>Document Ingestion</strong></td>
+              <td>Connect to centralized repository to ingest, chunk, and index HR policies.</td>
+            </tr>
+            <tr>
+              <td><code>FR-5.2</code></td>
+              <td><strong>Grounded Answers</strong></td>
+              <td>Generate answers strictly from ingested policies; state clearly when answer is not present.</td>
+            </tr>
+            <tr>
+              <td><code>FR-5.3</code></td>
+              <td><strong>Source Citation</strong></td>
+              <td>Return clickable metadata/links to the exact document and section used.</td>
+            </tr>
+            <tr>
+              <td><code>FR-5.4</code></td>
+              <td><strong>Retrieval Guardrails</strong></td>
+              <td>• <strong>Strict Grounding:</strong> Refuse when context is insufficient.<br>• <strong>Domain Containment:</strong> Reject prompts outside HR policy.<br>• <strong>Citation Integrity:</strong> Ensure links resolve to active policies.</td>
+            </tr>
+            <tr>
+              <td><code>FR-5.5</code></td>
+              <td><strong>Document Sync Latency</strong></td>
+              <td>Reflect source repository policy updates in Knowledge Base within defined latency window.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Non-Functional Requirements</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 110px;">ID</th>
+              <th style="width: 220px;">Requirement Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>NFR-1.1</code></td>
+              <td><strong>Safety for AI Interactions</strong></td>
+              <td>Zero toxic/harmful outputs; proactive blocking of malicious requests.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-1.2</code></td>
+              <td><strong>Audit Logging</strong></td>
+              <td>Log all actions including denied/blocked requests.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-1.3</code></td>
+              <td><strong>Compliance Adherence</strong></td>
+              <td>Full compliance with GDPR and local labor privacy laws.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-2.1</code></td>
+              <td><strong>Latency</strong></td>
+              <td>Response generation starts < 10s; safety validation overhead < 300ms per turn.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-2.2</code></td>
+              <td><strong>Availability</strong></td>
+              <td>99.9% uptime SLA.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-2.3</code></td>
+              <td><strong>Asynchronous Processing</strong></td>
+              <td>Handle long-running operations asynchronously without blocking conversation flow.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-3.1</code></td>
+              <td><strong>Accuracy Rate</strong></td>
+              <td>> 95% accuracy on benchmark questions; 0% hallucinated policies.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-4.1</code></td>
+              <td><strong>Graceful Failure Handling</strong></td>
+              <td>User-friendly error messages; zero stack trace/internal code exposure.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-4.2</code></td>
+              <td><strong>Transient Fault Tolerance</strong></td>
+              <td>Exponential backoff retries for network/rate limit issues.</td>
+            </tr>
+            <tr>
+              <td><code>NFR-4.3</code></td>
+              <td><strong>Orchestration Consistency</strong></td>
+              <td>Clear failure logging and compensating actions for cross-system workflow failures.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Success & Evaluation Criteria</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 200px;">Evaluation Category</th>
+              <th style="width: 300px;">Success Metric / Criterion</th>
+              <th>Target / Benchmark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Policy Q&A Accuracy</strong></td>
+              <td>Precision and recall derived from policy documents.</td>
+              <td><span class="tag tag-green">≥ 95%</span> Accuracy; 0% Hallucinations</td>
+            </tr>
+            <tr>
+              <td><strong>Transaction Integrity</strong></td>
+              <td>Execution of self-service actions in backends.</td>
+              <td><span class="tag tag-green">100%</span> Correctness; Zero corruption</td>
+            </tr>
+            <tr>
+              <td><strong>Cross-System Orchestration</strong></td>
+              <td>Chaining across Policies, WorkWeek, and ServiceImmediately.</td>
+              <td><span class="tag tag-green">Pass</span> on all UC-2.x Use Cases</td>
+            </tr>
+            <tr>
+              <td><strong>Safety & Guardrail Efficacy</strong></td>
+              <td>Identify and block prompt injection / jailbreak attacks.</td>
+              <td><span class="tag tag-green">100%</span> Injection detection; < 1% False positives</td>
+            </tr>
+            <tr>
+              <td><strong>Response Latency</strong></td>
+              <td>Time taken to begin generating response.</td>
+              <td><span class="tag tag-blue">&lt; 10.0s</span> average; &lt; 300ms safety scan</td>
+            </tr>
+            <tr>
+              <td><strong>Auditability & Traceability</strong></td>
+              <td>Verification of complete action and block logging.</td>
+              <td><span class="tag tag-blue">100%</span> Log coverage with origin indicators</td>
+            </tr>
+            <tr>
+              <td><strong>Resilience & Error Handling</strong></td>
+              <td>System behavior during simulated downtime.</td>
+              <td><span class="tag tag-blue">100%</span> Graceful degradation; Zero leaks</td>
+            </tr>
+            <tr>
+              <td><strong>User Experience (NLU)</strong></td>
+              <td>Intent detection against typos and conversational context.</td>
+              <td><span class="tag tag-blue">Qualitative Pass</span> on usability testing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    HR Agentic Solution (MVP 1) • Business Requirements Document • Converted from Original PDF Source
+  </div>
+</div>
+
+</body>
+</html>
