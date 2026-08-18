@@ -404,3 +404,309 @@ metrics:
 * **Single-Turn Benchmark (`eval-data.json`)**: Grounded policy Q&A, real-time PTO balance inquiries, and incident ticket lookups.
 * **Multi-Turn Benchmark (`eval-multi-turn.json`)**: Multi-turn confirmation turns for LOA bookings, interactive Priority 1 downgrade flows, and UC-2.2 Medical Leave cross-system coordination.
 * **Adversarial Benchmark (`eval-safety.json`)**: Prompt injection override attacks, system prompt extraction, Base64 payload smuggling, and cross-tenant employee PII harvesting probes.
+
+
+---
+
+## 10. FinOps & Cloud Cost Estimation Model
+
+To provide transparent cost governance and measurable Return on Investment (ROI), this section details the infrastructure unit economics, cost scaling models, and comparative labor savings for enterprise deployment.
+
+### 10.1. Unit Cost Breakdown per 1,000 Conversational Turns
+
+| Cost Component | Pricing Metric / Unit | Usage per 1,000 Inquiries | Estimated Cost (USD) |
+| :--- | :--- | :--- | :--- |
+| **LLM Inference (Gemini 2.0 Flash)** | $0.10 / 1M Input Tokens<br>$0.40 / 1M Output Tokens | ~1.5M Input Tokens<br>~400K Output Tokens | $0.15<br>$0.16 |
+| **Google Cloud Vertex AI Search** | $2.00 / 1,000 Search Queries | 600 Policy Searches | $1.20 |
+| **Google Cloud Model Armor** | $0.50 / 10,000 Request Inspections | 2,000 (Ingress + Egress) | $0.10 |
+| **Serverless Compute (Cloud Run)** | $0.00002400 / vCPU-sec<br>$0.00000250 / GiB-sec | ~800 vCPU-seconds | $0.02 |
+| **Cloud DLP Inspection & Cloud Storage** | InfoType inspection / GB | Storage & Logs (<1 GB) | $0.01 |
+| **Total Cloud Cost per 1,000 Turns** | — | — | **$1.64** |
+| **Effective Cost per Employee Inquiry** | — | — | **~$0.0016 – $0.0032** |
+
+### 10.2. Enterprise Monthly Projection & ROI Model (10,000 Active Employees)
+
+Assuming an enterprise with **10,000 active employees** generating an average of **25,000 Tier-1 HR/IT inquiries per month**:
+
+| Metric | Traditional Human Tier-1 Operations | HR Agentic Solution (MVP 1) | Net Difference / Savings |
+| :--- | :--- | :--- | :--- |
+| **Tier-1 Helpdesk Cost per Case** | $18.50 (Industry standard loaded labor) | $0.032 (Fully loaded cloud infrastructure) | **99.8% Cost Reduction per Case** |
+| **Monthly Inquiry Volume (25,000 total)** | 25,000 tickets handled manually | 15,000 deflected (60%) + 10,000 escalated | **15,000 Tickets Deflected / Month** |
+| **Monthly Total Operating Cost** | $462,500 / month | $185,000 (Remaining human) + $80 (Cloud) | **$277,420 Monthly Operational Savings** |
+| **Annualized Net Savings** | — | — | **$3,329,040 Annual Net ROI** |
+| **Time to Breakeven / Payback** | — | — | **< 30 Days Post-Deployment** |
+
+---
+
+## 11. Database Schemas, Entity-Relationship Diagrams & Data Lifecycle Management
+
+To ensure zero ambiguous storage requirements and guarantee compliance with global privacy standards (GDPR, CCPA), the persistence tier defines strict relational schemas and automated lifecycle rules.
+
+### 11.1. Entity-Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    EMPLOYEE_SESSION ||--o{ CONVERSATION_TURN : contains
+    EMPLOYEE_SESSION ||--o{ PENDING_SYNC_TASK : triggers
+    CONVERSATION_TURN ||--|| AUDIT_LOG_ENTRY : records
+
+    EMPLOYEE_SESSION {
+        string session_id PK
+        string user_id FK
+        string auth_token_fingerprint
+        timestamp created_at
+        timestamp last_active_at
+        timestamp expires_at
+        string status
+    }
+
+    CONVERSATION_TURN {
+        string turn_id PK
+        string session_id FK
+        int turn_number
+        string user_prompt_hash
+        string acting_agent
+        string tool_name_invoked
+        string tool_payload_masked
+        int response_latency_ms
+        timestamp created_at
+    }
+
+    AUDIT_LOG_ENTRY {
+        string log_id PK
+        string turn_id FK
+        string user_id
+        string action_type
+        string target_system
+        string http_status
+        string jwt_signature_hash
+        string masked_evidence_json
+        timestamp timestamp
+    }
+
+    PENDING_SYNC_TASK {
+        string task_id PK
+        string session_id FK
+        string originating_system
+        string failing_system
+        string payload_json
+        int retry_count
+        int max_retries
+        string status
+        timestamp next_retry_at
+        timestamp created_at
+    }
+```
+
+### 11.2. Relational Table Schemas (SQL DDL)
+
+```sql
+-- 1. Active User Sessions Table (Memory store backing 15m TTL)
+CREATE TABLE employee_sessions (
+    session_id VARCHAR(64) PRIMARY KEY,
+    user_id VARCHAR(32) NOT NULL,
+    auth_token_fingerprint VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_active_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    session_state_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    is_revoked BOOLEAN DEFAULT FALSE
+);
+CREATE INDEX idx_sessions_user_expires ON employee_sessions(user_id, expires_at);
+
+-- 2. Audit Logs Table (Partitioned by Month for 90-Day Retention)
+CREATE TABLE audit_logs (
+    log_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    user_id VARCHAR(32) NOT NULL,
+    action_type VARCHAR(64) NOT NULL,
+    target_system VARCHAR(32) NOT NULL,
+    http_status_code INT NOT NULL,
+    jwt_signature_hash VARCHAR(64) NOT NULL,
+    masked_evidence JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+) PARTITION BY RANGE (created_at);
+
+-- 3. Pending Sync Tasks Table (Forward Recovery Queue)
+CREATE TABLE pending_sync_tasks (
+    task_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id VARCHAR(64) REFERENCES employee_sessions(session_id),
+    user_id VARCHAR(32) NOT NULL,
+    originating_system VARCHAR(32) NOT NULL,
+    failing_system VARCHAR(32) NOT NULL,
+    operation_name VARCHAR(64) NOT NULL,
+    payload JSONB NOT NULL,
+    retry_count INT DEFAULT 0,
+    max_retries INT DEFAULT 5,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    next_retry_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    resolved_at TIMESTAMP WITH TIME ZONE
+);
+CREATE INDEX idx_sync_tasks_status_retry ON pending_sync_tasks(status, next_retry_at);
+```
+
+### 11.3. Data Retention & Privacy Lifecycle Rules
+* **15-Minute Session In-Memory Eviction**: Sessions with inactivity exceeding 15 minutes or upon explicit user prompt (*"clear"*, *"reset"*) are purged immediately from active memory.
+* **90-Day Partitioned Audit Storage**: `audit_logs` partitions older than 90 days are automatically archived to immutable Coldline Cloud Storage buckets and detached from live query indexes.
+* **Automated GDPR Right-to-be-Forgotten Execution**: When an employee offboarding webhook (`employee.terminated`) is received, personal identifiers in audit tables are cryptographically anonymized via salted SHA-256 hashes within 24 hours.
+
+---
+
+## 12. Structured Error-Handling, Fallback & Resilience Matrix
+
+To guarantee zero unhandled runtime crashes and deterministic user experience during service degradations, every failure scenario is mapped to explicit retry algorithms and user messages:
+
+| Component / Subsystem | Failure Scenario | HTTP / Error Code | Retry Policy & Backoff | Circuit Breaker Action | Fallback & User-Facing Conversational Response |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Vertex AI Search** | Policy Datastore Timeout or 5xx | `504 GATEWAY_TIMEOUT`<br>`503 SERVICE_UNAVAILABLE` | Retry 2x with Exponential Backoff (100ms, 300ms) with jitter | Trip Open after 5 consecutive failures in 30s | *"I am currently unable to retrieve the latest policy document due to a temporary service delay. You can view the static document directly at [Company Policy Portal](https://intranet.example.com/policies) or check back shortly."* |
+| **WorkWeek MCP Server** | Rate Limited during peak open enrollment | `429 TOO_MANY_REQUESTS` | Retry 3x with Exponential Backoff (500ms, 1500ms, 3000ms) | Rate Throttling queue activated | *"WorkWeek is currently experiencing high demand. Please hold on for a moment while I retry your request..."* |
+| **WorkWeek MCP Server** | Backend HCM Outage / Maintenance | `500 INTERNAL_SERVER_ERROR`<br>`503 UNAVAILABLE` | No retry on persistent 500; Fail fast after 1 attempt | Trip Open after 3 consecutive failures in 15s | *"WorkWeek is temporarily undergoing maintenance. Your leave request has not been submitted. Would you like me to open a ticket in ServiceImmediately to track this for you?"* |
+| **ServiceImmediately MCP** | ITSM API Error during Cross-System Flow (UC-2.2) | `500 INTERNAL_SERVER_ERROR`<br>`502 BAD_GATEWAY` | Forward Recovery: Log high-priority pending sync task | Keep LOA booked in WorkWeek; Do NOT rollback | *"Your Medical Leave (Ref #LOA-9081) was successfully booked in WorkWeek. However, the automated IT notification ticket timed out. Our system has automatically queued this task for synchronization, and your HR representative has been notified."* |
+| **Model Armor Gateway** | Cloud AI Security Gateway Timeout | `503 SERVICE_UNAVAILABLE`<br>`504 TIMEOUT` | Fail-Safe Fallback to Local In-Memory Presidio / Regex | Keep traffic flowing; Log warning to SCC | Evaluates prompt locally using in-memory Regex/Presidio filters (<20ms). User receives seamless response with zero interruption. |
+| **Identity & Auth Subsystem** | Revoked OBO/OAuth Token mid-session | `401 UNAUTHORIZED`<br>`TOKEN_REVOKED` | No retry; Immediate session termination | Invalidate active session cache | *"Your session credentials have expired or were updated by your administrator. Please re-authenticate to continue."* |
+
+---
+
+## 13. Real-Time Policy Document Synchronization Pipeline
+
+To eliminate the risk of stale RAG answers when HR guidelines or benefits change, the architecture implements an automated, event-driven synchronization engine.
+
+```mermaid
+flowchart LR
+    HRAdmin["HR Policy Author<br>(Google Drive / CMS)"] -->|Exports Approved PDF/MD| GCSBucket["Cloud Storage Bucket<br>(gs://hr-policy-repo-prod)"]
+    GCSBucket -->|GCS Object Change Notification| Eventarc["Cloud Eventarc Trigger"]
+    Eventarc -->|Executes Incremental Import| IngestFunc["Cloud Ingestion Service<br>(Cloud Run)"]
+    IngestFunc -->|Imports & Chunks Document| VertexSearch["Vertex AI Search Datastore<br>(Discovery Engine)"]
+    VertexSearch -->|Live Index Ready (<60s)| PolicyAgent["Policy Q&A Specialist Agent"]
+```
+
+### 13.1. Ingestion Pipeline Specifications
+1. **Eventarc Automated Trigger**: When HR publishes an updated PDF/Markdown document to `gs://hr-policy-repo-prod/active/`, Cloud Storage emits a `google.cloud.storage.object.v1.finalized` event.
+2. **Incremental Indexing**: The Ingestion Service invokes the Discovery Engine Document API (`projects.locations.dataStores.branches.documents.import`), performing atomic, zero-downtime document replacement in < 60 seconds.
+3. **Automated Nightly Reconciliation Cron**: A scheduled Cloud Scheduler job runs at 02:00 UTC comparing SHA-256 document checksums in Cloud Storage against indexed Vertex AI Search document metadata to detect and heal any missing synchronization events.
+
+---
+
+## 14. Downstream API Throttling & Real-Time Token Revocation (OBO/OAuth)
+
+### 14.1. Downstream Rate Limiting & Throttling Thresholds
+To protect enterprise WorkWeek and ServiceImmediately backends during company-wide open-enrollment spikes, the MCP servers implement a **Token Bucket Rate Limiter**:
+* **Tenant-Level Throttle**: Maximum **100 Requests Per Second (RPS)** per enterprise tenant with a burst capacity of 150 requests.
+* **User-Level Throttle**: Maximum **10 Requests Per Minute (RPM)** per individual employee session to prevent automated script abuse.
+* **Queuing & Degradation**: Inquiries exceeding user thresholds are queued in-memory for up to 5 seconds before returning a friendly wait message rather than a hard failure.
+
+### 14.2. Instant OAuth / OBO Token Revocation Propagation
+When an employee changes roles, transfers departments, or is offboarded in Okta/Active Directory, user permissions must be revoked instantly in the active agent session:
+1. **Revocation Webhook Listener**: The agent platform exposes an endpoint `/api/v1/auth/revocation-events` subscribed to identity provider (IdP) webhooks (`user.session.revoke`, `user.permissions.updated`).
+2. **Atomic Session Invalidation**: Upon receiving a revocation payload for `user_id`:
+   * The active session in `employee_sessions` is marked `is_revoked = TRUE` and immediately ejected from memory.
+   * Any in-flight tool calls presenting the invalidated JWT are rejected with `401 TOKEN_REVOKED`.
+   * The user is prompted to re-authenticate with their updated credentials.
+
+---
+
+## 15. Infrastructure as Code (Terraform) & CI/CD Deployment Pipeline
+
+### 15.1. Terraform Infrastructure as Code (HCL)
+
+```hcl
+# Google Cloud Terraform Module: HR Agentic Solution (MVP 1)
+
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
+  }
+}
+
+# 1. Vertex AI Search Datastore for HR Policies
+resource "google_discovery_engine_data_store" "hr_policy_store" {
+  location                     = "global"
+  data_store_id                = "hr-policy-datastore"
+  display_name                 = "HR Approved Policies Datastore"
+  industry_vertical            = "GENERIC"
+  content_config               = "CONTENT_REQUIRED"
+  solution_types               = ["SOLUTION_TYPE_SEARCH"]
+}
+
+# 2. Google Cloud Model Armor Security Template
+resource "google_model_armor_template" "hr_security_gateway" {
+  location    = "us-central1"
+  template_id = "hr-agent-security-template"
+  
+  filter_config {
+    prompt_injection_filter {
+      enabled = true
+      enforcement_level = "BLOCK"
+    }
+    pii_filter {
+      enabled = true
+      dlp_template_name = "projects/${var.project_id}/locations/us-central1/inspectTemplates/spii-redaction-template"
+    }
+  }
+}
+
+# 3. Cloud Run Service: Primary HR Orchestrator (Vertex ADK)
+resource "google_cloud_run_v2_service" "primary_orchestrator" {
+  name     = "hr-primary-orchestrator"
+  location = "us-central1"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
+  template {
+    containers {
+      image = "us-central1-docker.pkg.dev/${var.project_id}/hr-agent/orchestrator:latest"
+      resources {
+        limits = {
+          cpu    = "2000m"
+          memory = "2Gi"
+        }
+      }
+      env {
+        name  = "VERTEX_SEARCH_DATASTORE_ID"
+        value = google_discovery_engine_data_store.hr_policy_store.data_store_id
+      }
+      env {
+        name  = "MODEL_ARMOR_TEMPLATE_ID"
+        value = google_model_armor_template.hr_security_gateway.template_id
+      }
+    }
+  }
+}
+```
+
+### 15.2. CI/CD Deployment Pipeline Stages
+
+```mermaid
+flowchart LR
+    GitPush["1. Git Push / PR<br>(main / feature)"] --> TDD["2. TDD & Linter<br>(pytest, ruff, black)"]
+    TDD --> EvalGate["3. agents-cli Gate<br>(Gemini Flash Judge<br>&ge;95% Grounding, 100% Safety)"]
+    EvalGate --> IaCScan["4. Terraform Plan<br>& Security Scan (tfsec)"]
+    IaCScan --> Canary["5. Blue/Green Canary<br>(Cloud Run 10% -> 100%)"]
+    Canary --> Live["6. Production Live<br>+ SCC Monitoring"]
+```
+
+* **Stage 1 (Code Quality)**: Executes unit tests across all domain models and mock fixtures.
+* **Stage 2 (Automated AI Evaluation Gate)**: Runs `agents eval --config tests/eval/eval_config.yaml` using Gemini Flash judge; strictly fails build if safety injection block < 100%, log SPII redaction < 100%, or grounding < 0.95 (ADR-0013).
+* **Stage 3 (Infrastructure Validation)**: Runs `terraform plan` and static security compliance auditing.
+* **Stage 4 (Canary Rollout)**: Deploys new revision to Cloud Run with 10% canary traffic allocation, evaluating error metrics for 15 minutes before shifting 100% traffic.
+
+---
+
+## 16. Executive "Plain English" Translation & Business Value Guide
+
+For non-technical business leaders and executive sponsors, this section translates complex cloud architecture concepts into intuitive real-world analogies:
+
+* **What is the Primary Orchestrator?**  
+  *Analogy*: **The Concierge Desk**. When an employee arrives with a question or request, the concierge understands their need, checks their employee badge, and escorts them to the exact department specialist rather than making them search the building themselves.
+* **What is Vertex AI Search Grounding?**  
+  *Analogy*: **The Corporate Law Librarian**. Instead of an AI guessing or inventing policies from memory, the librarian pulls out the exact, approved HR policy handbook, points their finger directly to the paragraph, and hands the employee a certified photocopy with the page number.
+* **What is Google Cloud Model Armor?**  
+  *Analogy*: **The Security Scanner at the Entrance & Exit**. It inspects every incoming message to block tricksters or unauthorized instructions (prompt injections) and scans outgoing messages to make sure personal home addresses or confidential numbers are never written onto public bulletin boards.
+* **What are MCP (Model Context Protocol) Servers?**  
+  *Analogy*: **Standard Universal Power Plugs**. Instead of building custom wiring for every single computer system, MCP provides a standard plug that allows the virtual assistant to safely turn switches in WorkWeek and ServiceImmediately without sparking errors.
+* **What is Forward Recovery?**  
+  *Analogy*: **The Delivery Confirmation Receipt**. If a doctor books your medical leave but the printer jams before printing the notification to your boss, the doctor doesn’t cancel your medical leave. Instead, they mark your file approved, write down an urgent note for the office manager to deliver the notice by hand, and assure you that your time off is 100% protected.

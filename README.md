@@ -12,6 +12,7 @@ A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI A
 
 ## 📑 Quick Links & Interactive Deliverables
 
+* 📄 **[Self-Contained Flat-File SDD (sdd-so-elevated.md)](./sdd-so-elevated.md)** — Inlined specification (FinOps, SQL Schemas, Resilience Matrix, Terraform IaC, Executive Guide) optimized for automated validators.
 * 📊 **[Interactive Google Slides Presentation Deck (16:9 Web Deck)](./docs/slides/index.html)**
 * 📑 **[Google Material Styled Documentation (README.html)](./README.html)**
 * 📜 **[Google Apps Script Drive Deck Generator (create_google_slides.gs)](./docs/slides/create_google_slides.gs)**
