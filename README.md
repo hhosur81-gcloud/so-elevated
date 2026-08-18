@@ -71,6 +71,8 @@ All architectural design choices are formally documented in [docs/adr/](./docs/a
 
 ## 🎯 Tracer-Bullet Implementation Roadmap
 
+![Tracer-Bullet Implementation Roadmap](./docs/assets/tracer_bullet_roadmap.jpg)
+
 All 8 vertical slices are specified in [`.scratch/hr-agentic-mvp1/issues/`](./.scratch/hr-agentic-mvp1/issues/) with explicit blocking edges and `ready-for-agent` status:
 
 ```mermaid
