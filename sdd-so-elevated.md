@@ -30,6 +30,20 @@ The HR Agentic Solution resolves these challenges through a unified conversation
 * **Transactional Integrity**: 100% transaction correctness; zero unmasked SPII written to persistent logs.
 * **Ticket Deflection**: Target 60%+ reduction in repetitive Tier-1 HR and IT helpdesk cases.
 
+
+### 1.4. Explicit Project Boundaries (In-Scope vs. Out-of-Scope for MVP 1)
+To ensure strict alignment across stakeholders, prevent scope creep, and focus delivery on core Tier-1 deflection, the boundary of MVP 1 is explicitly defined:
+
+| Capability Domain | In-Scope for MVP 1 | Explicitly Out-of-Scope for MVP 1 (Deferred to Future Phases) |
+| :--- | :--- | :--- |
+| **Identity & Authentication** | Scoped functional test credentials, signed JWT bearer tokens (`sub`, `iss`, `scopes`), 15m session TTL. | Production Enterprise IdP Federation (Okta, Azure AD SAML/OIDC SSO), multi-factor biometric authentication. |
+| **Enterprise Tenancy** | Single-tenant corporate deployment. | Multi-tenant organization partitioning, cross-subsidiary billing separation. |
+| **HCM / HRIS Operations** | WorkWeek profile view/update, PTO balance lookup, vacation/sick leave booking guardrails via MCP. | Direct payroll processing, compensation adjustments, benefits plan enrollment elections, performance review workflows. |
+| **ITSM Operations** | ServiceImmediately incident lookup, ticket creation (1-Critical to 4-Low), timeline comments, resolution confirmation via MCP. | Asset configuration database (CMDB) live topology discovery, automated network switch port provisioning, change management CAB approvals. |
+| **Policy Ingestion & RAG** | Static HR policy PDFs/Markdown in Vertex AI Search with deep-link citations. | Dynamic employee handbook co-authoring, unapproved intranet wiki crawling. |
+| **Channels & Modalities** | Web-based chat interface & API client. | Native Voice/IVR telephony streaming, WhatsApp/SMS messaging, physical smart speaker integrations. |
+
+
 ---
 
 ## 2. Business & Functional Requirements Specification
@@ -90,6 +104,19 @@ The following domain terms are established across all specifications, tools, and
 The following 13 Architectural Decision Records formally define all foundational technical choices:
 
 ### ADR-0001: Use Model Context Protocol (MCP) Servers for Enterprise Integrations
+
+#### ADR-0001 Technology Tradeoff Analysis: Custom REST Endpoints vs. Model Context Protocol (MCP)
+
+To address enterprise architectural review, the table below documents the evaluated tradeoffs between direct Custom REST endpoints and Model Context Protocol (MCP) servers:
+
+| Architectural Dimension | Option A: Custom REST API Mocks / Clients | Option B: Model Context Protocol (MCP) Servers (Selected) | Evaluated Impact & Rationale |
+| :--- | :--- | :--- | :--- |
+| **Agent Tool Calling Overhead** | High boilerplate. Requires manual schema reflection, custom `httpx`/`requests` wrappers, and JSON marshalling per tool. | Zero client boilerplate. Native JSON schema reflection directly consumable by Vertex ADK and Gemini. | **MCP Selected**: Reduces custom glue code by 80% and eliminates HTTP wrapper bugs. |
+| **Guardrail & State Colocation** | Guardrails scattered across agent tool code and remote HTTP middleware. | Guardrails (PTO balance check, state machine transitions) colocated inside the MCP tool handler. | **MCP Selected**: Guarantees consistent validation rules regardless of calling agent. |
+| **Production Backend Swappability** | High coupling between agent HTTP client routes and mock endpoints. | Zero agent changes. The MCP server encapsulates the backend, swapping from seeded state to live Workday/ServiceNow APIs transparently. | **MCP Selected**: Protects agent prompt contracts from future enterprise API refactorings. |
+| **Performance & IPC Overhead** | HTTP over TCP connection setup overhead (~15–35ms per turn). | Local `stdio` or lightweight SSE transport (<5ms IPC latency). | **MCP Selected**: Delivers faster turn latency to stay well within the <300ms SLA. |
+| **Standardization & Ecosystem** | Proprietary custom REST schemas requiring bespoke documentation. | Open industry standard (Model Context Protocol) supported across modern AI ecosystems. | **MCP Selected**: Future-proof standard aligning with modern Google Cloud AI architectures. |
+
 * **Context**: The agent requires access to WorkWeek (HCM) and ServiceImmediately (ITSM) for profiles, PTO balances, and incident tracking without dependencies on live third-party production credentials during development and testing.
 * **Decision**: We implement dedicated Model Context Protocol (MCP) servers (`workweek-mcp` and `serviceimmediately-mcp`) backed by realistic stateful enterprise fixtures (seeded employees, PTO balances, and incident timelines) with built-in validation guardrails and signed JWT origin verification.
 * **Consequences**: Standardizes tool schemas for Gemini, eliminates custom HTTP client glue code in the agent, and allows the MCP servers to seamlessly swap internal backends to live enterprise APIs in production without altering agent tool definitions.
@@ -710,3 +737,87 @@ For non-technical business leaders and executive sponsors, this section translat
   *Analogy*: **Standard Universal Power Plugs**. Instead of building custom wiring for every single computer system, MCP provides a standard plug that allows the virtual assistant to safely turn switches in WorkWeek and ServiceImmediately without sparking errors.
 * **What is Forward Recovery?**  
   *Analogy*: **The Delivery Confirmation Receipt**. If a doctor books your medical leave but the printer jams before printing the notification to your boss, the doctor doesn’t cancel your medical leave. Instead, they mark your file approved, write down an urgent note for the office manager to deliver the notice by hand, and assure you that your time off is 100% protected.
+
+
+### 11.4. Data Protection: Vector Embedding Purge Lifecycle & Conversational Consent Controls (GDPR / DPO Compliance)
+
+To satisfy Data Protection Officer (DPO) governance under GDPR (Articles 17 & 21) and CCPA:
+
+#### 1. GDPR 'Right to be Forgotten' Vector Embedding Purge Procedure
+When an employee departs the organization and triggers an offboarding event (`employee.offboarded`):
+1. **Automated Document Discovery**: The Compliance Service queries Vertex AI Search metadata filtering for `author_id: <user_id>` or `subject_employee_id: <user_id>`.
+2. **Deterministic Chunk & Vector Deletion**: All personalized document chunks and associated vector embeddings are purged from the live index using the Discovery Engine Batch Delete API within **< 24 hours**.
+3. **Audit Trail Cryptographic Hashing**: Historical audit log entries referencing the departed employee have their personal identifiers replaced with a one-way cryptographically salted SHA-256 hash (`salt + user_id`), preserving aggregate audit statistics without retaining identifiable PII.
+
+#### 2. User Conversational Consent Withdrawal Controls
+Employees can exercise direct privacy rights natively within the chat stream:
+* **Consent Revocation Commands**: Typing *"opt out of logging"*, *"delete my chat history"*, or *"revoke consent"* immediately triggers a privacy confirmation.
+* **Ephemeral Mode Engagement**: When confirmed, active session state is switched to ephemeral memory (no logging to `conversation_turns`), previous session turns are deleted, and a GDPR confirmation receipt is presented in chat.
+
+---
+
+### 14.3. Real-Time Vector Access Control (ACL) Query-Time Filtering & Revocation Latency SLA
+
+To guarantee zero latency exposure of confidential HR policy data when user roles change:
+1. **Query-Time Metadata Security Filtering**: Rather than relying on slow background vector re-indexing, every search query dispatched to Vertex AI Search injects a mandatory dynamic security filter:
+   ```json
+   filter = "authorized_roles:ANY(\"" + user_role + "\") AND minimum_clearance <= " + user_clearance
+   ```
+2. **Sub-500ms Revocation Latency SLA**: When a role change event occurs in the Identity Provider (IdP):
+   * The Revocation Webhook executes in **< 150ms**.
+   * Active session claims are updated / invalidated in memory in **< 50ms**.
+   * Subsequent search queries evaluate the new security filter immediately (**0ms sync lag** at query time), preventing unauthorized access to restricted policy chunks in real time.
+
+---
+
+## 17. Consolidated Enterprise Risk Register
+
+A structured assessment of technical, operational, security, and organizational risks with proactive mitigation controls:
+
+| Risk ID | Risk Category | Risk Description | Likelihood (1–5) | Impact (1–5) | Severity (L x I) | Proactive Mitigation Strategy | Owner | Contingency / Fallback Plan |
+| :--- | :--- | :--- | :-: | :-: | :-: | :--- | :--- | :--- |
+| **RSK-01** | **Technical** | Vertex AI Search experience temporary regional outage during peak query load. | 2 | 4 | **Medium (8)** | Live dual-region failover + client-side exponential backoff retries. | Cloud Infra Lead | Circuit breaker trips; user presented with static intranet policy portal link. |
+| **RSK-02** | **Security** | Adversarial prompt injection bypasses Layer 0 Model Armor filter. | 2 | 5 | **High (10)** | Multi-stage defense: Model Armor + strict ADK tool schema bounds + output toxicity/hallucination filter. | Security Architect | Hard-block on unrecognized tool commands; immediate alert dispatched to SCC. |
+| **RSK-03** | **Compliance** | Stale employee PII retained in persistent logs violating GDPR Art. 17. | 1 | 5 | **Medium (5)** | Automated Cloud DLP tiered redaction on log writes + 90-day automated partition purge + salted hash offboarding. | DPO / Lead Engineer | Automated daily log integrity scanner flags unmasked SPII for immediate remediation. |
+| **RSK-04** | **Operational** | WorkWeek API 429 throttling during annual open-enrollment benefits rush. | 4 | 3 | **High (12)** | In-memory Token Bucket rate limiter (100 RPS) with prioritized queueing for in-flight transactions. | Backend Lead | Graceful degradation queue with friendly user wait notifications. |
+| **RSK-05** | **Data Integrity** | Partial transaction failure during cross-system workflow (UC-2.2). | 3 | 3 | **Medium (9)** | Forward recovery pattern (ADR-0004): retain successful records + queue sync task in `pending_sync_tasks`. | Agent Lead | Nightly reconciliation cron + automated HR support notification ticket. |
+| **RSK-06** | **Organizational** | Employee resistance or lack of trust in virtual assistant accuracy. | 3 | 3 | **Medium (9)** | Mandatory clickable deep-link citations on all policy claims + explicit confirmation gates on leave bookings. | Change Mgmt / HR | Escalation button allowing immediate transfer to human HR partner. |
+| **RSK-07** | **Security** | Unauthorized tool execution after employee role revocation. | 2 | 4 | **Medium (8)** | Real-time IdP webhook listener (<500ms SLA) + dynamic query-time vector ACL filtering. | Identity Architect | In-memory session eviction rejecting in-flight JWTs with 401 Unauthorized. |
+| **RSK-08** | **FinOps** | Uncontrolled LLM token consumption due to conversational looping. | 2 | 3 | **Medium (6)** | Hard ceiling of 10 turns per session + 15m idle TTL + Gemini 2.0 Flash cost optimization. | FinOps Lead | Automated Cloud Billing budget alerts at 80% and 100% monthly spend thresholds. |
+
+---
+
+## 18. Strategic Business Roadmap & Future State Vision (Phases 1–3)
+
+The HR Agentic Solution is architected as an extensible foundation designed to scale from MVP 1 to enterprise-wide autonomous operations:
+
+```mermaid
+gantt
+    title HR Agentic Solution Multi-Phase Strategic Roadmap
+    dateFormat  YYYY-MM-DD
+    section Phase 1: MVP 1 (Current)
+    Core Tier-1 Q&A & Policy Grounding        :done, p1_1, 2026-08-01, 2026-09-15
+    WorkWeek & ServiceImmediately MCP Servers  :done, p1_2, 2026-08-15, 2026-09-30
+    Model Armor & agents-cli Evaluation        :done, p1_3, 2026-09-01, 2026-10-15
+    section Phase 2: Enterprise Scale (MVP 2)
+    Enterprise SSO (Okta/Azure AD SAML)       :active, p2_1, 2026-10-15, 2026-12-01
+    Slack & Microsoft Teams Bot Integrations   :p2_2, 2026-11-01, 2026-12-31
+    Multi-Tenant Subsidiary Partitioning      :p2_3, 2026-12-01, 2027-01-31
+    section Phase 3: Autonomous HR
+    Direct Payroll & Benefits Elections       :p3_1, 2027-02-01, 2027-04-30
+    Real-Time Voice IVR Telephony Assistant   :p3_2, 2027-03-15, 2027-06-30
+    Predictive HR Retention & Analytics Engine :p3_3, 2027-05-01, 2027-08-31
+```
+
+### Strategic Milestones:
+
+1. **Phase 1: MVP 1 — Core Tier-1 Deflection (Current Milestone)**
+   * Grounded Policy Q&A with deep links, WorkWeek leave management, ServiceImmediately incident tracking, Model Armor security gateway, and `agents-cli` automated evaluation harness.
+2. **Phase 2: MVP 2 — Enterprise Workspace Federation (Q4 2026 – Q1 2027)**
+   * **Enterprise Identity Federation**: Full Okta / Azure AD SAML 2.0 and OIDC integration with automated On-Behalf-Of (OBO) token exchange.
+   * **Omnichannel Expansion**: Native app deployments inside **Slack** and **Microsoft Teams**, bringing the assistant directly into daily employee chat workflows.
+   * **Multi-Tenant Subsidiary Partitioning**: Dynamic tenant routing allowing distinct subsidiaries (e.g. US, UK, APAC entities) to maintain isolated policy stores and HRIS endpoints.
+3. **Phase 3: Autonomous HR Operations (Q2 2027+)**
+   * **Complex Benefits & Payroll Elections**: Conversational open-enrollment plan comparisons and 401(k) contribution updates.
+   * **Conversational Voice IVR**: Low-latency bidirectional voice assistant for employee phone inquiries.
+   * **Predictive HR Insights**: Anonymized trend detection surfacing emerging employee pain points (e.g., frequent expense confusion) to HR leadership proactively.
