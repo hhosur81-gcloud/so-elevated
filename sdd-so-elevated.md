@@ -183,6 +183,22 @@ To address enterprise architectural review, the table below documents the evalua
 
 ---
 
+
+### 4.2. CTO & CISO Security Architecture Decision Records (SEC-0001 through SEC-0006)
+
+To satisfy Chief Technology Officer (CTO) and Chief Information Security Officer (CISO) governance, the following 6 dedicated Security Architecture Decision Records are enforced:
+
+| Security ADR ID | Title | Strategic Governance Decision |
+| :--- | :--- | :--- |
+| **[SEC-0001](./docs/adr/SEC-0001-asymmetric-kms-jwks-key-lifecycle.md)** | Asymmetric Cloud KMS & JWKS Key Lifecycle | Asymmetric ECDSA P-256 signing with dynamic JWKS discovery and automated 90-day rotation. |
+| **[SEC-0002](./docs/adr/SEC-0002-vpc-service-controls-perimeter.md)** | Strict VPC Service Controls Perimeter | Enforced VPC-SC perimeter containing Vertex Search, Model Armor, GCS, and Cloud Run to prevent SSRF and data exfiltration. |
+| **[SEC-0003](./docs/adr/SEC-0003-cmek-data-encryption-governance.md)** | Full CMEK Data Encryption Governance | Cloud KMS HSM-backed Customer Managed Encryption Keys across vector indexes, Cloud Storage, and PostgreSQL tablespaces. |
+| **[SEC-0004](./docs/adr/SEC-0004-dual-region-active-passive-ha-dr.md)** | Dual-Region Active-Passive HA/DR | Multi-region deployment (Primary: us-central1, Standby: us-east4) with Global Load Balancer failover (<60s RTO, RPO=0). |
+| **[SEC-0005](./docs/adr/SEC-0005-scc-threat-streaming-incident-automation.md)** | Real-Time SCC Threat Streaming | Eventarc streaming from Model Armor to Security Command Center (SCC) Premium with automated P1 incident ticket creation. |
+| **[SEC-0006](./docs/adr/SEC-0006-opentelemetry-distributed-tracing.md)** | OpenTelemetry Distributed Tracing | W3C `traceparent` context propagation across all hops, profiling sub-agent latency and token usage in Cloud Trace. |
+
+---
+
 ## 5. Multi-Agent Architecture & Sequence Flow
 
 ### 5.1. System & Multi-Agent Architecture Topologies
@@ -830,3 +846,57 @@ gantt
    * **Complex Benefits & Payroll Elections**: Conversational open-enrollment plan comparisons and 401(k) contribution updates.
    * **Conversational Voice IVR**: Low-latency bidirectional voice assistant for employee phone inquiries.
    * **Predictive HR Insights**: Anonymized trend detection surfacing emerging employee pain points (e.g., frequent expense confusion) to HR leadership proactively.
+
+
+---
+
+## 19. CTO & CISO Architecture & Zero-Trust Governance Specification
+
+This section provides the complete technical specifications for the 6 enterprise security and reliability pillars approved during the CTO & CISO architecture review:
+
+### 19.1. SEC-0001: Asymmetric Cloud KMS & Dynamic JWKS Key Lifecycle
+* **Signing Algorithm**: Asymmetric **ECDSA P-256 (ES256) with SHA-256** managed via Google Cloud KMS (`projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/jwt-signing-key`).
+* **Signature Committal**: The Primary Orchestrator invokes `projects.locations.keyRings.cryptoKeys.cryptoKeyVersions.asymmetricSign` to sign outbound delegated bearer tokens without ever holding private key bytes in memory.
+* **JWKS Endpoint**: MCP servers query an internal JSON Web Key Set (`/.well-known/jwks.json`) cached in memory with a 1-hour TTL.
+* **Rotation Lifecycle**: Automated Cloud KMS 90-day rotation generates a new key version (`v2`); the previous version (`v1`) is retained in `ENABLED` state for 30 days, guaranteeing zero verification failures for in-flight tokens.
+
+### 19.2. SEC-0002: Strict VPC Service Controls (VPC-SC) Perimeter
+* **Perimeter Scope**: Enforces an unbroken security perimeter containing the following protected Google Cloud services:
+  - `aiplatform.googleapis.com` (Vertex AI & Agent Development Kit)
+  - `discoveryengine.googleapis.com` (Vertex AI Search)
+  - `storage.googleapis.com` (HR Policy Cloud Storage buckets)
+  - `modelarmor.googleapis.com` (Google Cloud Model Armor)
+  - `cloudkms.googleapis.com` (Cloud KMS CMEK keys)
+  - `run.googleapis.com` (Serverless Orchestrator and MCP container instances)
+* **Access Level**: Ingress restricted to corporate IP ranges and authorized Google Workspace identities; external internet egress from containers is strictly prohibited, mitigating Server-Side Request Forgery (SSRF) and data exfiltration.
+
+### 19.3. SEC-0003: Full Customer Managed Encryption Keys (CMEK) Governance
+* **Key Hierarchy**: Dedicated FIPS 140-2 Level 3 Hardware Security Module (HSM) Cloud KMS keys assigned per service layer:
+  1. `kms-key-vertex-search`: Encrypts Vertex AI Search document chunks, vector embeddings, and semantic cache.
+  2. `kms-key-gcs-policies`: Encrypts raw PDF and Markdown document objects in `gs://hr-policy-repo-prod`.
+  3. `kms-key-cloudsql-audit`: Encrypts PostgreSQL disk volumes and database backups for session and audit stores.
+* **Emergency Revocation Protocol**: Disabling the KMS key in the Cloud Console cryptographically shreds all underlying datastores within seconds.
+
+### 19.4. SEC-0004: Dual-Region Active-Passive High Availability & Disaster Recovery (HA/DR)
+* **Regional Distribution**:
+  - **Primary Production Region**: `us-central1` (Iowa) — Active deployment serving 100% live traffic.
+  - **Secondary Disaster Recovery Region**: `us-east4` (Virginia) — Warm standby Cloud Run container replicas and cross-region dual-bucket GCS replication.
+* **Global Load Balancing & Health Probing**:
+  - Google Cloud Global External Application Load Balancer with HTTP health checks (`/healthz` probing every 5 seconds).
+  - Automated Failover: If 3 consecutive health probes fail in `us-central1`, traffic is dynamically shifted to `us-east4` in **< 60 seconds** (RTO < 60s, RPO = 0 for policy RAG queries).
+
+### 19.5. SEC-0005: Real-Time SCC Threat Streaming & Automated Incident Response
+* **Threat Detection Pipeline**:
+  1. Ingress prompt containing adversarial injection or jailbreak payload is intercepted by Google Cloud Model Armor.
+  2. Model Armor emits a high-severity finding event (`google.cloud.modelarmor.finding.v1`) to Google Cloud Eventarc.
+  3. Finding is ingested in real time into **Security Command Center (SCC) Premium**.
+  4. An event-driven Cloud Function invokes the ServiceImmediately API to automatically create a **Priority 1 Security Incident** (Category: `Cybersecurity / Threat Intelligence`, Subcategory: `Adversarial AI Attack`) with sanitized forensic payload metadata, assigned to the enterprise CIRT on-call queue.
+
+### 19.6. SEC-0006: OpenTelemetry (OTel) Distributed Tracing & Token Profiling
+* **Distributed Trace Propagation**: Every inbound user turn is stamped with a standard **W3C `traceparent`** header (e.g. `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`).
+* **Context Propagation Sequence**:
+  - `Span 1: Ingress / Model Armor Inspection` (Captures prompt scan latency)
+  - `Span 2: Primary Orchestrator Intent Routing` (Captures Gemini input/output token counts & inference duration)
+  - `Span 3: Sub-Agent Tool Execution` (Captures MCP tool call IPC latency and WorkWeek / ServiceImmediately backend response time)
+  - `Span 4: Egress / Cloud DLP Redaction` (Captures output masking duration)
+* **Cloud Trace & Monitoring Dashboard**: Traces are exported natively to **Google Cloud Trace**, providing real-time P50, P95, and P99 latency heatmaps and exact cost-per-intent token tracking.
