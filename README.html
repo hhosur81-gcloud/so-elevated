@@ -30,8 +30,9 @@
     body { font-family: "Roboto", sans-serif; background: var(--background); color: var(--text-main); line-height: 1.6; padding: 32px 16px; }
     .container { max-width: 1100px; margin: 0 auto; background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border); overflow: hidden; }
     header { background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%); color: #fff; padding: 40px; }
-    header h1 { font-family: "Google Sans", sans-serif; font-size: 30px; font-weight: 700; margin-bottom: 8px; }
-    .badge { display: inline-block; background: rgba(255,255,255,0.2); color: #fff; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; margin-right: 8px; }
+    header h1 { font-family: "Google Sans", sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .badge-bar { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge { display: inline-block; background: rgba(255,255,255,0.2); color: #fff; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; }
     .content { padding: 40px; }
     h2 { font-family: "Google Sans", sans-serif; font-size: 22px; color: var(--primary); border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; margin: 32px 0 16px 0; }
     h3 { font-family: "Google Sans", sans-serif; font-size: 17px; color: #3c4043; margin: 20px 0 10px 0; }
@@ -51,6 +52,8 @@
     .tag-blue { background: var(--primary-light); color: var(--primary-dark); }
     .tag-green { background: var(--success-bg); color: var(--success); }
     .tag-yellow { background: var(--warning-bg); color: var(--warning); }
+    .btn-link { display: inline-block; background: var(--primary); color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-family: "Google Sans", sans-serif; font-size: 13px; font-weight: 500; margin-right: 8px; margin-top: 8px; }
+    .btn-link:hover { background: var(--primary-dark); }
     .footer { border-top: 1px solid var(--border); padding: 24px 40px; background: #fafafa; text-align: center; font-size: 13px; color: var(--text-muted); }
   </style>
 </head>
@@ -58,13 +61,19 @@
 
 <div class="container">
   <header>
-    <div>
+    <div class="badge-bar">
       <span class="badge">Google Cloud Vertex AI ADK</span>
-      <span class="badge">MVP 1 Architecture</span>
-      <span class="badge">Enterprise Ready</span>
+      <span class="badge">Model Armor & Cloud DLP</span>
+      <span class="badge">Vertex AI Search RAG</span>
+      <span class="badge">12 ADRs Approved</span>
+      <span class="badge">TDD Ready</span>
     </div>
     <h1>HR Agentic Solution (MVP 1)</h1>
     <div style="font-size: 15px; opacity: 0.9;">Unified Conversational AI Virtual Assistant for Enterprise HR, HCM & ITSM</div>
+    <div style="margin-top: 16px;">
+      <a href="./docs/slides/index.html" class="btn-link">📊 Open Google Slides Decision Deck</a>
+      <a href="./requirements/HR-Agentic-BRD.html" class="btn-link" style="background: rgba(255,255,255,0.2);">📋 View Full BRD</a>
+    </div>
   </header>
 
   <div class="content">
@@ -73,14 +82,14 @@
       <h2>Executive Summary</h2>
       <div class="card">
         The <strong>HR Agentic Solution</strong> automates Tier-1 HR inquiries and orchestrates self-service transactions across core enterprise platforms (<strong>WorkWeek HCM</strong> and <strong>ServiceImmediately ITSM</strong>) with strict grounding against official corporate policy documents in <strong>Vertex AI Search</strong>.<br><br>
-        Deployed via the <strong>Vertex AI Agent Development Kit (ADK)</strong>, it enforces zero-trust origin authentication (Signed JWTs), multi-stage safety interceptors (<20ms SPII redaction & prompt injection defense), and automatic forward recovery for partial cross-system failures.
+        Deployed via the <strong>Vertex AI Agent Development Kit (ADK)</strong> and protected by <strong>Google Cloud Model Armor</strong>, it enforces zero-trust origin authentication (Signed JWTs), multi-stage safety interceptors (<20ms SPII redaction & prompt injection defense), and automatic forward recovery for partial cross-system failures.
       </div>
     </section>
 
     <section>
       <h2>System Architecture</h2>
       <div class="img-box">
-        <img src="../docs/assets/hr_agent_architecture.jpg" alt="HR Agentic Solution System Architecture">
+        <img src="./docs/assets/hr_agent_architecture.jpg" alt="HR Agentic Solution System Architecture">
         <div class="img-caption">Figure 1: High-Definition System Architecture Topology</div>
       </div>
     </section>
@@ -88,7 +97,7 @@
     <section>
       <h2>Multi-Agent Topology</h2>
       <div class="img-box">
-        <img src="../docs/assets/multi_agent_architecture.jpg" alt="Multi-Agent Hierarchy Architecture">
+        <img src="./docs/assets/multi_agent_architecture.jpg" alt="Multi-Agent Hierarchy Architecture">
         <div class="img-caption">Figure 2: Vertex ADK Hierarchical Multi-Agent Decomposition</div>
       </div>
 
@@ -103,10 +112,10 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>0. Security Sentinel</strong></td>
-            <td>Inbound injection defense & outbound SPII redaction (<20ms)</td>
-            <td>Presidio & Regex Sanitizer</td>
-            <td><span class="tag tag-blue">Middleware</span></td>
+            <td><strong>0. Security Sentinel Gateway</strong></td>
+            <td>Google Cloud Model Armor prompt sanitization & Cloud DLP SPII redaction (ADR-0012)</td>
+            <td>Model Armor Client / Presidio Fallback</td>
+            <td><span class="tag tag-blue">Managed Gateway</span></td>
           </tr>
           <tr>
             <td><strong>1. Primary Orchestrator</strong></td>
@@ -137,7 +146,7 @@
     </section>
 
     <section>
-      <h2>Architectural Decision Records (ADR Summary)</h2>
+      <h2>Architectural Decision Records (12 ADRs)</h2>
       <table>
         <thead>
           <tr>
@@ -148,62 +157,62 @@
         </thead>
         <tbody>
           <tr>
-            <td><a href="../docs/adr/0001-fastapi-mock-services.md">ADR-0001</a></td>
+            <td><a href="./docs/adr/0001-fastapi-mock-services.md">ADR-0001</a></td>
             <td>FastAPI Mock Services</td>
             <td>Self-contained local RESTful mock services with stateful JSON fixtures for deterministic offline testing.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0002-vertex-ai-search-policy-rag.md">ADR-0002</a></td>
+            <td><a href="./docs/adr/0002-vertex-ai-search-policy-rag.md">ADR-0002</a></td>
             <td>Vertex AI Search Policy RAG</td>
             <td>Enterprise semantic retrieval engine with structured citation metadata and deep links.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0003-hybrid-safety-guardrails.md">ADR-0003</a></td>
+            <td><a href="./docs/adr/0003-hybrid-safety-guardrails.md">ADR-0003</a></td>
             <td>Hybrid Guardrails Pipeline</td>
             <td>Sub-20ms regex/Presidio SPII redaction + LLM prompt injection classifier guaranteeing &lt;300ms SLA.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0004-cross-system-forward-recovery.md">ADR-0004</a></td>
+            <td><a href="./docs/adr/0004-cross-system-forward-recovery.md">ADR-0004</a></td>
             <td>Cross-System Forward Recovery</td>
             <td>Audit logging and manual follow-up guidance on step failures rather than destructive rollbacks.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0005-vertex-agent-development-kit.md">ADR-0005</a></td>
+            <td><a href="./docs/adr/0005-vertex-agent-development-kit.md">ADR-0005</a></td>
             <td>Vertex AI Agent Development Kit</td>
             <td>Official Google Cloud ADK for model orchestration, declarative tool dispatching, and session isolation.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0006-signed-jwt-delegated-authorization.md">ADR-0006</a></td>
+            <td><a href="./docs/adr/0006-signed-jwt-delegated-authorization.md">ADR-0006</a></td>
             <td>Signed JWT Delegated Auth</td>
             <td>Bearer tokens carrying user identity (<code>sub</code>) and origin claims (<code>iss: HR-Agent-v1</code>).</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0007-human-confirmation-on-state-mutations.md">ADR-0007</a></td>
+            <td><a href="./docs/adr/0007-human-confirmation-on-state-mutations.md">ADR-0007</a></td>
             <td>Human Confirmation Gate</td>
             <td>Explicit confirmation turn required before executing Leave of Absence bookings and incident closures.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0008-strict-live-vertex-ai-search-testing.md">ADR-0008</a></td>
+            <td><a href="./docs/adr/0008-strict-live-vertex-ai-search-testing.md">ADR-0008</a></td>
             <td>Live Vertex AI Search Testing</td>
             <td>Integration tests connect directly to live GCP datastores to ensure 100% production parity.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0009-session-ttl-and-explicit-purge.md">ADR-0009</a></td>
+            <td><a href="./docs/adr/0009-session-ttl-and-explicit-purge.md">ADR-0009</a></td>
             <td>Session Expiry & 15m TTL</td>
             <td>Dual-trigger session memory purge on exit prompts (<em>"reset"</em>, <em>"clear"</em>) or 15 minutes idle.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0010-interactive-priority-downgrade-guardrail.md">ADR-0010</a></td>
+            <td><a href="./docs/adr/0010-interactive-priority-downgrade-guardrail.md">ADR-0010</a></td>
             <td>Interactive Priority Guardrail</td>
             <td>Interactive prompt when Critical priority tag lacks major business outage criteria.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0011-tiered-spii-redaction-logging.md">ADR-0011</a></td>
+            <td><a href="./docs/adr/0011-tiered-spii-redaction-logging.md">ADR-0011</a></td>
             <td>Tiered SPII Redaction</td>
             <td>Permits ephemeral self-viewing in UI stream while strictly redacting persistent logs and audit traces.</td>
           </tr>
           <tr>
-            <td><a href="../docs/adr/0012-google-cloud-model-armor.md">ADR-0012</a></td>
+            <td><a href="./docs/adr/0012-google-cloud-model-armor.md">ADR-0012</a></td>
             <td>Google Cloud Model Armor</td>
             <td>Managed Layer 0 AI security gateway with Cloud DLP SPII redaction, prompt injection defense, and SCC integration.</td>
           </tr>
@@ -212,17 +221,17 @@
     </section>
 
     <section>
-      <h2>Tracer-Bullet Implementation Tickets</h2>
+      <h2>Tracer-Bullet Implementation Roadmap (8 Tickets)</h2>
       <p>All tickets are published under <code>.scratch/hr-agentic-mvp1/issues/</code> with <code>ready-for-agent</code> status:</p>
       <ul>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/01-project-scaffold-domain-models-jwt.md">Ticket 01</a> — Project Scaffold, Domain Models & Signed JWT Auth <em>(Frontier)</em></li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md">Ticket 02</a> — Security Sentinel Interceptor (Tiered SPII & Prompt Safety)</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md">Ticket 03</a> — WorkWeek HCM FastAPI Mock Service & Connector Tools</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md">Ticket 04</a> — ServiceImmediately ITSM FastAPI Mock Service & Connector Tools</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md">Ticket 05</a> — Policy Q&A Specialist Agent & Live Vertex AI Search Grounding</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md">Ticket 06</a> — Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md">Ticket 07</a> — Cross-System Workflow Handlers with Forward Recovery</li>
-        <li><a href="../.scratch/hr-agentic-mvp1/issues/08-e2e-evaluation-benchmark-suite.md">Ticket 08</a> — End-to-End Evaluation Suite & Performance Benchmark</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/01-project-scaffold-domain-models-jwt.md">Ticket 01</a> — Project Scaffold, Domain Models & Signed JWT Auth <em>(Frontier)</em></li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md">Ticket 02</a> — Security Sentinel Gateway (Model Armor & Tiered SPII)</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md">Ticket 03</a> — WorkWeek HCM FastAPI Mock Service & Connector Tools</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md">Ticket 04</a> — ServiceImmediately ITSM FastAPI Mock Service & Connector Tools</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md">Ticket 05</a> — Policy Q&A Specialist Agent & Live Vertex AI Search Grounding</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md">Ticket 06</a> — Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md">Ticket 07</a> — Cross-System Workflow Handlers with Forward Recovery</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/08-e2e-evaluation-benchmark-suite.md">Ticket 08</a> — End-to-End Evaluation Suite & Performance Benchmark</li>
       </ul>
     </section>
 
