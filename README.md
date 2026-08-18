@@ -54,7 +54,7 @@ All architectural design choices are formally documented in [docs/adr/](./docs/a
 
 | ADR ID | Title | Core Architectural Decision |
 | :--- | :--- | :--- |
-| **[ADR-0001](./docs/adr/0001-fastapi-mock-services.md)** | FastAPI Mock Services | Embedded RESTful mock services with stateful JSON fixtures for deterministic local testing. |
+| **[ADR-0001](./docs/adr/0001-mcp-enterprise-servers.md)** | MCP Enterprise Servers | Model Context Protocol (MCP) servers with stateful enterprise fixtures and validation guardrails. |
 | **[ADR-0002](./docs/adr/0002-vertex-ai-search-policy-rag.md)** | Vertex AI Search Policy RAG | Semantic retrieval & strict grounding engine returning clickable section deep links. |
 | **[ADR-0003](./docs/adr/0003-hybrid-safety-guardrails.md)** | Hybrid Safety Guardrails | Sub-20ms regex/Presidio SPII masking + LLM safety classifier guaranteeing <300ms SLA. |
 | **[ADR-0004](./docs/adr/0004-cross-system-forward-recovery.md)** | Cross-System Forward Recovery | Audit logging, pending sync tasks, and manual follow-up guidance on partial workflow failure. |
@@ -79,8 +79,8 @@ All 8 vertical slices are specified in [`.scratch/hr-agentic-mvp1/issues/`](./.s
 flowchart TD
     T1["01 — Project Scaffold, Domain Models & Signed JWT Auth"]
     T2["02 — Security Sentinel Gateway (Model Armor & Tiered SPII)"]
-    T3["03 — WorkWeek HCM Mock Service & Tools"]
-    T4["04 — ServiceImmediately ITSM Mock Service & Tools"]
+    T3["03 — WorkWeek HCM MCP Server & Tools"]
+    T4["04 — ServiceImmediately ITSM MCP Server & Tools"]
     T5["05 — Policy Q&A Specialist & Live Vertex Search"]
     T6["06 — Primary HR Orchestrator (ADK) & Dispatcher"]
     T7["07 — Cross-System Workflow Handlers (UC-2.x)"]
@@ -105,8 +105,8 @@ flowchart TD
 | :-: | :--- | :--- | :--- |
 | **01** | **[`01-project-scaffold-domain-models-jwt.md`](./.scratch/hr-agentic-mvp1/issues/01-project-scaffold-domain-models-jwt.md)** | *None (Frontier)* | Domain schemas (Profile, PTO, Tickets) & cryptographic signed JWT generator/validator. |
 | **02** | **[`02-security-sentinel-spii-guardrails.md`](./.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md)** | `01` | Google Cloud Model Armor integration + Cloud DLP / Presidio tiered SPII masking. |
-| **03** | **[`03-workweek-hcm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md)** | `01` | WorkWeek FastAPI mock endpoints + confirmation gate, PTO & temporal guardrails. |
-| **04** | **[`04-serviceimmediately-itsm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md)** | `01` | ServiceImmediately FastAPI mock endpoints + lifecycle transitions & priority downgrade guardrail. |
+| **03** | **[`03-workweek-hcm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md)** | `01` | WorkWeek MCP tools + confirmation gate, PTO & temporal guardrails. |
+| **04** | **[`04-serviceimmediately-itsm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md)** | `01` | ServiceImmediately MCP tools + lifecycle transitions & priority downgrade guardrail. |
 | **05** | **[`05-policy-qa-specialist-vertex-search.md`](./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md)** | `01, 02` | Policy Q&A Agent with live Vertex AI Search grounding, citations, and 0% hallucination fallback. |
 | **06** | **[`06-primary-hr-orchestrator-adk.md`](./.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md)** | `02, 03, 04, 05` | Root multi-turn session orchestrator in Vertex ADK dispatching to domain specialists. |
 | **07** | **[`07-cross-system-workflow-handlers.md`](./.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md)** | `06` | Chained execution for UC-2.1 (Equipment), UC-2.2 (Medical Leave), UC-2.3 (Relocation) + Forward Recovery. |

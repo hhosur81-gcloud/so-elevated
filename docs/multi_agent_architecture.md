@@ -112,7 +112,7 @@ sequenceDiagram
 
 ## 5. Architectural References
 - **[CONTEXT.md](../CONTEXT.md)**: Domain Glossary
-- **[docs/adr/0001-fastapi-mock-services.md](./adr/0001-fastapi-mock-services.md)**: Mock Server Architecture
+- **[docs/adr/0001-mcp-enterprise-servers.md](./adr/0001-mcp-enterprise-servers.md)**: Mock Server Architecture
 - **[docs/adr/0002-vertex-ai-search-policy-rag.md](./adr/0002-vertex-ai-search-policy-rag.md)**: Policy Grounding Engine
 - **[docs/adr/0003-hybrid-safety-guardrails.md](./adr/0003-hybrid-safety-guardrails.md)**: Safety Pipeline
 - **[docs/adr/0004-cross-system-forward-recovery.md](./adr/0004-cross-system-forward-recovery.md)**: Failure Recovery

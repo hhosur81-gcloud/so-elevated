@@ -1,13 +1,13 @@
-# 04 — ServiceImmediately ITSM FastAPI Mock Service & Connector Tools
+# 04 — ServiceImmediately ITSM MCP Server & Connector Tools
 
-**What to build:** Incident ticket management in ServiceImmediately: ticket lookup, incident creation (1-Critical to 4-Low), interactive priority verification (ADR-0010), comment appending, and lifecycle transition enforcement.
+**What to build:** Dedicated Model Context Protocol (MCP) server exposing ServiceImmediately tools (incident lookup, ticket creation, timeline comments, lifecycle state transitions) with duplicate mitigation and interactive priority verification (ADR-0001, ADR-0010).
 
 **Blocked by:** 01 — Project Scaffold, Domain Models & Signed JWT Auth
 
 **Status:** ready-for-agent
 
-- [ ] FastAPI mock endpoints: /api/now/table/incident and /api/now/table/incident/{id}.
-- [ ] Validates incoming Bearer <signed_jwt> origin token.
-- [ ] Enforces valid state transitions (New -> In Progress -> Resolved -> Closed) and duplicate request mitigation.
-- [ ] Interactive priority downgrade flow when Critical priority lacks major outage justification.
-- [ ] Integration tests verifying ticket creation, timeline updates, and invalid transition rejections.
+- [ ] ServiceImmediately MCP Server implementing tools: `itsm_get_ticket`, `itsm_create_incident`, `itsm_post_comment`, `itsm_update_status`.
+- [ ] Enforces signed JWT origin verification and automation provenance claims.
+- [ ] Enforces valid state transitions (`New` -> `In Progress` -> `Resolved` -> `Closed`) and duplicate request mitigation.
+- [ ] Interactive priority downgrade flow when Critical priority lacks major outage justification (ADR-0010).
+- [ ] Unit & integration tests asserting full round-trip MCP tool execution against realistic incident timelines.

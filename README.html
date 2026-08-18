@@ -132,13 +132,13 @@
           <tr>
             <td><strong>3. WorkWeek HCM Specialist</strong></td>
             <td>Live profile fetch, PTO balance query, leave bookings</td>
-            <td>WorkWeek REST Tools</td>
+            <td>WorkWeek MCP Tools</td>
             <td><span class="tag tag-yellow">workweek:*</span></td>
           </tr>
           <tr>
             <td><strong>4. ServiceImmediately Specialist</strong></td>
             <td>Incident creation, comments, lifecycle state guardrails</td>
-            <td>ServiceImmediately REST Tools</td>
+            <td>ServiceImmediately MCP Tools</td>
             <td><span class="tag tag-yellow">serviceimmediately:*</span></td>
           </tr>
         </tbody>
@@ -157,9 +157,9 @@
         </thead>
         <tbody>
           <tr>
-            <td><a href="./docs/adr/0001-fastapi-mock-services.md">ADR-0001</a></td>
-            <td>FastAPI Mock Services</td>
-            <td>Self-contained local RESTful mock services with stateful JSON fixtures for deterministic offline testing.</td>
+            <td><a href="./docs/adr/0001-mcp-enterprise-servers.md">ADR-0001</a></td>
+            <td>MCP Enterprise Servers</td>
+            <td>Dedicated Model Context Protocol (MCP) servers with stateful enterprise fixtures, schema validation, and guardrails.</td>
           </tr>
           <tr>
             <td><a href="./docs/adr/0002-vertex-ai-search-policy-rag.md">ADR-0002</a></td>
@@ -231,8 +231,8 @@
       <ul>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/01-project-scaffold-domain-models-jwt.md">Ticket 01</a> — Project Scaffold, Domain Models & Signed JWT Auth <em>(Frontier)</em></li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md">Ticket 02</a> — Security Sentinel Gateway (Model Armor & Tiered SPII)</li>
-        <li><a href="./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md">Ticket 03</a> — WorkWeek HCM FastAPI Mock Service & Connector Tools</li>
-        <li><a href="./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md">Ticket 04</a> — ServiceImmediately ITSM FastAPI Mock Service & Connector Tools</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md">Ticket 03</a> — WorkWeek HCM MCP Server & Connector Tools</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md">Ticket 04</a> — ServiceImmediately ITSM MCP Server & Connector Tools</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md">Ticket 05</a> — Policy Q&A Specialist Agent & Live Vertex AI Search Grounding</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md">Ticket 06</a> — Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md">Ticket 07</a> — Cross-System Workflow Handlers with Forward Recovery</li>

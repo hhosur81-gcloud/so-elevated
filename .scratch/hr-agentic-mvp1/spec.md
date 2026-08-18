@@ -72,10 +72,10 @@ The system:
    - Enforces strict grounding with structured citation metadata (document name, section header, source URL/Deep Link).
    - Rejects out-of-domain queries and issues explicit "not found in company policy" fallbacks when context is missing.
 
-3. **Enterprise Backend Connectors (FastAPI Mock Suite)**:
-   - **WorkWeek Connector**: Exposes `/api/v1/employees/{id}`, `/api/v1/employees/{id}/pto`, and `/api/v1/leave/requests`. Enforces balance checks, date validity, and format checks.
-   - **ServiceImmediately Connector**: Exposes `/api/now/table/incident` and `/api/now/table/incident/{id}`. Enforces lifecycle state transitions, duplicate request mitigation, and interactive priority verification (ADR-0010).
-   - **Origin Authentication Middleware**: Every request validates a signed JWT bearer token containing `sub` (employee ID), `iss` (`HR-Agent-v1`), and explicit operation scopes (ADR-0006).
+3. **Enterprise Backend Connectors (Model Context Protocol / MCP Servers - ADR-0001)**:
+   - **WorkWeek MCP Server**: Exposes MCP tools (`workweek_get_profile`, `workweek_get_pto_balances`, `workweek_submit_leave_request`). Enforces real-time balance checks, temporal date validity, and contact validation over realistic stateful enterprise fixtures.
+   - **ServiceImmediately MCP Server**: Exposes MCP tools (`itsm_get_ticket`, `itsm_create_incident`, `itsm_post_comment`, `itsm_update_status`). Enforces lifecycle state transitions, duplicate request mitigation, and interactive priority verification (ADR-0010).
+   - **Origin Authentication Middleware**: Every MCP tool call validates a signed JWT bearer token containing `sub` (employee ID), `iss` (`HR-Agent-v1`), and explicit operation scopes (ADR-0006).
 
 4. **Security Sentinel Gateway (Google Cloud Model Armor & Tiered SPII - ADR-0011 & ADR-0012)**:
    - **Managed Gateway**: Routes ingress prompts and egress responses through Google Cloud Model Armor templates for injection defense, jailbreak mitigation, and Cloud DLP SPII redaction.
@@ -97,8 +97,8 @@ The system:
 | **FR-1.5** | RBAC & Data Isolation | Scoped delegated auth tokens per employee ID + 15m TTL | Multi-user cross-access isolation test suite |
 | **FR-2.1** | Natural Language Understanding | Vertex AI ADK with Gemini model intent parser | Typo and synonym tolerance benchmark |
 | **FR-2.2** | Multi-Turn Dialog | Isolated stateful session manager with TTL (ADR-0009) | Context retention & memory leak tests |
-| **FR-3.1–3.4** | WorkWeek Integration | WorkWeek FastAPI Connector + Confirmation Gate (ADR-0007) | Balance constraint, date validity & confirmation tests |
-| **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately Connector + Priority Guard (ADR-0010) | State transition, duplicate detection & priority tests |
+| **FR-3.1–3.4** | WorkWeek Integration | WorkWeek MCP Server + Confirmation Gate (ADR-0001 & ADR-0007) | Balance constraint, date validity & confirmation tests |
+| **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately MCP Server + Priority Guard (ADR-0001 & ADR-0010) | State transition, duplicate detection & priority tests |
 | **FR-5.1–5.5** | Policy Document Q&A | Live Vertex AI Search datastore with metadata citations (ADR-0008) | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
 | **UC-2.1–2.3** | Cross-System Orchestration | Cross-System Flow Engine with Forward Recovery (ADR-0004) | End-to-end workflow execution & failure recovery tests |
 
@@ -126,6 +126,6 @@ The system:
 
 ## Further Notes
 
-- Architectural decisions are formally documented in `docs/adr/0001-fastapi-mock-services.md` through `docs/adr/0012-google-cloud-model-armor.md`.
+- Architectural decisions are formally documented in `docs/adr/0001-mcp-enterprise-servers.md` through `docs/adr/0012-google-cloud-model-armor.md`.
 - Multi-agent roles and scopes are detailed in `docs/multi_agent_architecture.md`.
 - Domain glossary is maintained in `CONTEXT.md`.

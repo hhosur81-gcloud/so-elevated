@@ -68,7 +68,7 @@ function createHRAgenticDeck() {
     'Key Decisions: Backends & Policy Grounding',
     'Architectural Decision Records',
     [
-      '• ADR-0001: FastAPI Mock Services — Embedded local RESTful mock services with stateful fixtures for deterministic testing.',
+      '• ADR-0001: MCP Enterprise Servers — Model Context Protocol (MCP) servers with stateful enterprise fixtures & validation guardrails.',
       '• ADR-0002 & 0008: Live Vertex AI Search Policy RAG — Strict live connection to Google Cloud datastores with structured citation deep links.',
       '• ADR-0005: Vertex AI Agent Development Kit (ADK) — Standardized unified framework for Gemini model calling, tools, and session state.',
       '• ADR-0004: Cross-System Forward Recovery — Partial failure handling with audit logs and manual follow-up rather than destructive rollbacks.'
@@ -117,8 +117,8 @@ function createHRAgenticDeck() {
     [
       '• Ticket 01: Project Scaffold, Domain Models & Signed JWT Auth (Frontier)',
       '• Ticket 02: Security Sentinel Interceptor (Tiered SPII & Prompt Safety)',
-      '• Ticket 03: WorkWeek HCM FastAPI Mock Service & Connector Tools',
-      '• Ticket 04: ServiceImmediately ITSM FastAPI Mock Service & Connector Tools',
+      '• Ticket 03: WorkWeek HCM MCP Server & Connector Tools',
+      '• Ticket 04: ServiceImmediately ITSM MCP Server & Connector Tools',
       '• Ticket 05: Policy Q&A Specialist Agent & Live Vertex AI Search Grounding',
       '• Ticket 06: Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher',
       '• Ticket 07: Cross-System Workflow Handlers with Forward Recovery',
