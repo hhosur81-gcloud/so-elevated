@@ -19,7 +19,7 @@ function createHRAgenticDeck() {
   const titleText = titleBox.getText();
   titleText.getTextStyle().setFontFamily('Google Sans').setFontSize(36).setForegroundColor('#ffffff').setBold(true);
   
-  const subBox = slide1.insertTextBox('Google Cloud Vertex AI ADK • Multi-Agent System • ADRs 0001–0011', 60, 320, 600, 60);
+  const subBox = slide1.insertTextBox('Google Cloud Vertex AI ADK • Multi-Agent System • ADRs 0001–0012', 60, 320, 600, 60);
   subBox.getText().getTextStyle().setFontFamily('Roboto').setFontSize(18).setForegroundColor('#e8f0fe');
 
   function addContentSlide(title, category, bulletPoints) {
@@ -79,7 +79,7 @@ function createHRAgenticDeck() {
     'Key Decisions: Zero-Trust Security & Identity',
     'Architectural Decision Records',
     [
-      '• ADR-0003: Hybrid Safety Guardrails — Fast local regex/Presidio redaction (<20ms) + LLM prompt injection classifier within <300ms SLA.',
+      '• ADR-0003 & 0012: Google Cloud Model Armor — Managed Layer 0 gateway with Cloud DLP SPII redaction & prompt injection defense.',
       '• ADR-0006: Signed JWT Delegated Authorization — Bearer tokens carrying employee ID (sub), automation origin (iss: HR-Agent-v1), and scopes.',
       '• ADR-0011: Tiered SPII Redaction — Unmasked self-viewing in active UI stream with strict persistent log and audit trace masking.',
       '• FR-1.5: RBAC & Tenant Isolation — Scoped session boundaries preventing cross-employee data access.'
@@ -131,7 +131,7 @@ function createHRAgenticDeck() {
     'Final Readiness Gate',
     [
       '• 100% Requirements Traceability: All 35 user stories mapped to ADRs and test suites.',
-      '• Zero Architectural Ambiguity: 11 ADRs lock down all backend, security, and lifecycle decisions.',
+      '• Zero Architectural Ambiguity: 12 ADRs lock down all backend, security, and lifecycle decisions.',
       '• Standalone Artifacts: Interactive Google Slides deck, HTML/Markdown README, and visual diagrams.',
       '• Ready for TDD: Implementation starts at Ticket 01 whenever you are ready!'
     ]

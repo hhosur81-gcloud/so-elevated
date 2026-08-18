@@ -2,9 +2,9 @@
 
 ## 1. Architectural Overview
 
-The **HR Agentic Solution (MVP 1)** is structured as a hierarchical multi-agent system powered by the **Google Cloud Vertex AI Agent Development Kit (ADK)**. 
+The **HR Agentic Solution (MVP 1)** is structured as a hierarchical multi-agent system powered by the **Google Cloud Vertex AI Agent Development Kit (ADK)** with **Google Cloud Model Armor** as the enterprise security gateway.
 
-To prevent tool selection ambiguity, enforce least-privilege security boundaries, and provide deterministic execution for complex cross-system enterprise workflows, the workload is decomposed across **1 Primary Coordinator Agent**, **3 Domain-Specialist Sub-Agents**, and a dedicated **Security Sentinel Middleware Layer**.
+To prevent tool selection ambiguity, enforce least-privilege security boundaries, and provide deterministic execution for complex cross-system enterprise workflows, the workload is decomposed across **1 Primary Coordinator Agent**, **3 Domain-Specialist Sub-Agents**, and a managed **Security Sentinel Gateway (Model Armor)**.
 
 ![Multi-Agent Architecture](file:///usr/local/google/home/harshahosur/Documents/elevate-hrproject/docs/assets/multi_agent_architecture.jpg)
 
@@ -14,7 +14,7 @@ To prevent tool selection ambiguity, enforce least-privilege security boundaries
 
 | Agent / Layer | Classification | Primary Responsibility | Dedicated Tools & Skills | Security & Auth Scopes |
 | :--- | :--- | :--- | :--- | :--- |
-| **0. Security Sentinel Interceptor** | Middleware / Guardrail | Pre/post-execution safety and SPII redaction | Presidio & Regex Redactor, Safety Classifier | N/A (Local Pipeline) |
+| **0. Security Sentinel Gateway** | Managed Gateway / Middleware | Inbound prompt sanitization, jailbreak defense & Cloud DLP SPII redaction (ADR-0012) | Google Cloud Model Armor Client (Cloud DLP & Safety Filters), Presidio/Regex Fallback | Model Armor Template ID / SCC Integration |
 | **1. Primary HR Orchestrator** | Root Coordinator (ADK) | Intent routing, session state, cross-system workflows, human confirmation gate | Sub-Agent Dispatcher, Forward Recovery Logger, Confirmation Gate | Signed Root JWT (`sub: emp_id`) |
 | **2. Policy Q&A Specialist** | Domain Sub-Agent | Grounded knowledge retrieval from HR policy docs via live Vertex AI Search | `VertexAISearchTool`, Citation Deep-Link Formatter | Read-only Policy Datastore |
 | **3. WorkWeek HCM Specialist** | Domain Sub-Agent | Employee self-service & PTO management | `get_profile`, `update_contact`, `get_pto`, `submit_leave` | Signed JWT (`scopes: workweek:*`) |
@@ -24,12 +24,14 @@ To prevent tool selection ambiguity, enforce least-privilege security boundaries
 
 ## 3. Detailed Agent Specifications & Guardrail Protocols
 
-### 3.1. Layer 0: Security Sentinel Interceptor
-- **Role**: Gatekeeper for all inbound user prompts and outbound model payloads.
-- **Latency Budget**: $< 300\text{ms}$ total per turn ($< 20\text{ms}$ for regex/Presidio SPII masking).
+### 3.1. Layer 0: Security Sentinel Gateway (Google Cloud Model Armor)
+- **Role**: Managed AI security perimeter for all inbound prompts and outbound model payloads (ADR-0012).
+- **Latency Budget**: $< 300\text{ms}$ total overhead SLA (NFR-2.1).
 - **Scope of Usage**:
-  - **Inbound**: Inspects prompt text to detect and block prompt injection, jailbreak attempts, and out-of-domain prompt leakage (FR-1.3).
-  - **Outbound Tiered Redaction (ADR-0011)**: Permits unmasked viewing of profile details in the active UI stream to verified employees while automatically redacting Sensitive Personally Identifiable Information (SPII) from all persistent log files, stdout, and audit traces (FR-1.4).
+  - **Inbound Prompt Sanitization**: Employs Google Cloud Model Armor inspection models to intercept prompt injections, jailbreaks, malicious payloads, and system prompt leakage attempts (FR-1.3).
+  - **Outbound Response Sanitization & Cloud DLP (ADR-0011 & ADR-0012)**: Uses Cloud Sensitive Data Protection (DLP) infoType inspection templates to redact SPII (SSNs, home addresses, phone numbers) before writing to persistent logs and audit traces, while preserving ephemeral self-viewing in UI responses.
+  - **Enterprise Telemetry**: Automatically forwards security findings and policy violations to **Security Command Center (SCC)**.
+  - **Local Development Fallback**: When running in offline environments or unit tests without active GCP credentials, the interceptor seamlessly falls back to the in-memory Presidio/Regex engine.
 
 ### 3.2. Agent 1: Primary HR Orchestrator Agent (ADK)
 - **Role**: Top-level conversational interface managing the multi-turn session lifecycle.
@@ -77,15 +79,15 @@ To prevent tool selection ambiguity, enforce least-privilege security boundaries
 sequenceDiagram
     autonumber
     actor Employee as Employee Client
-    participant Sentinel as Security Sentinel
+    participant Sentinel as Model Armor Gateway
     participant Orch as Primary HR Orchestrator
     participant Policy as Policy Q&A Agent
     participant WorkWeek as WorkWeek HCM Agent
     participant ITSM as ServiceImmediately Agent
 
     Employee->>Sentinel: "I need to take short-term medical leave starting next Monday. Can you set it up?"
-    Sentinel->>Sentinel: Validate Prompt (Injection & Toxicity Clean)
-    Sentinel->>Orch: Safe Inbound Prompt
+    Sentinel->>Sentinel: Ingress Sanitization (Model Armor Prompt Filter)
+    Sentinel->>Orch: Clean Inbound Prompt
 
     Note over Orch: Identifies Cross-System Intent (UC-2.2)
     
@@ -102,7 +104,7 @@ sequenceDiagram
     ITSM-->>Orch: Ticket Created (INC123456)
     
     Orch->>Sentinel: Formatted Response Payload
-    Sentinel->>Sentinel: Tiered SPII Redaction & Grounding Verification
+    Sentinel->>Sentinel: Egress Sanitization (Cloud DLP Tiered Masking & Safety Check)
     Sentinel-->>Employee: Confirms LOA #LOA-9081, IT Ticket INC123456, and policy citation link.
 ```
 
@@ -121,3 +123,4 @@ sequenceDiagram
 - **[docs/adr/0009-session-ttl-and-explicit-purge.md](./adr/0009-session-ttl-and-explicit-purge.md)**: Session TTL & Purge
 - **[docs/adr/0010-interactive-priority-downgrade-guardrail.md](./adr/0010-interactive-priority-downgrade-guardrail.md)**: Interactive Priority Guardrail
 - **[docs/adr/0011-tiered-spii-redaction-logging.md](./adr/0011-tiered-spii-redaction-logging.md)**: Tiered SPII Redaction
+- **[docs/adr/0012-google-cloud-model-armor.md](./adr/0012-google-cloud-model-armor.md)**: Google Cloud Model Armor

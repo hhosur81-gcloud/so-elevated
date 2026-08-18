@@ -17,7 +17,7 @@ The system:
 2. Connects to **WorkWeek (HCM)** via signed JWT delegated authorization to perform real-time profile lookup, PTO balance queries, and guarded leave of absence submissions with an explicit **Human Confirmation Gate** on state mutations.
 3. Connects to **ServiceImmediately (ITSM/HRSD)** to manage incident tickets, query status/timeline history, enforce valid lifecycle transitions, and handle interactive priority elevation verification.
 4. Orchestrates complex **Cross-System Workflows** (Equipment Procurement, Medical Leave, Relocation) across policy checks, HCM transactions, and ITSM ticketing with automated forward-recovery audit tracking.
-5. Employs a **Multi-Stage Hybrid Safety Interceptor** executing sub-20ms Presidio/Regex Sensitive Personally Identifiable Information (SPII) redaction with **Tiered Visibility** (raw viewing in user response stream, strict masking in persistent logs and audit traces) and targeted LLM-as-a-judge prompt injection guardrails.
+5. Employs **Google Cloud Model Armor** (ADR-0012) as the managed Layer 0 Security Gateway executing prompt sanitization, jailbreak defense, and Cloud Sensitive Data Protection (DLP) SPII redaction with **Tiered Visibility** (local Presidio/Regex fallback for offline tests) (raw viewing in user response stream, strict masking in persistent logs and audit traces) and targeted LLM-as-a-judge prompt injection guardrails.
 6. Enforces **Session Lifecycle & TTL Management** (explicit reset prompts and 15-minute idle purge) to guarantee zero cross-user memory leakage.
 
 ## User Stories
@@ -77,9 +77,10 @@ The system:
    - **ServiceImmediately Connector**: Exposes `/api/now/table/incident` and `/api/now/table/incident/{id}`. Enforces lifecycle state transitions, duplicate request mitigation, and interactive priority verification (ADR-0010).
    - **Origin Authentication Middleware**: Every request validates a signed JWT bearer token containing `sub` (employee ID), `iss` (`HR-Agent-v1`), and explicit operation scopes (ADR-0006).
 
-4. **Security & Guardrail Interceptors (Tiered SPII Redaction)**:
-   - **Input Interceptor**: Dual-phase scanner running fast Regex/Presidio pattern matching (<20ms) followed by an LLM safety classifier for prompt injection and topic bounds.
-   - **Output Interceptor (ADR-0011)**: Implements tiered visibility (unmasked ephemeral UI rendering for self-viewing, strict regex masking on persistent disk logs, stdout, and audit traces).
+4. **Security Sentinel Gateway (Google Cloud Model Armor & Tiered SPII - ADR-0011 & ADR-0012)**:
+   - **Managed Gateway**: Routes ingress prompts and egress responses through Google Cloud Model Armor templates for injection defense, jailbreak mitigation, and Cloud DLP SPII redaction.
+   - **Tiered Visibility (ADR-0011)**: Permits unmasked ephemeral UI rendering for self-viewing while strictly masking persistent disk logs, stdout, and audit traces.
+   - **Offline Local Fallback**: Seamless in-memory Presidio/Regex interceptor (<20ms) for local unit testing.
 
 5. **Cross-System Workflow Handlers (Forward Recovery)**:
    - Encapsulates multi-system orchestration for UC-2.1 (Equipment), UC-2.2 (Medical Leave), and UC-2.3 (Relocation).
@@ -91,8 +92,8 @@ The system:
 | :--- | :--- | :--- | :--- |
 | **FR-1.1** | Capability & Lifecycle Governance | Tool registration bounding in Vertex ADK | Tool invocation boundary test suite |
 | **FR-1.2** | Verification of Request Origin | Signed JWT bearer tokens (`sub`, `iss`, `scopes`) | Provenance header inspection on mock server |
-| **FR-1.3** | Conversation Safety | Dual-stage input injection filter & output safety validator | Negative red-team injection & toxicity test suite |
-| **FR-1.4** | Data Masking / Redaction | Tiered Presidio & Regex SPII redaction (ADR-0011) | Automated SPII log masking test (phone, address, SSN) |
+| **FR-1.3** | Conversation Safety | Google Cloud Model Armor Ingress/Egress Gateway (ADR-0012) | Negative red-team injection & toxicity test suite |
+| **FR-1.4** | Data Masking / Redaction | Cloud DLP / Presidio Tiered SPII redaction (ADR-0011 & ADR-0012) | Automated SPII log masking test (phone, address, SSN) |
 | **FR-1.5** | RBAC & Data Isolation | Scoped delegated auth tokens per employee ID + 15m TTL | Multi-user cross-access isolation test suite |
 | **FR-2.1** | Natural Language Understanding | Vertex AI ADK with Gemini model intent parser | Typo and synonym tolerance benchmark |
 | **FR-2.2** | Multi-Turn Dialog | Isolated stateful session manager with TTL (ADR-0009) | Context retention & memory leak tests |
@@ -125,6 +126,6 @@ The system:
 
 ## Further Notes
 
-- Architectural decisions are formally documented in `docs/adr/0001-fastapi-mock-services.md` through `docs/adr/0011-tiered-spii-redaction-logging.md`.
+- Architectural decisions are formally documented in `docs/adr/0001-fastapi-mock-services.md` through `docs/adr/0012-google-cloud-model-armor.md`.
 - Multi-agent roles and scopes are detailed in `docs/multi_agent_architecture.md`.
 - Domain glossary is maintained in `CONTEXT.md`.

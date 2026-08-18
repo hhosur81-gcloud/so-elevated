@@ -1,11 +1,12 @@
-# 02 — Security Sentinel Interceptor (Tiered SPII & Prompt Safety)
+# 02 — Security Sentinel Gateway (Google Cloud Model Armor & Tiered SPII)
 
-**What to build:** Pre/post-execution security middleware executing sub-20ms Presidio/Regex Sensitive Personally Identifiable Information (SPII) tiered redaction (ADR-0011) and prompt injection/jailbreak classification.
+**What to build:** Managed AI security gateway integrating Google Cloud Model Armor (ADR-0012) for prompt injection defense and Cloud DLP SPII redaction, with in-memory Presidio/Regex fallback for offline local unit tests.
 
 **Blocked by:** 01 — Project Scaffold, Domain Models & Signed JWT Auth
 
 **Status:** ready-for-agent
 
-- [ ] Inbound prompt inspector detecting and blocking prompt injection, jailbreaks, and off-topic bypasses.
-- [ ] Outbound logger redacting addresses, phone numbers, and SSNs from audit logs, stdout, and persistent storage while permitting ephemeral self-viewing in UI stream.
-- [ ] Benchmark test confirming total safety interceptor latency < 300ms (< 20ms regex/Presidio).
+- [ ] Model Armor client integration inspecting inbound prompts for injection, jailbreaks, and harmful content.
+- [ ] Tiered Cloud DLP / Presidio redaction masking SPII (addresses, phone numbers, SSNs) from persistent logs and audit traces while allowing ephemeral self-viewing.
+- [ ] Offline fallback adapter executing local regex/Presidio when Model Armor API credentials are absent.
+- [ ] Benchmark test suite confirming total safety gateway latency < 300ms.

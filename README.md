@@ -43,6 +43,7 @@ A unified, AI-driven virtual assistant built on the **Google Cloud Vertex AI Age
 | **[ADR-0009](./docs/adr/0009-session-ttl-and-explicit-purge.md)** | Session Expiry via Prompt & 15m TTL | Dual-trigger session purge on exit prompts or 15m idle. |
 | **[ADR-0010](./docs/adr/0010-interactive-priority-downgrade-guardrail.md)** | Interactive Priority Verification | Interactive prompt when Critical priority lacks major outage justification. |
 | **[ADR-0011](./docs/adr/0011-tiered-spii-redaction-logging.md)** | Tiered SPII Redaction | Ephemeral UI self-viewing with strict persistent log masking. |
+| **[ADR-0012](./docs/adr/0012-google-cloud-model-armor.md)** | Google Cloud Model Armor | Managed Layer 0 AI security gateway with Cloud DLP & prompt sanitization. |
 
 ---
 
