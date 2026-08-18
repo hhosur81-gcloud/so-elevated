@@ -185,7 +185,13 @@ To address enterprise architectural review, the table below documents the evalua
 
 ## 5. Multi-Agent Architecture & Sequence Flow
 
-### 5.1. Hierarchical Multi-Agent Topology
+### 5.1. System & Multi-Agent Architecture Topologies
+
+![Figure 1: System Architecture Topology](./docs/assets/hr_agent_architecture.jpg)
+
+![Figure 2: Hierarchical Multi-Agent Architecture](./docs/assets/multi_agent_architecture.jpg)
+
+### 5.2. Multi-Agent Hierarchy Decomposition
 The workload is decomposed across 1 Primary Coordinator, 3 Domain Specialists, and 1 Security Gateway:
 
 ```mermaid
@@ -203,7 +209,9 @@ flowchart TD
     end
 ```
 
-### 5.2. Cross-System Communication Sequence (UC-2.2 Medical Leave)
+### 5.3. Cross-System Communication Sequence (UC-2.2 Medical Leave)
+
+![Figure 3: Medical Leave Sequence](./docs/assets/medical_leave_sequence.jpg)
 
 ```mermaid
 sequenceDiagram
@@ -299,6 +307,8 @@ sequenceDiagram
 ---
 
 ## 8. Tracer-Bullet Implementation Roadmap (Tickets 01–08)
+
+![Figure 7: Tracer-Bullet Roadmap](./docs/assets/tracer_bullet_roadmap.jpg)
 
 The project is decomposed into 8 vertical tracer-bullet slices ready for Test-Driven Development (TDD):
 
@@ -471,6 +481,8 @@ To ensure zero ambiguous storage requirements and guarantee compliance with glob
 
 ### 11.1. Entity-Relationship Diagram (ERD)
 
+![Figure 4: Database ERD](./docs/assets/database_erd.jpg)
+
 ```mermaid
 erDiagram
     EMPLOYEE_SESSION ||--o{ CONVERSATION_TURN : contains
@@ -597,6 +609,8 @@ To guarantee zero unhandled runtime crashes and deterministic user experience du
 
 ## 13. Real-Time Policy Document Synchronization Pipeline
 
+![Figure 5: Policy Sync Pipeline](./docs/assets/policy_sync_pipeline.jpg)
+
 To eliminate the risk of stale RAG answers when HR guidelines or benefits change, the architecture implements an automated, event-driven synchronization engine.
 
 ```mermaid
@@ -707,6 +721,8 @@ resource "google_cloud_run_v2_service" "primary_orchestrator" {
 
 ### 15.2. CI/CD Deployment Pipeline Stages
 
+![Figure 6: CI/CD Pipeline](./docs/assets/cicd_pipeline.jpg)
+
 ```mermaid
 flowchart LR
     GitPush["1. Git Push / PR<br>(main / feature)"] --> TDD["2. TDD and Linter<br>(pytest, ruff, black)"]
@@ -788,6 +804,8 @@ A structured assessment of technical, operational, security, and organizational 
 ---
 
 ## 18. Strategic Business Roadmap & Future State Vision (Phases 1–3)
+
+![Figure 8: Strategic Business Roadmap](./docs/assets/strategic_roadmap.jpg)
 
 The HR Agentic Solution is architected as an extensible foundation designed to scale from MVP 1 to enterprise-wide autonomous operations:
 
