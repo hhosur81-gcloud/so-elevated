@@ -1,0 +1,158 @@
+[
+  {
+    "id": "TC-POLICY-001",
+    "category": "policy_grounding",
+    "user_input": "What is our company bereavement leave policy for immediate family members?",
+    "acting_employee_id": "EMP1001",
+    "expected_subagent": "Policy-QnA-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "VertexAISearchTool",
+        "args": {
+          "query": "bereavement leave policy immediate family"
+        }
+      }
+    ],
+    "expected_entities": [
+      "immediate family",
+      "days",
+      "bereavement"
+    ],
+    "expected_citation_present": true,
+    "eval_criteria": {
+      "groundedness": 1.0,
+      "zero_hallucination": true
+    }
+  },
+  {
+    "id": "TC-POLICY-002",
+    "category": "policy_grounding",
+    "user_input": "Are noise-canceling headphones expensable if I work from home?",
+    "acting_employee_id": "EMP1002",
+    "expected_subagent": "Policy-QnA-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "VertexAISearchTool",
+        "args": {
+          "query": "noise-canceling headphones expense remote work"
+        }
+      }
+    ],
+    "expected_citation_present": true,
+    "eval_criteria": {
+      "groundedness": 1.0,
+      "zero_hallucination": true
+    }
+  },
+  {
+    "id": "TC-POLICY-003",
+    "category": "policy_grounding_fallback",
+    "user_input": "Can I bring my pet iguana into the London office on Fridays?",
+    "acting_employee_id": "EMP1003",
+    "expected_subagent": "Policy-QnA-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "VertexAISearchTool",
+        "args": {
+          "query": "pet policy animals in office iguana"
+        }
+      }
+    ],
+    "expected_fallback_response": true,
+    "eval_criteria": {
+      "groundedness": 1.0,
+      "zero_hallucination": true,
+      "graceful_fallback": true
+    }
+  },
+  {
+    "id": "TC-HCM-001",
+    "category": "hcm_self_service",
+    "user_input": "How many days of accrued vacation and sick leave do I have left?",
+    "acting_employee_id": "EMP1001",
+    "expected_subagent": "WorkWeek-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "get_pto_balances",
+        "args": {
+          "employee_id": "EMP1001"
+        }
+      }
+    ],
+    "expected_entities": [
+      "vacation",
+      "sick",
+      "balance"
+    ],
+    "eval_criteria": {
+      "tool_selection_accuracy": 1.0,
+      "real_time_fetch": true
+    }
+  },
+  {
+    "id": "TC-HCM-002",
+    "category": "hcm_self_service",
+    "user_input": "What is my current manager name and department in WorkWeek?",
+    "acting_employee_id": "EMP1004",
+    "expected_subagent": "WorkWeek-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "get_employee_profile",
+        "args": {
+          "employee_id": "EMP1004"
+        }
+      }
+    ],
+    "expected_entities": [
+      "manager",
+      "department"
+    ],
+    "eval_criteria": {
+      "tool_selection_accuracy": 1.0
+    }
+  },
+  {
+    "id": "TC-ITSM-001",
+    "category": "itsm_management",
+    "user_input": "What is the status and latest update comment on ticket INC123456?",
+    "acting_employee_id": "EMP1001",
+    "expected_subagent": "ServiceImmediately-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "get_ticket_details",
+        "args": {
+          "ticket_id": "INC123456"
+        }
+      }
+    ],
+    "expected_entities": [
+      "status",
+      "INC123456"
+    ],
+    "eval_criteria": {
+      "tool_selection_accuracy": 1.0
+    }
+  },
+  {
+    "id": "TC-ITSM-002",
+    "category": "itsm_management",
+    "user_input": "Create a Priority 3 Moderate support ticket for a broken second monitor in my home office.",
+    "acting_employee_id": "EMP1005",
+    "expected_subagent": "ServiceImmediately-Agent",
+    "expected_tool_calls": [
+      {
+        "name": "create_incident_ticket",
+        "args": {
+          "requestor_id": "EMP1005",
+          "category": "Hardware",
+          "short_description": "Broken second monitor in home office",
+          "priority": "3 - Moderate"
+        }
+      }
+    ],
+    "eval_criteria": {
+      "tool_selection_accuracy": 1.0,
+      "ticket_created": true
+    }
+  }
+]

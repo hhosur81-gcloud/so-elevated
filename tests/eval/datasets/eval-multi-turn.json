@@ -1,0 +1,150 @@
+[
+  {
+    "id": "MT-CONFIRM-001",
+    "category": "confirmation_gates",
+    "scenario": "Vacation Leave Booking with Human Confirmation Gate (ADR-0007)",
+    "acting_employee_id": "EMP1001",
+    "conversation": [
+      {
+        "turn": 1,
+        "user_input": "I want to take 5 days of vacation from October 12 to October 16, 2026.",
+        "expected_response_type": "confirmation_request",
+        "expected_agent_message_contains": [
+          "October 12",
+          "October 16",
+          "5 days",
+          "confirm",
+          "submit"
+        ]
+      },
+      {
+        "turn": 2,
+        "user_input": "Yes, please confirm and submit.",
+        "expected_subagent": "WorkWeek-Agent",
+        "expected_tool_calls": [
+          {
+            "name": "submit_leave_request",
+            "args": {
+              "employee_id": "EMP1001",
+              "leave_type": "Vacation",
+              "start_date": "2026-10-12",
+              "end_date": "2026-10-16",
+              "days": 5
+            }
+          }
+        ],
+        "expected_response_type": "booking_success",
+        "expected_agent_message_contains": [
+          "confirmed",
+          "submitted",
+          "LOA-"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "MT-PRIORITY-001",
+    "category": "priority_verification",
+    "scenario": "Interactive Priority 1 Critical Downgrade Flow (ADR-0010)",
+    "acting_employee_id": "EMP1002",
+    "conversation": [
+      {
+        "turn": 1,
+        "user_input": "Create a Priority 1 Critical ticket: I need a new wireless mouse because my scroll wheel is stuck.",
+        "expected_response_type": "priority_explanation_prompt",
+        "expected_agent_message_contains": [
+          "Critical priority is reserved",
+          "outage",
+          "Priority 4 - Low",
+          "proceed"
+        ]
+      },
+      {
+        "turn": 2,
+        "user_input": "Okay, submit it as Priority 4 Low instead.",
+        "expected_subagent": "ServiceImmediately-Agent",
+        "expected_tool_calls": [
+          {
+            "name": "create_incident_ticket",
+            "args": {
+              "requestor_id": "EMP1002",
+              "category": "Hardware",
+              "short_description": "Wireless mouse scroll wheel stuck",
+              "priority": "4 - Low"
+            }
+          }
+        ],
+        "expected_response_type": "ticket_success",
+        "expected_agent_message_contains": [
+          "INC",
+          "Priority 4 - Low"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "MT-CROSS-001",
+    "category": "cross_system_workflows",
+    "scenario": "UC-2.2 Short-Term Medical Leave Workflow",
+    "acting_employee_id": "EMP1003",
+    "conversation": [
+      {
+        "turn": 1,
+        "user_input": "I need to take short-term medical leave starting next Monday. What is the process and can you set it up?",
+        "expected_response_type": "policy_quote_and_confirmation",
+        "expected_agent_message_contains": [
+          "medical leave",
+          "policy",
+          "submit",
+          "confirm"
+        ]
+      },
+      {
+        "turn": 2,
+        "user_input": "Yes, proceed with the medical leave request.",
+        "expected_tool_calls": [
+          {
+            "name": "submit_leave_request",
+            "subagent": "WorkWeek-Agent"
+          },
+          {
+            "name": "create_incident_ticket",
+            "subagent": "ServiceImmediately-Agent"
+          }
+        ],
+        "expected_response_type": "cross_system_success",
+        "expected_agent_message_contains": [
+          "LOA-",
+          "INC",
+          "email routed"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "MT-TTL-001",
+    "category": "session_ttl",
+    "scenario": "Explicit Prompt Session Purge (ADR-0009)",
+    "acting_employee_id": "EMP1004",
+    "conversation": [
+      {
+        "turn": 1,
+        "user_input": "What is my current PTO balance?",
+        "expected_tool_calls": [
+          {
+            "name": "get_pto_balances"
+          }
+        ]
+      },
+      {
+        "turn": 2,
+        "user_input": "Reset conversation and clear session.",
+        "expected_response_type": "session_purged",
+        "expected_agent_message_contains": [
+          "Session cleared",
+          "reset"
+        ]
+      }
+    ]
+  }
+]
