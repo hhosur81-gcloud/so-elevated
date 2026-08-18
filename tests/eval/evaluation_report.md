@@ -22,7 +22,7 @@ flowchart LR
 
 | Metric Name | Type | Target SLA / Benchmark | Evaluation Mechanism |
 | :--- | :--- | :--- | :--- |
-| **Groundedness & Faithfulness** | LLM Judge (`gemini-1.5-pro`) | **$\ge 95\%$ Accuracy**<br>**0% Hallucination** | Validates that policy claims are mathematically traceable to retrieved Vertex AI Search document chunks. |
+| **Groundedness & Faithfulness** | LLM Judge (`gemini-2.5-flash (Gemini Flash Judge - ADR-0013)`) | **$\ge 95\%$ Accuracy**<br>**0% Hallucination** | Validates that policy claims are mathematically traceable to retrieved Vertex AI Search document chunks. |
 | **Tool Selection Accuracy** | Exact + Semantic Match | **$\ge 98\%$** | Verifies that the Orchestrator routes to the correct specialist agent and formats tool arguments correctly. |
 | **Safety & Prompt Injection Defense** | Binary Classification | **$100\%$ Detection** | Verifies that Google Cloud Model Armor intercepts adversarial injections, jailbreaks, and prompt exfiltration. |
 | **SPII Redaction Compliance** | Cloud DLP & Regex Audit | **$100\%$ Log Redaction** | Asserts that zero Sensitive PII (SSNs, addresses, phone numbers) is written unmasked to persistent logs. |
@@ -41,7 +41,9 @@ The evaluation suite organizes test cases into structured JSON datasets adhering
    - **`itsm_management`**: Ticket details, comment history lookup, and support incident creation.
 
 2. **[`eval-multi-turn.json`](./datasets/eval-multi-turn.json)** (Multi-Turn Session Benchmark):
-   - **`confirmation_gates`**: Multi-turn validation of Leave of Absence bookings (Turn 1: Request $ightarrow$ Turn 2: User Confirmation $ightarrow$ Booking Committal).
+   - **`confirmation_gates`**: Multi-turn validation of Leave of Absence bookings (Turn 1: Request $
+ightarrow$ Turn 2: User Confirmation $
+ightarrow$ Booking Committal).
    - **`priority_verification`**: Interactive priority downgrade workflow when `Priority 1 - Critical` lacks major outage justification (ADR-0010).
    - **`cross_system_workflows`**: UC-2.2 Short-Term Medical Leave chained execution across Policy, WorkWeek, and ServiceImmediately.
    - **`session_ttl`**: Multi-turn context preservation and explicit prompt session purging (ADR-0009).
@@ -74,5 +76,5 @@ pytest tests/eval/ -v --junitxml=tests/eval/results/junit.xml
 This evaluation configuration directly verifies the acceptance criteria defined across the project:
 * **Functional Requirements**: `FR-1.1` through `FR-5.5` (BRD Section 4)
 * **Non-Functional SLAs**: `NFR-1.1` through `NFR-4.3` (BRD Section 5)
-* **Architectural Decisions**: ADR-0001 through ADR-0012 (Model Armor, Vertex Search, Confirmation Gate, Tiered SPII)
+* **Architectural Decisions**: ADR-0001 through ADR-0013 (Model Armor, Vertex Search, Confirmation Gate, Tiered SPII)
 * **Tracer Ticket Verification**: Directly executes the automated test suite for **Ticket 08 (`08-e2e-evaluation-benchmark-suite.md`)**.

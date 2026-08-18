@@ -3,7 +3,7 @@
 [![Google Cloud Vertex AI](https://img.shields.io/badge/Google%20Cloud-Vertex%20AI%20ADK-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/vertex-ai)
 [![Security: Model Armor](https://img.shields.io/badge/Security-Model%20Armor%20%2B%20Cloud%20DLP-34A853?logo=googlecloud&logoColor=white)](https://cloud.google.com/security-command-center)
 [![Policy RAG: Vertex AI Search](https://img.shields.io/badge/Grounding-Vertex%20AI%20Search-FBBC04?logo=googlecloud&logoColor=white)](https://cloud.google.com/generative-ai-app-builder)
-[![Architecture: ADRs](https://img.shields.io/badge/Architecture-12%20ADRs%20Approved-1A73E8)](./docs/adr/)
+[![Architecture: ADRs](https://img.shields.io/badge/Architecture-13%20ADRs%20Approved-1A73E8)](./docs/adr/)
 [![Tickets: ready-for-agent](https://img.shields.io/badge/Implementation-8%20Tracer%20Tickets%20Ready-EA4335)](./.scratch/hr-agentic-mvp1/issues/)
 
 A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI Agent Development Kit (ADK)** and secured by **Google Cloud Model Armor**. It automates Tier-1 employee HR/IT inquiries, enforces zero-trust identity provenance (Signed JWTs), and orchestrates complex cross-system workflows across **WorkWeek (HCM)** and **ServiceImmediately (ITSM)** with strict semantic grounding against official corporate policy documents in **Vertex AI Search**.
@@ -19,7 +19,7 @@ A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI A
 * 🏗️ **[Technical Feature Specification (35 User Stories)](./.scratch/hr-agentic-mvp1/spec.md)**
 * 🤖 **[Multi-Agent Architecture & Scope Specification](./docs/multi_agent_architecture.md)**
 * 📖 **[Domain Glossary (CONTEXT.md)](./CONTEXT.md)**
-* 🏛️ **[Architectural Decision Records (ADRs 0001–0012)](./docs/adr/)**
+* 🏛️ **[Architectural Decision Records (ADRs 0001–0013)](./docs/adr/)**
 * 🎯 **[Tracer-Bullet Implementation Tickets (01–08)](./.scratch/hr-agentic-mvp1/issues/)**
 
 ---
