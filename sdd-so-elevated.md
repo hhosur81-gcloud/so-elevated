@@ -601,11 +601,11 @@ To eliminate the risk of stale RAG answers when HR guidelines or benefits change
 
 ```mermaid
 flowchart LR
-    HRAdmin["HR Policy Author<br>(Google Drive / CMS)"] -->|Exports Approved PDF/MD| GCSBucket["Cloud Storage Bucket<br>(gs://hr-policy-repo-prod)"]
-    GCSBucket -->|GCS Object Change Notification| Eventarc["Cloud Eventarc Trigger"]
-    Eventarc -->|Executes Incremental Import| IngestFunc["Cloud Ingestion Service<br>(Cloud Run)"]
-    IngestFunc -->|Imports & Chunks Document| VertexSearch["Vertex AI Search Datastore<br>(Discovery Engine)"]
-    VertexSearch -->|Live Index Ready (<60s)| PolicyAgent["Policy Q&A Specialist Agent"]
+    HRAdmin["HR Policy Author<br>(Google Drive / CMS)"] -->|"Exports Approved PDF/MD"| GCSBucket["Cloud Storage Bucket<br>(gs://hr-policy-repo-prod)"]
+    GCSBucket -->|"GCS Object Change Notification"| Eventarc["Cloud Eventarc Trigger"]
+    Eventarc -->|"Executes Incremental Import"| IngestFunc["Cloud Ingestion Service<br>(Cloud Run)"]
+    IngestFunc -->|"Imports and Chunks Document"| VertexSearch["Vertex AI Search Datastore<br>(Discovery Engine)"]
+    VertexSearch -->|"Live Index Ready (under 60s)"| PolicyAgent["Policy Q&A Specialist Agent"]
 ```
 
 ### 13.1. Ingestion Pipeline Specifications
@@ -709,11 +709,11 @@ resource "google_cloud_run_v2_service" "primary_orchestrator" {
 
 ```mermaid
 flowchart LR
-    GitPush["1. Git Push / PR<br>(main / feature)"] --> TDD["2. TDD & Linter<br>(pytest, ruff, black)"]
-    TDD --> EvalGate["3. agents-cli Gate<br>(Gemini Flash Judge<br>&ge;95% Grounding, 100% Safety)"]
-    EvalGate --> IaCScan["4. Terraform Plan<br>& Security Scan (tfsec)"]
-    IaCScan --> Canary["5. Blue/Green Canary<br>(Cloud Run 10% -> 100%)"]
-    Canary --> Live["6. Production Live<br>+ SCC Monitoring"]
+    GitPush["1. Git Push / PR<br>(main / feature)"] --> TDD["2. TDD and Linter<br>(pytest, ruff, black)"]
+    TDD --> EvalGate["3. agents-cli Gate<br>(Gemini Flash Judge<br>95%+ Grounding, 100% Safety)"]
+    EvalGate --> IaCScan["4. Terraform Plan<br>and Security Scan (tfsec)"]
+    IaCScan --> Canary["5. Blue/Green Canary<br>(Cloud Run 10% to 100%)"]
+    Canary --> Live["6. Production Live<br>and SCC Monitoring"]
 ```
 
 * **Stage 1 (Code Quality)**: Executes unit tests across all domain models and mock fixtures.
