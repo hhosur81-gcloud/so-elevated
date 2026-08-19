@@ -533,8 +533,13 @@ To provide transparent cost governance and measurable Return on Investment (ROI)
 
 | Cost Component | Pricing Metric / Unit | Usage per 1,000 Inquiries | Estimated Cost (USD) |
 | :--- | :--- | :--- | :--- |
+<<<<<<< HEAD
 | **LLM Inference (Gemini 2.0 Flash)** | $0.10 / 1M Input Tokens<br>$0.40 / 1M Output Tokens | ~1.5M Input Tokens<br>~400K Output Tokens | $0.15<br>$0.16 |
 | **Repository OKF Policy Storage** | Local repository filesystem / container image | 100 Policy Documents / Bundles | $0.00 (Included) |
+=======
+| **LLM Inference (Gemini 3.7 Flash)** | $0.10 / 1M Input Tokens<br>$0.40 / 1M Output Tokens | ~1.5M Input Tokens<br>~400K Output Tokens | $0.15<br>$0.16 |
+| **Google Cloud Vertex AI Search** | $2.00 / 1,000 Search Queries | 600 Policy Searches | $1.20 |
+>>>>>>> a54a7b3 (fix(finops): standardize model inference and FinOps cost models on Gemini 3.7 Flash)
 | **Google Cloud Model Armor** | $0.50 / 10,000 Request Inspections | 2,000 (Ingress + Egress) | $0.10 |
 | **Serverless Compute (Cloud Run)** | $0.00002400 / vCPU-sec<br>$0.00000250 / GiB-sec | ~800 vCPU-seconds | $0.02 |
 | **Cloud DLP Inspection & Cloud Storage** | InfoType inspection / GB | Storage & Logs (<1 GB) | $0.01 |
@@ -870,7 +875,7 @@ A structured assessment of technical, operational, security, and organizational 
 | **RSK-05** | **Data Integrity** | Partial transaction failure during cross-system workflow (UC-2.2). | 3 | 3 | **Medium (9)** | Forward recovery pattern (ADR-0004): retain successful records + queue sync task in `pending_sync_tasks`. | Agent Lead | Nightly reconciliation cron + automated HR support notification ticket. |
 | **RSK-06** | **Organizational** | Employee resistance or lack of trust in virtual assistant accuracy. | 3 | 3 | **Medium (9)** | Mandatory clickable deep-link citations on all policy claims + explicit confirmation gates on leave bookings. | Change Mgmt / HR | Escalation button allowing immediate transfer to human HR partner. |
 | **RSK-07** | **Security** | Unauthorized tool execution after employee role revocation. | 2 | 4 | **Medium (8)** | Real-time IdP webhook listener (<500ms SLA) + dynamic query-time vector ACL filtering. | Identity Architect | In-memory session eviction rejecting in-flight JWTs with 401 Unauthorized. |
-| **RSK-08** | **FinOps** | Uncontrolled LLM token consumption due to conversational looping. | 2 | 3 | **Medium (6)** | Hard ceiling of 10 turns per session + 15m idle TTL + Gemini 2.0 Flash cost optimization. | FinOps Lead | Automated Cloud Billing budget alerts at 80% and 100% monthly spend thresholds. |
+| **RSK-08** | **FinOps** | Uncontrolled LLM token consumption due to conversational looping. | 2 | 3 | **Medium (6)** | Hard ceiling of 10 turns per session + 15m idle TTL + Gemini 3.7 Flash cost optimization. | FinOps Lead | Automated Cloud Billing budget alerts at 80% and 100% monthly spend thresholds. |
 
 ---
 
