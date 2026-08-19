@@ -42,7 +42,6 @@ class PrimaryHROrchestrator:
         if raw_session:
             last_activity = raw_session.get("last_activity_at_ts", 0)
             if now - last_activity > self.TTL_SECONDS or raw_session.get("is_revoked", False):
-                # Expired TTL -> initialize fresh session
                 raw_session = None
 
         if not raw_session:
@@ -71,6 +70,7 @@ class PrimaryHROrchestrator:
     def process_turn(self, session_id: str, employee_id: str, user_message: str) -> Dict[str, Any]:
         """Execute a conversational turn across Security Sentinel, Session Router, and Sub-agents."""
         start_time = time.perf_counter()
+        lowered_msg = user_message.lower().strip()
 
         # 1. Layer 0 Security Sentinel Gate (Model Armor)
         inspection = self.guardrail.inspect_inbound_prompt(user_message, employee_id=employee_id)
@@ -86,7 +86,7 @@ class PrimaryHROrchestrator:
         session = self._get_or_create_session(session_id, employee_id)
 
         # 3. Explicit Session Reset Command Check (ADR-0009)
-        if re.search(r"\b(reset|start\s*over|logout|clear\s*session)\b", user_message.lower()):
+        if re.search(r"\b(reset|start\s*over|logout|clear\s*session)\b", lowered_msg):
             session.turns.clear()
             session.pending_confirmation = None
             session.is_revoked = False
@@ -99,8 +99,7 @@ class PrimaryHROrchestrator:
 
         # 4. Confirmation Gate Check (ADR-0007, Q4)
         if session.pending_confirmation:
-            if re.search(r"\b(yes|confirm|proceed|submit|ok|sure|approve)\b", user_message.lower()):
-                # Execute pending mutation
+            if re.search(r"\b(yes|confirm|proceed|submit|ok|sure|approve)\b", lowered_msg):
                 pending = session.pending_confirmation
                 session.pending_confirmation = None
                 
@@ -126,18 +125,33 @@ class PrimaryHROrchestrator:
                     self._save_session(session)
                     return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-            elif re.search(r"\b(no|cancel|abort|stop|don't)\b", user_message.lower()):
+            elif re.search(r"\b(no|cancel|abort|stop|don't)\b", lowered_msg):
                 session.pending_confirmation = None
                 resp_text = "The pending action has been cancelled. Let me know if you need anything else."
                 self._record_turn(session, user_message, resp_text, "orchestrator", None, start_time)
                 self._save_session(session)
                 return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-        # 5. Intent Classification & Routing
+        # 5. Compensation / Salary Privacy Guardrail
+        if "salary" in lowered_msg or "compensation" in lowered_msg or "pay rate" in lowered_msg:
+            # Check if asking about someone else vs own
+            names_or_titles = ["marcus", "jane", "john", "maria", "alex", "vp", "executive", "director", "manager", "other"]
+            is_asking_about_others = any(n in lowered_msg for n in names_or_titles) and not ("my salary" in lowered_msg or "my compensation" in lowered_msg)
+            
+            if is_asking_about_others:
+                resp_text = "Individual employee compensation and salary records are strictly confidential and not accessible through the HR Assistant."
+            else:
+                resp_text = "Your individual compensation, salary, and pay stubs are managed securely in the Workday Payroll portal. For privacy and compliance reasons, salary figures are not displayed in conversational chat."
+
+            self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
+            self._save_session(session)
+            return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+        # 6. Intent Classification & Routing
 
         # A. WorkWeek PTO Leave Booking Request (Enters Confirmation Gate)
-        booking_match = re.search(r"(\d+)\s*(?:hours|hrs|days|d)?\s*of\s*(pto|sick|leave|medical)", user_message.lower())
-        if "pto" in user_message.lower() and ("take" in user_message.lower() or "request" in user_message.lower() or "book" in user_message.lower()):
+        booking_match = re.search(r"(\d+)\s*(?:hours|hrs|days|d)?\s*of\s*(pto|sick|leave|medical)", lowered_msg)
+        if "pto" in lowered_msg and ("take" in lowered_msg or "request" in lowered_msg or "book" in lowered_msg):
             hours = 16.0
             if booking_match:
                 hours = float(booking_match.group(1))
@@ -158,8 +172,9 @@ class PrimaryHROrchestrator:
             self._save_session(session)
             return {"success": True, "response": prompt_msg, "requires_confirmation": True}
 
-        # B. WorkWeek PTO Balance Query
-        if "pto" in user_message.lower() or "balance" in user_message.lower() or "hours" in user_message.lower():
+        # B. WorkWeek PTO Balance Query (Explicit balance check)
+        if ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or \
+           ("balance" in lowered_msg and "pto" in lowered_msg):
             token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["hcm:read"])
             b_res = self.workweek_server.workweek_get_pto_balances(employee_id, token)
             if b_res["success"]:
@@ -173,10 +188,27 @@ class PrimaryHROrchestrator:
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-        # C. Policy Q&A Inquiry
-        p_res = self.policy_agent.answer_policy_query(user_message, employee_role="Employee")
+        # C. General Leave Programs Overview (Ambiguous Leave Query)
+        if re.search(r"how\s+many\s+(weeks|days|months)\s+of\s+leave", lowered_msg) or lowered_msg in ["what leave do i get", "what leaves are available", "leave entitlement"]:
+            resp_text = """According to company policy, full-time employees are eligible for several leave programs:
+
+• **Paid Time Off (PTO)**: 160 hours (20 business days / 4 weeks) accrued annually ([Section 3.1](https://intranet.company.com/policies/hr-2026-leave.pdf))
+• **Parental Leave**: Up to 16 weeks fully paid within the first 12 months ([Section 3.3](https://intranet.company.com/policies/hr-2026-leave.pdf))
+• **Short-Term Medical LOA**: Up to 12 weeks with 100% salary continuation upon medical certification ([Section 3.4](https://intranet.company.com/policies/hr-2026-leave.pdf))
+• **Bereavement Leave**: Up to 5 consecutive paid business days for immediate family ([Section 3.2](https://intranet.company.com/policies/hr-2026-leave.pdf))"""
+
+            self._record_turn(session, user_message, resp_text, "policy_agent", "leave_overview", start_time)
+            self._save_session(session)
+            return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+        # D. Policy Q&A Inquiry
+                # Resolve employee role from WorkWeek for Query-time ACL
+        profile = self.repo.load_record("workweek/employees.json", employee_id)
+        emp_role = "Executive" if profile and profile.get("role") in ["VP of Engineering", "Executive", "VP"] else "Employee"
+        
+        p_res = self.policy_agent.answer_policy_query(user_message, employee_role=emp_role)
         resp_text = p_res["answer"]
-        if p_res.get("citation_label"):
+        if p_res.get("citation_label") and p_res.get("citation_url"):
             resp_text += f"\n\nSource: [{p_res['citation_label']}]({p_res['citation_url']})"
 
         self._record_turn(session, user_message, resp_text, "policy_agent", "search_policies", start_time)

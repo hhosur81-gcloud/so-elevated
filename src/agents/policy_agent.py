@@ -22,7 +22,7 @@ class PolicyAgent:
         if cached_result:
             return cached_result
 
-        # 2. Query Search Retriever (with Query-Time ACL Filtering)
+        # 2. Query Search Retriever (with Query-Time ACL Filtering & Weighted Scoring)
         search_results = self.retriever.search_policies(query, employee_role=employee_role)
 
         if not search_results:

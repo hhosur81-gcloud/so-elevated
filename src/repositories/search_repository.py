@@ -1,4 +1,4 @@
-"""Policy Search Retriever with Query-Time Role ACL Filtering (ADR-0002, ADR-0008, Section 14.3)."""
+"""Policy Search Retriever with Enhanced Relevance Scoring & Role ACL Filtering (ADR-0002, ADR-0008, Section 14.3)."""
 
 import os
 import re
@@ -6,7 +6,13 @@ from typing import Any, Dict, List, Optional
 
 
 class PolicySearchRetriever:
-    """Retrieves grounded policy chunks from local files or Vertex AI Search Datastore."""
+    """Retrieves grounded policy chunks with weighted section matching and zero-hallucination score thresholds."""
+
+    STOPWORDS = {
+        "how", "many", "days", "weeks", "months", "of", "do", "i", "get", "what", "is", "the", "a",
+        "for", "to", "in", "are", "can", "employee", "employees", "corporate", "office", "company",
+        "we", "my", "our", "you", "your", "tell", "me", "about", "there", "any", "have"
+    }
 
     def __init__(self, policy_dir: str = "fixtures/sample_policies"):
         self.policy_dir = policy_dir
@@ -24,7 +30,7 @@ class PolicySearchRetriever:
                 with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
 
-                # Parse simple frontmatter
+                # Parse frontmatter
                 metadata = {}
                 body = content
                 if content.startswith("---"):
@@ -56,28 +62,36 @@ class PolicySearchRetriever:
         return docs
 
     def search_policies(self, query: str, employee_role: str = "Employee") -> List[Dict[str, Any]]:
-        """Search policy chunks matching query and filtered by employee role (Query-time ACL)."""
-        query_words = set(re.findall(r"\w+", query.lower()))
+        """Search policy chunks with weighted title scoring and minimum confidence threshold."""
+        query_raw_words = re.findall(r"\w+", query.lower())
+        query_words = set(query_raw_words) - self.STOPWORDS
+
+        if not query_words:
+            return []
+
         results = []
 
         for doc in self._documents:
-            # Query-Time Vector ACL Filtering (Section 14.3)
+            # 1. Query-Time Role ACL Filtering (Section 14.3)
             auth_roles = doc.get("authorized_roles", [])
             if employee_role not in auth_roles and "All" not in auth_roles:
                 continue
 
-            doc_text = f"{doc['section_title']} {doc['content']}".lower()
-            doc_words = set(re.findall(r"\w+", doc_text))
-            overlap = query_words & doc_words
+            title_words = set(re.findall(r"\w+", doc["section_title"].lower())) - self.STOPWORDS
+            content_words = set(re.findall(r"\w+", doc["content"].lower())) - self.STOPWORDS
 
-            # Exclude common stopwords
-            stopwords = {"how", "many", "days", "of", "do", "i", "get", "what", "is", "the", "a", "for", "to", "in", "are", "can", "employee", "employees", "corporate", "office", "company", "we", "my", "our"}
-            meaningful_overlap = overlap - stopwords
+            title_matches = query_words & title_words
+            content_matches = query_words & content_words
 
-            if len(meaningful_overlap) >= 1:
-                score = float(len(meaningful_overlap)) / max(len(query_words - stopwords), 1)
+            # Weight title matches higher than incidental body matches
+            weighted_score = (len(title_matches) * 3.0) + len(content_matches)
+            max_possible = len(query_words) * 3.0
+            normalized_score = weighted_score / max_possible if max_possible > 0 else 0.0
+
+            # Strict relevance threshold: must match title keywords OR at least 2 distinct content words
+            if len(title_matches) >= 1 or len(content_matches) >= 2 or normalized_score >= 0.35:
                 results.append({
-                    "score": score,
+                    "score": normalized_score,
                     "doc_title": doc["doc_title"],
                     "url": doc["url"],
                     "section_title": doc["section_title"],
