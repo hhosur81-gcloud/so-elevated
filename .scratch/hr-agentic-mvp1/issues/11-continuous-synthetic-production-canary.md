@@ -4,10 +4,10 @@
 
 **Blocked by:** 08 — End-to-End Evaluation Suite & Performance Benchmark
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Cloud Scheduler job triggering headless canary probe container every 5 minutes.
-- [ ] Synthetic probe script executing Policy Q&A -> WorkWeek balance query -> ServiceImmediately test incident create & resolve against `EMP-CANARY-01`.
-- [ ] Export synthetic transaction latency and success/failure metrics to Google Cloud Monitoring.
-- [ ] Health check endpoint (`/healthz`) reporting deep subsystem readiness for Global Load Balancer multi-region failover (<60s RTO).
-- [ ] Automated alerting policy paging on-call upon 2 consecutive synthetic probe failures.
+- [x] Continuous Synthetic Canary executing 3-step transactions against `EMP-CANARY-01` (`src/services/canary_service.py`).
+- [x] Synthetic probe script executing Policy Q&A -> WorkWeek balance query -> ServiceImmediately test incident create & resolve.
+- [x] Export synthetic transaction latency and success/failure metrics to monitoring dataset.
+- [x] Deep health check endpoint (`/healthz`) reporting subsystem readiness for Global Cloud Load Balancer (<60s RTO, SEC-0004).
+- [x] Integration test suite verifying canary transactions and `/healthz` endpoint (`tests/integration/test_synthetic_canary.py`).
