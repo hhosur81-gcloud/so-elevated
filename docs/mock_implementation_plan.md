@@ -12,7 +12,7 @@ This plan translates the **25 Architecture Decision Records** (`ADR-0001`–`001
 ### Core TDD Principles (Matt Pocock Standard)
 1. **Vertical Slicing over Horizontal Layering**: Each ticket builds a runnable, end-to-end slice across all 3 tiers (Controller $\rightarrow$ Service $\rightarrow$ Repository) rather than building all models first, then all services, then all tests.
 2. **Public Seams Only**: Tests verify behavior strictly through public boundaries (MCP tool declarations, ADK agent handlers, HTTP endpoints). No private helper methods or database internals are mocked.
-3. **Stateful Seeded MCP Fixtures**: `workweek-mcp` and `serviceimmediately-mcp` run against realistic, in-memory SQLite fixtures with deterministic initial state (`EMP-1001` to `EMP-1005`), signed JWT origin verification, and idempotency key deduplication.
+3. **Stateful Seeded FileStore Fixtures**: `workweek-mcp` and `serviceimmediately-mcp` run against a structured **FileStore Repository Pattern** (`data/filestore/workweek/`, `data/filestore/serviceimmediately/`, `data/filestore/sessions/`) with atomic write-and-replace file locking (`filelock`), human-inspectable JSON state, signed JWT origin verification, and idempotency key deduplication.
 4. **Independent Test Truth**: Test assertions use independent fixed literals and expected domain contracts—never tautologically recomputing results the way the application code does.
 
 ---
@@ -43,7 +43,8 @@ elevate-hrproject/
 │   │   ├── forward_recovery_service.py # ADR-0004 Cross-System Resilience & Recovery
 │   │   └── semantic_cache_service.py   # ENG-0005 Redis Vector Cache & Model Cascader
 │   ├── repositories/                   # TIER 3: Data Access & Persistence
-│   │   ├── session_repository.py       # PostgreSQL/SQLite Employee Sessions & TTL
+│   │   ├── filestore_repository.py     # Atomic FileStore (File-Locked JSON Persistence)
+│   │   ├── session_repository.py       # Employee Sessions & TTL (FileStore/PostgreSQL)
 │   │   ├── audit_repository.py         # 90-Day Partitioned Security Audit Logs
 │   │   └── sync_task_repository.py     # Asynchronous DLQ Pending Sync Tasks
 │   └── mcp/                            # Model Context Protocol (MCP) Enterprise Servers
@@ -55,9 +56,14 @@ elevate-hrproject/
 │   ├── integration/                    # MCP Server IPC & ADK Sub-Agent Integration Tests
 │   ├── e2e/                            # End-to-End Cross-System Workflow Tests (UC-2.x)
 │   └── eval/                           # agents-cli Automated Evaluation Suite & Datasets
+├── data/
+│   └── filestore/                      # Live FileStore JSON Data Directory
+│       ├── workweek/employees.json     # Live WorkWeek Employee HCM records
+│       ├── serviceimmediately/tickets.json # Live Incident Tickets Store
+│       └── sessions/                   # Active Multi-Turn Session State JSONs
 ├── fixtures/
-│   ├── seed_workweek.json              # 5 Pre-seeded Employee HCM records
-│   ├── seed_serviceimmediately.json    # 5 Pre-seeded IT/HR Incident Tickets
+│   ├── seed_workweek.json              # Pristine Seed HCM Records (EMP-1001 to 1005)
+│   ├── seed_serviceimmediately.json    # Pristine Seed Incident Tickets
 │   └── sample_policies/                # Markdown/PDF Policy files for Local Search Mock
 └── pyproject.toml                      # Dependencies, Ruff, Pytest, Black configuration
 ```
@@ -121,7 +127,7 @@ flowchart TD
 ---
 
 ### 🔹 Ticket 03: WorkWeek HCM Model Context Protocol (MCP) Server
-* **Goal**: Build the dedicated `workweek-mcp` server exposing declarative tools over `stdio` and `SSE` backed by stateful SQLite enterprise fixtures (`ADR-0001`, `ENG-0001`, `ENG-0002`).
+* **Goal**: Build the dedicated `workweek-mcp` server exposing declarative tools over `stdio` and `SSE` backed by atomic FileStore enterprise fixtures (`data/filestore/workweek/employees.json`) (`ADR-0001`, `ENG-0001`, `ENG-0002`).
 * **Key Tools Exposed**:
   * `workweek_get_pto_balance(employee_id: str, jwt_token: str)`
   * `workweek_submit_leave_request(employee_id: str, start_date: str, end_date: str, leave_type: str, jwt_token: str, idempotency_key: str)`
@@ -134,7 +140,7 @@ flowchart TD
 ---
 
 ### 🔹 Ticket 04: ServiceImmediately ITSM Model Context Protocol (MCP) Server
-* **Goal**: Build the dedicated `serviceimmediately-mcp` server exposing declarative incident management tools with stateful ticket stores and Priority verification logic (`ADR-0001`, `ADR-0010`, `SEC-0005`).
+* **Goal**: Build the dedicated `serviceimmediately-mcp` server exposing declarative incident management tools with atomic FileStore ticket stores (`data/filestore/serviceimmediately/tickets.json`) and Priority verification logic (`ADR-0001`, `ADR-0010`, `SEC-0005`).
 * **Key Tools Exposed**:
   * `serviceimmediately_create_incident(employee_id: str, category: str, priority: str, description: str, jwt_token: str, idempotency_key: str)`
   * `serviceimmediately_get_ticket_status(ticket_id: str, jwt_token: str)`
@@ -185,7 +191,7 @@ flowchart TD
 ---
 
 ### 🔹 Ticket 08: `agents-cli` Automated Evaluation Suite & CI Quality Gate
-* **Goal**: Implement the automated evaluation harness (`eval_config.yaml`) running single-turn, multi-turn, and adversarial red-team benchmarks against the Gemini Flash automated judge (`ADR-0013`).
+* **Goal**: Implement the automated evaluation harness (`eval_config.yaml`) running single-turn, multi-turn, and structured 5-Category 50-Vector adversarial red-team benchmarks (Prompt Injections, Jailbreaks, PII Extraction, SSRF Tool Hijacking, Privilege Escalation) against the Gemini Flash automated judge (`ADR-0013`).
 * **Key Files to Create**:
   * `tests/eval/eval_config.yaml`
   * `tests/eval/run_eval.py`
@@ -250,3 +256,20 @@ Before launching code implementation, verify these prerequisites:
 > [!IMPORTANT]
 > **NO CODE HAS BEEN WRITTEN OR EXECUTED YET.**  
 > Please review this implementation blueprint. Once you are satisfied with the ticket breakdown, test seams, and architectural sequencing, click **Proceed** or provide feedback to initiate Ticket 01 development.
+
+
+---
+
+## 6. Socratic Grilling Alignment Summary (Matt Pocock Standard)
+
+During the interactive Socratic Grilling session, the following 7 core technical decisions were formally ratified:
+
+| Decision Area | Frontier Question | Ratified Architecture Standard |
+| :--- | :--- | :--- |
+| **Data Persistence** | Q1: Database vs. FileStore Mocking | **Structured FileStore Repository Pattern** with atomic JSON document storage (`data/filestore/`) for maximum human inspectability and instant fixture resets. |
+| **Policy Search Mock** | Q2: Offline Policy Retrieval | **High-fidelity Local Semantic Chunk Retriever** for offline unit/CI tests, with live Vertex Search integration tests gated via `--run-live-gcp`. |
+| **MCP Transport** | Q3: Inter-Process Communication | **In-process `StdioServerTransport` / Async Client** eliminating network port collision and socket timeouts during parallel CI runs. |
+| **Confirmation Gate** | Q4: State Machine Verification | **Sequential 2-turn dialogue simulation** via the ADK Session Runner verifying session persistence and state machine transitions. |
+| **FileStore Concurrency** | Q5: Thread & Process Safety | **Atomic write-and-replace** (`.tmp` &rarr; `os.replace`) paired with file locking (`filelock`), preventing corrupted JSON during parallel execution. |
+| **Red-Team Dataset** | Q6: Adversarial Benchmark Scope | **Structured 5-Category 50-Vector Matrix** in `eval-safety.json` with a 100% Zero-Tolerance CI block requirement. |
+| **Telemetry & FinOps** | Q7: OTel Tagging Granularity | **Domain-level tagging** on every sub-agent span (`subagent.domain`, `gemini.model`, `gemini.tokens`, `cost_usd`) in Google Cloud Trace. |
