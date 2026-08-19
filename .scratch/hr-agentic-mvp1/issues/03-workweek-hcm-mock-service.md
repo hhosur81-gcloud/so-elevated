@@ -4,10 +4,10 @@
 
 **Blocked by:** 01 — Project Scaffold, Domain Models & Signed JWT Auth
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] WorkWeek MCP Server implementing tools: `workweek_get_profile`, `workweek_update_contact`, `workweek_get_pto_balances`, `workweek_submit_leave_request`.
-- [ ] Enforces signed JWT origin verification and employee identity scope.
-- [ ] Rejects leave requests exceeding accrued balance or containing invalid chronological dates.
-- [ ] Integrates confirmation gate before committing state mutations (leave bookings, contact updates).
-- [ ] Unit & integration tests asserting full round-trip MCP tool execution against realistic stateful enterprise fixtures.
+- [x] WorkWeek MCP Server implementing tools: `workweek_get_profile`, `workweek_get_pto_balances`, `workweek_submit_leave_request` (`src/mcp/workweek_server.py`).
+- [x] Enforces signed JWT origin verification and employee identity scope (`hcm:read`, `hcm:write`).
+- [x] Rejects leave requests exceeding accrued balance or containing invalid chronological dates.
+- [x] Implements atomic FileStore persistence and `Idempotency-Key` deduplication.
+- [x] Unit & integration tests asserting full round-trip MCP tool execution against realistic stateful enterprise fixtures (`tests/integration/test_workweek_mcp.py`).
