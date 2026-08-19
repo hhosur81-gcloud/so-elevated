@@ -57,6 +57,17 @@ The system:
 33. As an enterprise security admin, I want active sessions to automatically expire after 15 minutes of inactivity, so that unattended terminals do not leak session context.
 34. As a QA engineer, I want all policy retrieval tests to execute strictly against canonical repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), so that tests validate authentic production retrieval behavior.
 35. As a developer, I want all mock services and agents to run with zero external mock leaks and full end-to-end type safety, so that the solution is robust and maintainable.
+36. As a security engineer, I want the agent to sign delegated JWTs using asymmetric Cloud KMS (ECDSA P-256) with dynamic JWKS discovery (SEC-0001).
+37. As a CISO, I want all agent, vector search, and MCP operations restricted to an enforced VPC Service Controls perimeter (SEC-0002).
+38. As a compliance officer, I want all vector indexes, policy files, and database partitions encrypted with Cloud KMS Customer Managed Encryption Keys (CMEK) (SEC-0003).
+39. As an enterprise operator, I want automated dual-region active-passive failover between us-central1 and us-east4 with RTO < 60s (SEC-0004).
+40. As a SOC analyst, I want high-severity prompt injection and data harvesting attacks streamed to Security Command Center (SCC) with automated Priority 1 security incidents generated in ServiceImmediately (SEC-0005).
+41. As a DevOps engineer, I want W3C traceparent context propagated across all agent hops and spans exported to Cloud Trace (SEC-0006).
+42. As a backend developer, I want domain schemas to use Pydantic Tolerant Reader patterns with SemVer 2.0.0 (ENG-0001).
+43. As a platform engineer, I want partial cross-system failure sync tasks queued to Cloud Tasks with Idempotency-Key headers and a 5-retry Dead Letter Queue (DLQ) (ENG-0002).
+44. As a database administrator, I want database schema migrations executed via Alembic using the Expand-and-Contract pattern (ENG-0004).
+45. As an enterprise architect, I want a Redis vector semantic cache (<50ms) for high-frequency static policy queries, paired with an automated 4-tier model fallback cascade from Gemini 3.7 to 3.6 to 3.0 to 2.5 Flash (ENG-0005).
+46. As a Site Reliability Engineer (SRE), I want an automated Cloud Scheduler canary probe executing end-to-end synthetic dialogs every 5 minutes against EMP-CANARY-01 (ENG-0006).
 
 ## Implementation Decisions
 

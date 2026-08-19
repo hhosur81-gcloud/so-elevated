@@ -17,7 +17,7 @@ A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI A
 * 📑 **[Google Material Styled Documentation (README.html)](./README.html)**
 * 📜 **[Google Apps Script Drive Deck Generator (create_google_slides.gs)](./docs/slides/create_google_slides.gs)**
 * 📋 **[Business Requirements Document (BRD)](./requirements/HR-Agentic-BRD.md)** ([HTML Preview](./requirements/HR-Agentic-BRD.html))
-* 🏗️ **[Technical Feature Specification (35 User Stories)](./.scratch/hr-agentic-mvp1/spec.md)**
+* 🏗️ **[Technical Feature Specification (46 User Stories)](./.scratch/hr-agentic-mvp1/spec.md)**
 * 🤖 **[Multi-Agent Architecture & Scope Specification](./docs/multi_agent_architecture.md)**
 * 📖 **[Domain Glossary (CONTEXT.md)](./CONTEXT.md)**
 * 🏛️ **[Architectural Decision Records (ADRs 0001–0013)](./docs/adr/)**
@@ -155,6 +155,6 @@ elevate-hrproject/
 │       └── create_google_slides.gs      # Google Apps Script Drive Importer
 └── .scratch/
     └── hr-agentic-mvp1/
-        ├── spec.md                      # Feature Specification (35 User Stories)
-        └── issues/                      # 8 Tracer-Bullet Tickets (01 through 08)
+        ├── spec.md                      # Feature Specification (46 User Stories)
+        └── issues/                      # 11 Tracer-Bullet Tickets (01 through 08)
 ```

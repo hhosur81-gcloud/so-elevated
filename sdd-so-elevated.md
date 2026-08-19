@@ -278,7 +278,7 @@ sequenceDiagram
 
 ---
 
-## 6. Complete Feature Specification (35 User Stories)
+## 6. Complete Feature Specification (46 User Stories)
 
 1. As an employee, I want to ask questions about company bereavement leave in natural language, so that I receive an immediate, strictly grounded answer quoting official policy.
 2. As an employee, I want to ask if noise-canceling headphones are an expensable item, so that I get a direct policy answer with a clickable citation to the expense guidelines document.
@@ -315,6 +315,17 @@ sequenceDiagram
 33. As an enterprise security admin, I want active sessions to automatically expire after 15 minutes of inactivity, so that unattended terminals do not leak session context.
 34. As a QA engineer, I want all policy retrieval tests to execute strictly against canonical repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), so that tests validate authentic production retrieval behavior.
 35. As a developer, I want all mock services and agents to run with zero external mock leaks and full end-to-end type safety, so that the solution is robust and maintainable.
+36. As a security engineer, I want the agent to sign delegated JWTs using asymmetric Cloud KMS (ECDSA P-256) with dynamic JWKS discovery (SEC-0001), so that private keys are never exposed in application memory or config files.
+37. As a CISO, I want all agent, vector search, and MCP operations restricted to an enforced VPC Service Controls perimeter (SEC-0002), so that unauthorized external egress and Server-Side Request Forgery (SSRF) data exfiltration are strictly blocked.
+38. As a compliance officer, I want all vector indexes, policy files, and database partitions encrypted with Cloud KMS Customer Managed Encryption Keys (CMEK) (SEC-0003), so that our organization maintains full cryptographic ownership and emergency shredding capabilities.
+39. As an enterprise operator, I want automated dual-region active-passive failover between us-central1 and us-east4 with RTO < 60s (SEC-0004), so that Tier-1 employee service remains available during regional cloud outages.
+40. As a SOC analyst, I want high-severity prompt injection and data harvesting attacks streamed to Security Command Center (SCC) with automated Priority 1 security incidents generated in ServiceImmediately (SEC-0005), so that the CIRT team can investigate attacks in real time.
+41. As a DevOps engineer, I want W3C traceparent context propagated across all agent hops and spans exported to Cloud Trace (SEC-0006), so that I can monitor latency breakdowns and exact token usage per sub-agent.
+42. As a backend developer, I want domain schemas to use Pydantic Tolerant Reader patterns with SemVer 2.0.0 (ENG-0001), so that upstream API field additions in WorkWeek or ServiceImmediately never crash active conversational sessions.
+43. As a platform engineer, I want partial cross-system failure sync tasks queued to Cloud Tasks with Idempotency-Key headers and a 5-retry Dead Letter Queue (DLQ) (ENG-0002), so that background recovery executes exactly once without request blocking.
+44. As a database administrator, I want database schema migrations executed via Alembic using the Expand-and-Contract pattern (ENG-0004), so that deployments apply non-blocking schema changes with zero downtime or session loss.
+45. As an enterprise architect, I want a Redis vector semantic cache (<50ms) for high-frequency static policy queries, paired with an automated 4-tier model fallback cascade from Gemini 3.7 to 3.6 to 3.0 to 2.5 Flash (ENG-0005), so that conversational availability is maintained during quota spikes.
+46. As a Site Reliability Engineer (SRE), I want an automated Cloud Scheduler canary probe executing end-to-end synthetic dialogs every 5 minutes against EMP-CANARY-01 (ENG-0006), so that backend degradations are alerted in < 5 minutes before employees notice.
 
 ---
 
@@ -333,10 +344,22 @@ sequenceDiagram
 | **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately MCP Server + Priority Guard | ADR-0001, ADR-0010 | State transition, duplicate detection & priority tests |
 | **FR-5.1–5.5** | Policy Document Q&A | Repository-Managed Open Knowledge Format (OKF) bundle (`knowledge/`) with metadata citations | ADR-0002, ADR-0008 | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
 | **UC-2.1–2.3** | Cross-System Orchestration | Cross-System Flow Engine with Forward Recovery | ADR-0004 | End-to-end workflow execution & failure recovery tests |
+| **SEC-1.1** | Asymmetric Cloud KMS & JWKS | Asymmetric ECDSA P-256 signing via Cloud KMS | SEC-0001 | Key rotation & JWKS signature validation tests |
+| **SEC-1.2** | VPC-SC Data Perimeter | Enforced VPC Service Controls perimeter | SEC-0002 | Perimeter egress restriction test suite |
+| **SEC-1.3** | CMEK Data Encryption | Cloud KMS HSM Customer Managed Keys | SEC-0003 | KMS key lifecycle & cryptographic shredding tests |
+| **SEC-1.4** | Multi-Region HA/DR Failover | Dual-Region Active-Passive deployment | SEC-0004 | Simulated regional failover & RTO benchmark (<60s) |
+| **SEC-1.5** | Real-Time Threat Escalation | Eventarc streaming to SCC Premium + P1 Incident | SEC-0005 | Injection payload alert & ticket creation tests |
+| **SEC-1.6** | Distributed Tracing & Token Profiling | OpenTelemetry W3C traceparent propagation | SEC-0006 | Cloud Trace span context & token count tests |
+| **ENG-1.1** | Schema Evolution & SemVer | Pydantic Tolerant Reader (extra="ignore") | ENG-0001 | Extra-field upstream schema mutation tests |
+| **ENG-1.2** | Asynchronous DLQ & Idempotency | Cloud Tasks worker with Idempotency-Key UUID | ENG-0002 | Deduplication & DLQ routing test suite |
+| **ENG-1.3** | Layered MVC Architecture | 3-Tier Layered MVC architecture | ENG-0003 | Component unit & isolation test suite |
+| **ENG-1.4** | Zero-Downtime DB Migrations | Alembic Expand-and-Contract pattern | ENG-0004 | Dual-version backward-compatibility tests |
+| **ENG-1.5** | Semantic Cache & Model Fallback | Redis Vector Cache + Gemini 3.7->2.5 Cascade | ENG-0005 | Cache hit latency (<50ms) & fallback cascade tests |
+| **ENG-1.6** | 24/7 Production Synthetic Canaries | 5-minute Cloud Scheduler canary worker | ENG-0006 | Synthetic probe SLA & alert threshold tests |
 
 ---
 
-## 8. Tracer-Bullet Implementation Roadmap (Tickets 01–08)
+## 8. Tracer-Bullet Implementation Roadmap (Tickets 01–11)
 
 ![Figure 7: Tracer-Bullet Roadmap](./docs/assets/tracer_bullet_roadmap.jpg)
 
@@ -414,6 +437,33 @@ The project is decomposed into 8 vertical tracer-bullet slices ready for Test-Dr
   - [ ] Negative security red-team injection tests (100% detection rate).
   - [ ] Strict Open Knowledge Format (OKF) policy grounding test suite.
   - [ ] End-to-end latency benchmark report confirming < 10s start latency and < 300ms safety scanning overhead.
+
+### Ticket 09: Cloud Tasks / PubSub Asynchronous DLQ & Idempotent Retry Worker
+* **Blocked by**: Ticket 01
+* **What it delivers**: Decoupled asynchronous worker subscribing to Google Cloud Tasks / PubSub for processing `pending_sync_tasks` with exponential backoff, mandatory `Idempotency-Key: <UUID>` header verification, and routing to a Dead Letter Queue (DLQ) after 5 failed retries (ADR-0004, ENG-0002).
+* **Acceptance Criteria**:
+  - [ ] Cloud Tasks queue client enqueuing failed cross-system steps with `Idempotency-Key` headers.
+  - [ ] Asynchronous Cloud Run worker consuming sync tasks with exponential backoff retry policy (10s to 300s).
+  - [ ] Idempotency deduplication table preventing duplicate leave bookings or ticket creations.
+  - [ ] Dead Letter Queue (DLQ) topic routing tasks failing >5 attempts with automated Cloud Monitoring P2 alerts.
+
+### Ticket 10: OpenTelemetry Distributed Tracing & SCC Threat Automation
+* **Blocked by**: Ticket 02, Ticket 06
+* **What it delivers**: OpenTelemetry (OTel) instrumentation propagating W3C `traceparent` context across all agent hops to Google Cloud Trace, paired with Eventarc streaming from Model Armor to Security Command Center (SCC) Premium and automated P1 security incident creation in ServiceImmediately (SEC-0005, SEC-0006).
+* **Acceptance Criteria**:
+  - [ ] OpenTelemetry middleware capturing sub-agent latency, Gemini token consumption, and Cloud DLP scan duration.
+  - [ ] Context propagation injector attaching W3C `traceparent` headers to all outbound MCP and REST tool calls.
+  - [ ] Eventarc subscriber forwarding Model Armor security violation events to Security Command Center (SCC) Premium.
+  - [ ] Automated security incident handler creating a Priority 1 Security Incident in ServiceImmediately for high-confidence injection attacks.
+
+### Ticket 11: 24/7 Continuous Synthetic Production Canary & Dual-Region HA Probes
+* **Blocked by**: Ticket 08
+* **What it delivers**: Automated Cloud Scheduler synthetic canary worker executing end-to-end multi-turn dialogs every 5 minutes against `EMP-CANARY-01`, streaming availability SLAs to Cloud Monitoring with Global Load Balancer health-check endpoints for dual-region failover (SEC-0004, ENG-0006).
+* **Acceptance Criteria**:
+  - [ ] Cloud Scheduler job triggering headless canary probe container every 5 minutes.
+  - [ ] Synthetic probe script executing Policy Q&A -> WorkWeek balance query -> ServiceImmediately test incident create & resolve against `EMP-CANARY-01`.
+  - [ ] Export synthetic transaction latency and success/failure metrics to Google Cloud Monitoring.
+  - [ ] Health check endpoint (`/healthz`) reporting deep subsystem readiness for Global Load Balancer multi-region failover (<60s RTO).
 
 ---
 
@@ -981,7 +1031,8 @@ src/
   - All new database columns must be created as `NULLABLE` or define constant defaults.
   - Adding indexes must utilize `CREATE INDEX CONCURRENTLY` in PostgreSQL to prevent table locks.
 * **Contract Phase Rules**:
-  - Legacy column deprecation requires a two-sprint migration cycle: (1) Ignore column in code $ightarrow$ (2) Drop column in subsequent migration after verifying zero queries in `pg_stat_statements`.
+  - Legacy column deprecation requires a two-sprint migration cycle: (1) Ignore column in code $
+ightarrow$ (2) Drop column in subsequent migration after verifying zero queries in `pg_stat_statements`.
 
 ### 20.5. ENG-0005: Redis Vector Semantic Cache & 4-Tier Gemini Flash Fallback Cascade
 * **Semantic Vector Cache**:
