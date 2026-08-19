@@ -18,9 +18,9 @@ class PolicySearchRetriever:
         if policy_dirs:
             self.policy_dirs = policy_dirs
         elif policy_dir:
-            self.policy_dirs = [policy_dir, "requirements/knowledge", "fixtures/sample_policies"]
+            self.policy_dirs = [policy_dir, "knowledge", "fixtures/sample_policies"]
         else:
-            self.policy_dirs = ["requirements/knowledge", "fixtures/sample_policies"]
+            self.policy_dirs = ["knowledge", "fixtures/sample_policies"]
 
         self._documents = self._load_all_policies()
 
