@@ -11,7 +11,7 @@ class ModelArmorGateway:
     """Layer 0 Security Sentinel inspecting inbound prompts and outbound completions."""
 
     INJECTION_PATTERNS = [
-        re.compile(r"ignore\s+(all\s+)?(previous|prior)\s+instructions", re.IGNORECASE),
+        re.compile(r"ignore\s+(all\s+)?(previous|prior\s+)?(instructions|rules|guidelines)", re.IGNORECASE),
         re.compile(r"system\s+prompt\s+override", re.IGNORECASE),
         re.compile(r"you\s+are\s+now\s+(developer\s*mode|dan|jailbreak)", re.IGNORECASE),
         re.compile(r"dan\s+mode\s+enabled", re.IGNORECASE),
