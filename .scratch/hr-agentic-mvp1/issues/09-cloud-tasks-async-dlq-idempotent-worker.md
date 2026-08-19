@@ -4,10 +4,10 @@
 
 **Blocked by:** 01 — Project Scaffold, Domain Models & Signed JWT Auth
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Cloud Tasks queue client (`hr-forward-recovery-queue`) enqueuing failed cross-system steps with `Idempotency-Key` headers.
-- [ ] Asynchronous Cloud Run worker consuming sync tasks with exponential backoff retry policy (10s to 300s).
-- [ ] SQLite/PostgreSQL idempotency deduplication table preventing duplicate leave bookings or ticket creations.
-- [ ] Dead Letter Queue (DLQ) topic routing tasks failing >5 attempts with automated Cloud Monitoring P2 alerts.
-- [ ] Integration test suite asserting exactly-once execution during simulated transient network faults.
+- [x] Cloud Tasks queue client (`hr-forward-recovery-queue`) enqueuing failed cross-system steps with `Idempotency-Key` headers (`src/services/task_queue_service.py`).
+- [x] Asynchronous Cloud Run worker consuming sync tasks with exponential backoff retry policy (1s to 300s).
+- [x] Idempotency deduplication table preventing duplicate leave bookings or ticket creations.
+- [x] Dead Letter Queue (DLQ) topic routing tasks failing >5 attempts with automated Cloud Monitoring P2 alerts.
+- [x] Integration test suite asserting exactly-once execution during simulated transient network faults (`tests/integration/test_cloud_tasks_dlq.py`).
