@@ -52,6 +52,14 @@ MOCK_USERS = {
         "department": "Engineering",
         "role": "Executive",
         "title": "VP of Engineering (Executive Clearance)"
+    },
+    "5": {
+        "employee_id": "EMP-436",
+        "name": "Skhadkikar Employee",
+        "email": "skhadkikar@google.com",
+        "department": "Global Solutions",
+        "role": "Employee",
+        "title": "Staff Solutions Engineer (Live Cloud SaaS Session)"
     }
 }
 
@@ -64,17 +72,20 @@ def select_persona():
     print(f"{BOLD}🔐 Select an Authenticated Enterprise Identity to Login:{RESET}")
     for k, u in MOCK_USERS.items():
         role_tag = f" {MAGENTA}[{u['role']}]{RESET}" if u['role'] == "Executive" else ""
-        print(f"  [{BOLD}{k}{RESET}] {u['name']:<14} ({u['employee_id']}) — {u['title']}{role_tag}")
-    print(f"  [{BOLD}5{RESET}] Custom Username & Password Login")
+        if u['employee_id'] == "EMP-436":
+            role_tag += f" {GREEN}[LIVE SAAS]{RESET}"
+        print(f"  [{BOLD}{k}{RESET}] {u['name']:<18} ({u['employee_id']}) — {u['title']}{role_tag}")
+    print(f"  [{BOLD}6{RESET}] Custom Username & Password Login")
     print(f"  [{BOLD}q{RESET}] Exit\n")
 
     while True:
-        choice = input(f"{BOLD}Select Identity (1-5 or q) > {RESET}").strip()
+        choice = input(f"{BOLD}Select Identity (1-6 or q) > {RESET}").strip()
         if choice.lower() in ["q", "exit", "quit"]:
             return None
         if choice in MOCK_USERS:
             return MOCK_USERS[choice]
-        if choice == "5":
+        if choice == "6":
+
             print(f"\n{DIM}Simulating Enterprise SSO (Okta / Google Workspace)...{RESET}")
             uname = input(f"{BOLD}Username / Corporate Email: {RESET}").strip()
             pwd = input(f"{BOLD}Password: {RESET}").strip()

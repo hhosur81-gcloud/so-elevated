@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from src.agents.policy_agent import PolicyAgent
 from src.config.security import JWTManager
+from src.config.settings import settings
+from src.mcp.remote_mcp_client import RemoteServiceImmediatelyClient, RemoteWorkWeekClient
 from src.mcp.serviceimmediately_server import ServiceImmediatelyMCPServer
 from src.mcp.workweek_server import WorkWeekMCPServer
 from src.models.session import ConversationTurn, PendingConfirmation, SessionState
@@ -33,6 +35,16 @@ class PrimaryHROrchestrator:
         self.policy_agent = PolicyAgent(policy_dir=policy_dir)
         self.workweek_server = WorkWeekMCPServer(jwt_manager=self.jwt_manager, repository=self.repo)
         self.itsm_server = ServiceImmediatelyMCPServer(jwt_manager=self.jwt_manager, repository=self.repo)
+        
+        # Remote FastMCP Client connection
+        self.remote_workweek = RemoteWorkWeekClient(
+            endpoint_url=settings.workweek_mcp_url,
+            token=settings.workweek_mcp_token
+        )
+        self.remote_itsm = RemoteServiceImmediatelyClient(
+            endpoint_url=settings.itsm_mcp_url,
+            token=settings.itsm_mcp_token
+        )
 
     def _get_or_create_session(self, session_id: str, employee_id: str) -> SessionState:
         """Retrieve existing active session state or initialize new one with TTL check."""
@@ -176,40 +188,57 @@ class PrimaryHROrchestrator:
 
         # B. WorkWeek PTO Balance Query (Explicit balance check)
         if ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or \
-           ("balance" in lowered_msg and "pto" in lowered_msg):
-            token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["hcm:read"])
-            b_res = self.workweek_server.workweek_get_pto_balances(employee_id, token)
-            if b_res["success"]:
-                pto_h = b_res["data"]["pto_balance_hours"]
-                sick_h = b_res["data"]["sick_leave_hours"]
-                resp_text = f"You currently have {pto_h} hours of PTO and {sick_h} hours of sick leave available."
+           ("balance" in lowered_msg and "pto" in lowered_msg) or \
+           ("leave balance" in lowered_msg or "vacation balance" in lowered_msg):
+            if employee_id == "EMP-436":
+                # Call live FastMCP Server
+                remote_res = self.remote_workweek.get_employee_balances(employee_id)
+                resp_text = remote_res.get("result", "Unable to retrieve balances from live WorkWeek server.")
             else:
-                resp_text = "I was unable to retrieve your PTO balances at this moment."
+                token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["hcm:read"])
+                b_res = self.workweek_server.workweek_get_pto_balances(employee_id, token)
+                if b_res["success"]:
+                    pto_h = b_res["data"]["pto_balance_hours"]
+                    sick_h = b_res["data"]["sick_leave_hours"]
+                    resp_text = f"You currently have {pto_h} hours of PTO and {sick_h} hours of sick leave available."
+                else:
+                    resp_text = "I was unable to retrieve your PTO balances at this moment."
 
             self._record_turn(session, user_message, resp_text, "workweek_agent", "workweek_get_pto_balances", start_time)
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
+        # Check ticket creation intent first
+        is_ticket_intent = any(w in lowered_msg for w in ["log a ticket", "log ticket", "create a ticket", "create ticket", "open a ticket", "open ticket", "file a ticket", "submit a ticket", "want to log a ticket", "need to log a ticket", "log a request", "submit a request"])
+
         # C. ITSM Ticket Lookup Query
-        ticket_match = re.search(r"\b(INC-[A-Z0-9]+|SEC-[A-Z0-9]+)\b", user_message, re.IGNORECASE)
-        if ticket_match and ("status" in lowered_msg or "check" in lowered_msg or "ticket" in lowered_msg):
-            t_id = ticket_match.group(1).upper()
-            token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:read"])
-            t_res = self.itsm_server.itsm_get_ticket(t_id, token)
-            if t_res["success"]:
-                t_data = t_res["data"]
-                resp_text = f"Ticket {t_data['ticket_id']} ({t_data['title']}): Status is **{t_data['status']}** (Priority: {t_data['priority']}, Assigned to: {t_data['assigned_to'] or 'Unassigned'})."
+        ticket_match = re.search(r"\b(INC[0-9]+|INC-[A-Z0-9]+|SEC-[A-Z0-9]+)\b", user_message, re.IGNORECASE)
+        is_ticket_lookup = (ticket_match and ("status" in lowered_msg or "check" in lowered_msg or "ticket" in lowered_msg)) or \
+                           ("ticket" in lowered_msg and ("list" in lowered_msg or "open" in lowered_msg or "my" in lowered_msg or "support" in lowered_msg or "status" in lowered_msg or "show" in lowered_msg)) or \
+                           ("tickets" in lowered_msg)
+        
+        if is_ticket_lookup and not is_ticket_intent:
+            if employee_id == "EMP-436":
+                # Call live FastMCP Server
+                remote_tix = self.remote_itsm.list_tickets(employee_id)
+                resp_text = remote_tix.get("result", "Unable to retrieve tickets from live ServiceImmediately server.")
             else:
-                resp_text = f"Unable to find ticket {t_id}. Please verify the ticket ID."
+                t_id = ticket_match.group(1).upper() if ticket_match else "INC-001"
+                token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:read"])
+                t_res = self.itsm_server.itsm_get_ticket(t_id, token)
+                if t_res["success"]:
+                    t_data = t_res["data"]
+                    resp_text = f"Ticket {t_data['ticket_id']} ({t_data['title']}): Status is **{t_data['status']}** (Priority: {t_data['priority']}, Assigned to: {t_data['assigned_to'] or 'Unassigned'})."
+                else:
+                    resp_text = f"Unable to find ticket {t_id}. Please verify the ticket ID."
 
             self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_get_ticket", start_time)
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
         # D. ITSM Ticket Creation Intent (IT/HR/Compliance Issue Logging)
-        is_ticket_intent = any(w in lowered_msg for w in ["log a ticket", "log ticket", "create a ticket", "create ticket", "open a ticket", "open ticket", "file a ticket", "submit a ticket", "want to log a ticket", "need to log a ticket", "log a request", "submit a request"])
-        
         if is_ticket_intent:
+
             # Check if user just said "I want to log a ticket" without details
             stripped_intent = re.sub(r"^(i\s+)?(want|need)\s+to\s+(log|create|open|file)\s+a?\s*ticket\.?$", "", lowered_msg).strip()
             if not stripped_intent:
@@ -236,6 +265,20 @@ class PrimaryHROrchestrator:
             elif "p4" in lowered_msg or "low" in lowered_msg:
                 priority = "P4"
 
+            if employee_id == "EMP-436":
+                # Call live FastMCP Server
+                p_label = "1 - Critical" if priority == "P1" else ("2 - High" if priority == "P2" else ("4 - Low" if priority == "P4" else "3 - Moderate"))
+                inc_res = self.remote_itsm.create_ticket(
+                    requested_by=employee_id,
+                    category=category,
+                    short_description=user_message,
+                    priority=p_label
+                )
+                resp_text = inc_res.get("result", f"Submitted ticket on live ServiceImmediately server.")
+                self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_create_incident", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
+
             token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:write"])
             inc_res = self.itsm_server.itsm_create_incident(
                 employee_id=employee_id,
@@ -245,6 +288,7 @@ class PrimaryHROrchestrator:
                 description=user_message,
                 bearer_token=token
             )
+
 
             if inc_res["success"]:
                 ticket_info = inc_res["data"]
