@@ -118,8 +118,11 @@ To address enterprise architectural review, the table below documents the evalua
 | **Standardization & Ecosystem** | Proprietary custom REST schemas requiring bespoke documentation. | Open industry standard (Model Context Protocol) supported across modern AI ecosystems. | **MCP Selected**: Future-proof standard aligning with modern Google Cloud AI architectures. |
 
 * **Context**: The agent requires access to WorkWeek (HCM) and ServiceImmediately (ITSM) for profiles, PTO balances, and incident tracking without dependencies on live third-party production credentials during development and testing.
-* **Decision**: We implement dedicated Model Context Protocol (MCP) servers (`workweek-mcp` and `serviceimmediately-mcp`) backed by realistic stateful enterprise fixtures (seeded employees, PTO balances, and incident timelines) with built-in validation guardrails and signed JWT origin verification.
-* **Consequences**: Standardizes tool schemas for Gemini, eliminates custom HTTP client glue code in the agent, and allows the MCP servers to seamlessly swap internal backends to live enterprise APIs in production without altering agent tool definitions.
+* **Decision**: We implement dedicated Model Context Protocol (MCP) servers (`workweek-mcp` and `serviceimmediately-mcp`) supporting a **Dual-Mode Execution Architecture**:
+  1. **Live Cloud SaaS Endpoints (FastMCP Streamable HTTP)**: Deployed at `https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/` and `https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/` using JSON-RPC 2.0 over Streamable HTTP (SSE). Authenticates via `X-MCP-Token` headers (handling Google Frontend GFE authorization bypass) and aligns 100% with OpenAPI 3.1.0 specifications (`requirements/openapi.json`).
+  2. **Hermetic Local Mock Servers**: In-memory and atomic FileStore-backed MCP servers (`src/mcp/workweek_server.py` and `src/mcp/serviceimmediately_server.py`) with `fcntl.flock` file locking for offline unit and integration testing without cloud quotas.
+* **Consequences**: Standardizes tool schemas for Gemini 3.7 Flash and Vertex ADK, eliminates custom HTTP client glue code in the agent, and allows the MCP servers to seamlessly swap between local hermetic fixtures and live enterprise FastMCP SaaS APIs with zero changes to agent prompts or tool contracts.
+
 
 ### ADR-0002: Use Repository-Managed Open Knowledge Format (OKF) for Policy Knowledge Grounding
 * **Context**: Fulfilling FR-5.1 through FR-5.5 requires high-precision semantic retrieval over structured corporate HR policy documents with verifiable source citations and Git-native policy governance without external cloud catalog dependencies.
