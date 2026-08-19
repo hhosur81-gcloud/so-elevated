@@ -197,6 +197,20 @@ To satisfy Chief Technology Officer (CTO) and Chief Information Security Officer
 | **[SEC-0005](./docs/adr/SEC-0005-scc-threat-streaming-incident-automation.md)** | Real-Time SCC Threat Streaming | Eventarc streaming from Model Armor to Security Command Center (SCC) Premium with automated P1 incident ticket creation. |
 | **[SEC-0006](./docs/adr/SEC-0006-opentelemetry-distributed-tracing.md)** | OpenTelemetry Distributed Tracing | W3C `traceparent` context propagation across all hops, profiling sub-agent latency and token usage in Cloud Trace. |
 
+
+### 4.3. Enterprise Architect & Head of Engineering Architecture Decision Records (ENG-0001 through ENG-0006)
+
+To satisfy Enterprise Architecture and Head of Engineering standards, the following 6 dedicated Engineering Architecture Decision Records are enforced:
+
+| Engineering ADR ID | Title | Strategic Engineering Decision |
+| :--- | :--- | :--- |
+| **[ENG-0001](./docs/adr/ENG-0001-semver-tolerant-reader-schema-evolution.md)** | SemVer & Tolerant Reader Schema Evolution | SemVer 2.0.0 for MCP tool contracts with Pydantic tolerant extra-field ignoring for upstream API changes. |
+| **[ENG-0002](./docs/adr/ENG-0002-cloud-tasks-dlq-idempotent-retry-worker.md)** | Cloud Tasks / PubSub DLQ & Idempotent Worker | Decoupled asynchronous worker with exponential backoff, mandatory `Idempotency-Key` headers, and DLQ after 5 retries. |
+| **[ENG-0003](./docs/adr/ENG-0003-layered-3-tier-mvc-codebase-architecture.md)** | Pragmatic 3-Tier Layered MVC Architecture | Controllers, Services, and Repositories layers directly binding Vertex ADK callbacks to API clients. |
+| **[ENG-0004](./docs/adr/ENG-0004-zero-downtime-expand-contract-db-migrations.md)** | Zero-Downtime Expand-and-Contract Migrations | Alembic dual-version database schema migrations guaranteeing non-blocking table alterations across releases. |
+| **[ENG-0005](./docs/adr/ENG-0005-redis-semantic-cache-gemini-flash-fallback-cascade.md)** | Redis Semantic Cache & Model Fallback Cascade | Redis Vector cache (similarity &ge; 0.96, <50ms) + 4-tier model fallback: Gemini 3.7 &rarr; 3.6 &rarr; 3.0 &rarr; 2.5 Flash on 429/503. |
+| **[ENG-0006](./docs/adr/ENG-0006-continuous-synthetic-production-canaries.md)** | Continuous Synthetic Production Canaries | 5-minute automated Cloud Scheduler synthetic dialog worker against test account `EMP-CANARY-01` reporting to Cloud Monitoring. |
+
 ---
 
 ## 5. Multi-Agent Architecture & Sequence Flow
@@ -900,3 +914,92 @@ This section provides the complete technical specifications for the 6 enterprise
   - `Span 3: Sub-Agent Tool Execution` (Captures MCP tool call IPC latency and WorkWeek / ServiceImmediately backend response time)
   - `Span 4: Egress / Cloud DLP Redaction` (Captures output masking duration)
 * **Cloud Trace & Monitoring Dashboard**: Traces are exported natively to **Google Cloud Trace**, providing real-time P50, P95, and P99 latency heatmaps and exact cost-per-intent token tracking.
+
+
+---
+
+## 20. Enterprise Architecture & Engineering Operations Specification
+
+This section provides the complete technical specifications for the 6 enterprise engineering standards approved during the Enterprise Architect & Head of Engineering review:
+
+### 20.1. ENG-0001: SemVer 2.0.0 & Tolerant Reader Schema Evolution
+* **Semantic Versioning Specification**: All MCP tool endpoints define formal SemVer descriptors (e.g. `version="1.2.0"`).
+* **Tolerant Schema Ingestion**: All Pydantic domain models in `src/models/` define:
+  ```python
+  from pydantic import BaseModel, ConfigDict
+  
+  class EnterpriseBaseModel(BaseModel):
+      model_config = ConfigDict(
+          extra="ignore",            # Silently ignore unmapped new upstream fields
+          populate_by_name=True,     # Allow alias matching for camelCase enterprise APIs
+          validate_default=True      # Ensure safe default fallbacks
+      )
+  ```
+* **Deprecation Lifecycle**: When a breaking change occurs, the previous major tool definition (e.g. `v1`) remains deployed and active alongside `v2` for a mandatory 60-day deprecation window.
+
+### 20.2. ENG-0002: Cloud Tasks / PubSub DLQ & Idempotent Retry Worker
+* **Asynchronous Queue Topology**:
+  - Task Queue: `projects/{project}/locations/{region}/queues/hr-forward-recovery-queue`
+  - Max Concurrency: 50 concurrent dispatch workers
+  - Rate Limiting: 20 dispatches per second with automatic token bucket throttling
+* **Idempotent Header Enforcement**: All mutating tool calls (WorkWeek leave submission, ServiceImmediately incident creation) require a client-generated UUID:
+  ```http
+  POST /api/v1/leave/requests HTTP/1.1
+  Idempotency-Key: 7b9a5e82-4f11-4a7b-b892-c12e584f9812
+  Authorization: Bearer <signed_jwt>
+  ```
+* **Dead Letter Queue (DLQ) & Alerting**:
+  - Tasks exceeding 5 retry attempts are routed to `projects/{project}/topics/hr-sync-tasks-dlq`.
+  - An automated Cloud Monitoring alert notifies the on-call Site Reliability Engineering (SRE) queue via PagerDuty within 60 seconds.
+
+### 20.3. ENG-0003: Pragmatic 3-Tier Layered MVC Codebase Architecture
+The production repository is structured across 3 clean, decoupled architectural tiers:
+```
+src/
+├── agents/                 # Tier 1: Controllers / AI Orchestrator Layer
+│   ├── primary_orchestrator.py
+│   ├── policy_agent.py
+│   ├── workweek_agent.py
+│   └── serviceimmediately_agent.py
+├── services/               # Tier 2: Core Domain Logic & State Machines
+│   ├── confirmation_service.py
+│   ├── forward_recovery_service.py
+│   ├── pto_guardrail_service.py
+│   └── incident_lifecycle_service.py
+├── repositories/           # Tier 3: Data Access & Persistent Storage
+│   ├── session_repository.py
+│   ├── audit_repository.py
+│   └── sync_task_repository.py
+└── mcp/                    # MCP Server Adapters & Tools
+    ├── workweek_server.py
+    └── serviceimmediately_server.py
+```
+
+### 20.4. ENG-0004: Zero-Downtime Expand-and-Contract Database Migrations
+* **Migration Framework**: Managed via **Alembic** under `migrations/versions/`.
+* **Expand Phase Rules**:
+  - All new database columns must be created as `NULLABLE` or define constant defaults.
+  - Adding indexes must utilize `CREATE INDEX CONCURRENTLY` in PostgreSQL to prevent table locks.
+* **Contract Phase Rules**:
+  - Legacy column deprecation requires a two-sprint migration cycle: (1) Ignore column in code $ightarrow$ (2) Drop column in subsequent migration after verifying zero queries in `pg_stat_statements`.
+
+### 20.5. ENG-0005: Redis Vector Semantic Cache & 4-Tier Gemini Flash Fallback Cascade
+* **Semantic Vector Cache**:
+  - Storage: Google Cloud Memorystore for Redis with RediSearch Vector Similarity module.
+  - Embedding Engine: `text-embedding-004` (768 dimensions).
+  - Match Criteria: Cosine similarity score $\ge 0.96$.
+  - TTL: 24-hour cache invalidation synchronized with the Eventarc policy ingestion pipeline.
+* **4-Tier Gemini Flash Fallback Cascade**:
+  - **Tier 1 (Primary Model)**: `gemini-3.7-flash` (Optimal reasoning, lowest latency).
+  - **Tier 2 (Fallback 1)**: `gemini-3.6-flash` (Engaged on HTTP 429 rate limit or 503 from Tier 1).
+  - **Tier 3 (Fallback 2)**: `gemini-3.0-flash` (Engaged on persistent regional throttling).
+  - **Tier 4 (Emergency Fallback)**: `gemini-2.5-flash` (Engaged on extreme upstream capacity surge).
+
+### 20.6. ENG-0006: 24/7 Continuous Synthetic Production Canaries
+* **Orchestration**: Cloud Scheduler executing a headless Cloud Run canary container every 5 minutes (`*/5 * * * *`).
+* **Canary Test Account**: Dedicated, isolated enterprise test profile (`EMP-CANARY-01` in department `Quality Engineering`).
+* **Synthetic Verification Scenarios**:
+  1. *Scenario 1 (Policy Grounding)*: Queries bereavement policy; asserts $\ge 95\%$ semantic match and valid deep-link citation.
+  2. *Scenario 2 (WorkWeek MCP)*: Fetches PTO balance; asserts non-null positive integer balance.
+  3. *Scenario 3 (ServiceImmediately MCP)*: Creates synthetic Priority 4 canary incident `INC-CANARY-XXXX`, verifies creation, and immediately marks as Resolved.
+* **SLA Metric Export**: Success/Failure status and turn latency are exported to `custom.googleapis.com/synthetic/agent_availability_ratio` with an alert threshold triggering on 2 consecutive probe failures.
