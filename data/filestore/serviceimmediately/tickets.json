@@ -1,0 +1,40 @@
+{
+  "INC-10001": {
+    "ticket_id": "INC-10001",
+    "employee_id": "EMP-1001",
+    "category": "Hardware",
+    "priority": "P3",
+    "status": "IN_PROGRESS",
+    "title": "Dual monitor display flickering",
+    "description": "Second monitor loses signal intermittently when docked.",
+    "created_at": "2026-08-15T09:30:00Z",
+    "updated_at": "2026-08-16T14:20:00Z",
+    "assigned_to": "IT-Support-L2",
+    "comments": [
+      {
+        "author": "IT-Support-L2",
+        "timestamp": "2026-08-16T14:20:00Z",
+        "text": "Replacement Thunderbolt cable dispatched."
+      }
+    ]
+  },
+  "INC-10002": {
+    "ticket_id": "INC-10002",
+    "employee_id": "EMP-1002",
+    "category": "Access",
+    "priority": "P2",
+    "status": "RESOLVED",
+    "title": "Salesforce CRM production access",
+    "description": "Need read/write access to EMEA enterprise accounts.",
+    "created_at": "2026-08-10T11:00:00Z",
+    "updated_at": "2026-08-11T16:00:00Z",
+    "assigned_to": "Identity-Admin",
+    "comments": [
+      {
+        "author": "Identity-Admin",
+        "timestamp": "2026-08-11T16:00:00Z",
+        "text": "Role EMEA_AE granted in Okta."
+      }
+    ]
+  }
+}

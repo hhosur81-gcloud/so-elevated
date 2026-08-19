@@ -1,0 +1,62 @@
+{
+  "EMP-1001": {
+    "employee_id": "EMP-1001",
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "jane.doe@enterprise.com",
+    "department": "Engineering",
+    "role": "Senior Cloud Engineer",
+    "pto_balance_hours": 120.0,
+    "sick_leave_hours": 40.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
+  },
+  "EMP-1002": {
+    "employee_id": "EMP-1002",
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john.smith@enterprise.com",
+    "department": "Sales",
+    "role": "Account Executive",
+    "pto_balance_hours": 80.0,
+    "sick_leave_hours": 32.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
+  },
+  "EMP-1003": {
+    "employee_id": "EMP-1003",
+    "first_name": "Alex",
+    "last_name": "Rivera",
+    "email": "alex.rivera@enterprise.com",
+    "department": "Product",
+    "role": "Lead Product Manager",
+    "pto_balance_hours": 160.0,
+    "sick_leave_hours": 40.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
+  },
+  "EMP-1004": {
+    "employee_id": "EMP-1004",
+    "first_name": "Maria",
+    "last_name": "Chen",
+    "email": "maria.chen@enterprise.com",
+    "department": "Legal & Compliance",
+    "role": "Data Protection Officer",
+    "pto_balance_hours": 200.0,
+    "sick_leave_hours": 40.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
+  },
+  "EMP-1005": {
+    "employee_id": "EMP-1005",
+    "first_name": "Marcus",
+    "last_name": "Vance",
+    "email": "marcus.vance@enterprise.com",
+    "department": "Engineering",
+    "role": "VP of Engineering",
+    "pto_balance_hours": 240.0,
+    "sick_leave_hours": 40.0,
+    "manager_id": null,
+    "leave_requests": []
+  }
+}
