@@ -4,9 +4,10 @@
 
 **Blocked by:** 06 — Primary HR Orchestrator Agent (Vertex ADK)
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] UC-2.1 executes Policy check -> WorkWeek remote status verify -> ServiceImmediately hardware request.
-- [ ] UC-2.2 executes Policy quote -> Confirmation turn -> WorkWeek LOA booking -> ServiceImmediately email routing ticket.
-- [ ] UC-2.3 executes Relocation allowance check -> Confirmation turn -> WorkWeek address update -> ServiceImmediately badge ticket.
-- [ ] Forward recovery handler generates high-priority audit logs and clear user guidance when any step fails.
+- [x] UC-2.1 executes Policy check -> WorkWeek profile verify -> ServiceImmediately hardware request (`src/services/workflow_service.py`).
+- [x] UC-2.2 executes Policy lookup -> Confirmation turn -> WorkWeek LOA booking -> ServiceImmediately email/equipment IT routing ticket.
+- [x] UC-2.3 executes Relocation policy check -> Confirmation turn -> WorkWeek address update -> ServiceImmediately badge provisioning ticket.
+- [x] Forward recovery handler generates high-priority audit logs and clear user guidance when any step fails (ADR-0004).
+- [x] Integration test suite verifying multi-system workflows and forward recovery resilience (`tests/integration/test_workflow_coordinator.py`).

@@ -89,13 +89,30 @@ class WorkWeekMCPServer:
         if not profile:
             return {"success": False, "error_code": "NOT_FOUND", "error": f"Employee {employee_id} not found"}
 
-        current_balance = profile.get("pto_balance_hours", 0.0) if leave_type == "PTO" else profile.get("sick_leave_hours", 0.0)
-        if hours > current_balance:
-            return {
-                "success": False,
-                "error_code": "INSUFFICIENT_BALANCE",
-                "error": f"Requested {hours}h exceeds available {leave_type} balance of {current_balance}h"
-            }
+        if leave_type == "PTO":
+            current_balance = profile.get("pto_balance_hours", 0.0)
+            if hours > current_balance:
+                return {
+                    "success": False,
+                    "error_code": "INSUFFICIENT_BALANCE",
+                    "error": f"Requested {hours}h exceeds available PTO balance of {current_balance}h"
+                }
+        elif leave_type == "SICK":
+            current_balance = profile.get("sick_leave_hours", 0.0)
+            if hours > current_balance:
+                return {
+                    "success": False,
+                    "error_code": "INSUFFICIENT_BALANCE",
+                    "error": f"Requested {hours}h exceeds available SICK balance of {current_balance}h"
+                }
+        elif leave_type == "MEDICAL":
+            # Policy Section 3.4: Up to 12 weeks (480 hours) Short-Term Medical LOA
+            if hours > 480.0:
+                return {
+                    "success": False,
+                    "error_code": "INSUFFICIENT_BALANCE",
+                    "error": f"Requested {hours}h exceeds maximum medical LOA cap of 480 hours"
+                }
 
         request_id = f"LOA-{uuid.uuid4().hex[:6].upper()}"
         leave_entry = {
@@ -112,7 +129,7 @@ class WorkWeekMCPServer:
         def mutate_profile(data: Dict[str, Any]) -> Dict[str, Any]:
             if leave_type == "PTO":
                 data["pto_balance_hours"] -= hours
-            else:
+            elif leave_type == "SICK":
                 data["sick_leave_hours"] -= hours
             data.setdefault("leave_requests", []).append(leave_entry)
             return data
