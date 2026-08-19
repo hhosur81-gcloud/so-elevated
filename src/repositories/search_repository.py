@@ -11,8 +11,10 @@ class PolicySearchRetriever:
     STOPWORDS = {
         "how", "many", "days", "weeks", "months", "of", "do", "i", "get", "what", "is", "the", "a",
         "for", "to", "in", "are", "can", "employee", "employees", "corporate", "office", "company",
-        "we", "my", "our", "you", "your", "tell", "me", "about", "there", "any", "have", "with", "an", "during"
+        "we", "my", "our", "you", "your", "tell", "me", "about", "there", "any", "have", "with", "an", "during", "want"
     }
+
+    IGNORE_FILES = {"index.md", "log.md", "readme.md", "changelog.md"}
 
     def __init__(self, policy_dirs: Optional[List[str]] = None, policy_dir: Optional[str] = None):
         if policy_dirs:
@@ -29,7 +31,6 @@ class PolicySearchRetriever:
         w = word.lower().strip()
         if len(w) <= 3:
             return w
-        # Common irregular roots
         irregulars = {
             "consume": "consum", "consumption": "consum", "consuming": "consum",
             "bereave": "bereav", "bereavement": "bereav",
@@ -42,7 +43,6 @@ class PolicySearchRetriever:
         }
         if w in irregulars:
             return irregulars[w]
-        # Generic suffix removal
         return re.sub(r"(ing|tion|tions|ed|ies|es|s|al|ment)$", "", w)
 
     def _load_all_policies(self) -> List[Dict[str, Any]]:
@@ -56,7 +56,7 @@ class PolicySearchRetriever:
 
             for root, _, files in os.walk(base_dir):
                 for filename in files:
-                    if filename.endswith(".md") and filename != "index.md":
+                    if filename.endswith(".md") and filename.lower() not in self.IGNORE_FILES:
                         file_path = os.path.join(root, filename)
                         if file_path in seen_paths:
                             continue

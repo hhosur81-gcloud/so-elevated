@@ -206,20 +206,30 @@ class PrimaryHROrchestrator:
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-        # D. ITSM Ticket Creation Intent (IT/HR Issue Logging)
-        if ("log" in lowered_msg or "create" in lowered_msg or "open" in lowered_msg or "file" in lowered_msg or "submit" in lowered_msg) and \
-           ("ticket" in lowered_msg or "incident" in lowered_msg or "issue" in lowered_msg or "it support" in lowered_msg or "helpdesk" in lowered_msg):
+        # D. ITSM Ticket Creation Intent (IT/HR/Compliance Issue Logging)
+        is_ticket_intent = any(w in lowered_msg for w in ["log a ticket", "log ticket", "create a ticket", "create ticket", "open a ticket", "open ticket", "file a ticket", "submit a ticket", "want to log a ticket", "need to log a ticket", "log a request", "submit a request"])
+        
+        if is_ticket_intent:
+            # Check if user just said "I want to log a ticket" without details
+            stripped_intent = re.sub(r"^(i\s+)?(want|need)\s+to\s+(log|create|open|file)\s+a?\s*ticket\.?$", "", lowered_msg).strip()
+            if not stripped_intent:
+                resp_text = "Certainly! What issue, hardware request, or approval would you like to log a ticket for? (e.g., *'Laptop screen flickering'*, *'Request approval for $500 vendor gift'*, *'VPN access issue'*)"
+                self._record_turn(session, user_message, resp_text, "itsm_agent", "prompt_ticket_details", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
+
             category = "IT_Support"
-            if "laptop" in lowered_msg or "hardware" in lowered_msg or "monitor" in lowered_msg or "mouse" in lowered_msg or "keyboard" in lowered_msg:
+            if "laptop" in lowered_msg or "hardware" in lowered_msg or "monitor" in lowered_msg or "mouse" in lowered_msg or "keyboard" in lowered_msg or "screen" in lowered_msg:
                 category = "Hardware"
-            elif "vpn" in lowered_msg or "network" in lowered_msg or "wifi" in lowered_msg or "access" in lowered_msg:
+            elif "vpn" in lowered_msg or "network" in lowered_msg or "wifi" in lowered_msg or "access" in lowered_msg or "password" in lowered_msg:
                 category = "Access_Network"
-            elif "hr" in lowered_msg or "benefits" in lowered_msg or "payroll" in lowered_msg:
+            elif "gift" in lowered_msg or "approval" in lowered_msg or "pre-approval" in lowered_msg or "compliance" in lowered_msg or "vendor" in lowered_msg or "entertainment" in lowered_msg:
+                category = "Compliance_Approval"
+            elif "hr" in lowered_msg or "benefit" in lowered_msg or "payroll" in lowered_msg:
                 category = "HR_Operations"
 
-            # Extract priority if requested, default to P3
             priority = "P3"
-            if "p1" in lowered_msg or "critical" in lowered_msg or "urgent" in lowered_msg:
+            if "p1" in lowered_msg or "critical" in lowered_msg or "outage" in lowered_msg:
                 priority = "P1"
             elif "p2" in lowered_msg or "high" in lowered_msg:
                 priority = "P2"
@@ -231,7 +241,7 @@ class PrimaryHROrchestrator:
                 employee_id=employee_id,
                 category=category,
                 priority=priority,
-                title=f"Support Request: {user_message[:60]}",
+                title=f"Request: {user_message[:60]}",
                 description=user_message,
                 bearer_token=token
             )
@@ -239,7 +249,13 @@ class PrimaryHROrchestrator:
             if inc_res["success"]:
                 ticket_info = inc_res["data"]
                 downgrade_note = f"\n\n*Note: {inc_res['downgrade_warning']}*" if inc_res.get("downgraded") else ""
-                resp_text = f"I've logged IT Support ticket **{ticket_info['ticket_id']}** for you with priority **{ticket_info['priority']}**.{downgrade_note}\n\nOur service team will review it shortly. You can track this ticket by asking for status on **{ticket_info['ticket_id']}**."
+                
+                # Contextual guidance for gift cards / pre-approvals per Section 5.2 / 14.4
+                compliance_guidance = ""
+                if category == "Compliance_Approval" and ("gift" in lowered_msg or "vendor" in lowered_msg):
+                    compliance_guidance = "\n\n💡 **Policy Note (Sections 5.2 & 14.4)**: Business courtesies must not involve cash or cash equivalents (gift cards). Gifts over US$500 require VP written pre-approval. Your request has been routed to the Compliance & Ethics desk for formal review."
+
+                resp_text = f"I've logged Support Ticket **{ticket_info['ticket_id']}** (Category: `{category}`) with priority **{ticket_info['priority']}**.{downgrade_note}{compliance_guidance}\n\nYou can track this ticket by asking for status on **{ticket_info['ticket_id']}**."
             else:
                 resp_text = f"Unable to create ticket: {inc_res.get('error', 'Unknown error')}"
 
