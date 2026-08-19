@@ -102,15 +102,15 @@ The solution will operate upon and have access to the following specific data do
 | **FR-4.2** | Status Tracking and Ticket Management | The system must support the following operations:<br>• **Query Ticket Details**: Retrieve current status, category, short description, priority, assignee, and the complete comment timeline for a specific incident ticket ID.<br>• **Create Incident Ticket**: Open a new support ticket specifying requestor employee ID, category, short description, and priority level (`1 - Critical`, `2 - High`, `3 - Moderate`, `4 - Low`).<br>• **Post Ticket Comment**: Append update notes/comments to the ticket activity timeline.<br>• **Update Ticket Status**: Transition the lifecycle state of a ticket (e.g. to `'Resolved'` or `'Closed'`), including optional resolution notes. |
 | **FR-4.3** | ServiceImmediately Operation Guardrails | The system must govern incident lifecycle transactions to prevent spam and audit corruption:<br>• **Transition Constraints**: Validate that ticket status updates follow a logical lifecycle path (e.g. preventing direct transition from New to Closed).<br>• **Duplication Mitigation**: Scan for potential duplicate tickets submitted in quick succession before creating new entries.<br>• **Priority Verification**: Enforce alignment between ticket priority and incident descriptions (e.g., verifying Critical tags against defined criteria). |
 
-### 4.5. Policy Document Q&A
+### 4.5. Policy Document Q&A (Open Knowledge Format - OKF)
 
 | Requirement ID | Requirement Name | Description |
 | :--- | :--- | :--- |
-| **FR-5.1** | Document Ingestion | The system must connect to a centralized repository to ingest, chunk, and index HR policies. |
-| **FR-5.2** | Grounded Answers | The AI must only generate answers derived from the ingested policies. If the answer is not present, it must explicitly state so. |
-| **FR-5.3** | Source Citation | Every policy-related answer must return metadata, URLs, or Deep Links rendered as a clickable citation to the exact document and section used. |
+| **FR-5.1** | Document Ingestion | The system must parse and load structured HR policies directly from repository-resident Open Knowledge Format (OKF) Markdown files (`knowledge/`) including YAML frontmatter metadata. |
+| **FR-5.2** | Grounded Answers | The AI must only generate answers derived from the ingested OKF policy bundle. If the answer is not present, it must explicitly state so. |
+| **FR-5.3** | Source Citation | Every policy-related answer must return metadata, section anchors, or Deep Links rendered as a clickable citation to the exact OKF document path and section header used (`[Policy Title#Section](url)`). |
 | **FR-5.4** | Policy Retrieval Guardrails | The system must apply constraints to conversation scope and generation safety:<br>• **Strict Grounding**: Refuse to answer questions when retrieved document context is insufficient, preventing hallucinations.<br>• **Domain Containment**: Enforce topic boundaries, rejecting prompts that fall outside corporate HR policy (e.g. general coding questions or personal queries).<br>• **Citation Integrity**: Ensure all generated citations resolve to active, verified policy documents. |
-| **FR-5.5** | Document Sync Latency | The system must reflect updates to policy documents in the Knowledge Base within `[X]` hours/minutes of the document being updated in the source repository. |
+| **FR-5.5** | Document Sync Latency | The system must reflect updates to OKF policy documents immediately upon repository commit or agent deployment ($0\text{s}$ sync latency). |
 
 ---
 

@@ -264,7 +264,7 @@
         <div class="card card-success">
           <div class="card-title">🎯 The Agentic Vision</div>
           <div class="card-desc">
-            • A single conversational entry point with strict policy grounding in Vertex AI Search.<br>
+            • A single conversational entry point with strict policy grounding in repository-resident Open Knowledge Format (OKF) files.<br>
             • Real-time, guardrailed self-service across WorkWeek and ServiceImmediately.<br>
             • Automated multi-system orchestration with zero-trust origin authentication and forward recovery.
           </div>
@@ -327,7 +327,7 @@
         </div>
         <div class="card card-success" style="margin-bottom: 12px;">
           <div class="card-title">2. Policy Q&A Specialist</div>
-          <div class="card-desc">Live Vertex AI Search grounding, citations, and zero-hallucination filter.</div>
+          <div class="card-desc">Open Knowledge Format (OKF) grounding, YAML frontmatter citations, and zero-hallucination filter.</div>
         </div>
         <div class="card card-warning" style="margin-bottom: 12px;">
           <div class="card-title">3. WorkWeek HCM Specialist</div>
@@ -360,9 +360,9 @@
           </div>
         </div>
         <div class="card card-success">
-          <div class="card-title"><span style="color:var(--g-green);">ADR-0002 & 0008</span>: Live Vertex AI Search Policy RAG</div>
+          <div class="card-title"><span style="color:var(--g-green);">ADR-0002 & 0008</span>: Open Knowledge Format (OKF) Grounding</div>
           <div class="card-desc">
-            Connects strictly to live Google Cloud Vertex AI Search datastores holding approved policy documents, enforcing structured citation deep links and zero hallucinations.
+            Connects directly to repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), enforcing structured YAML frontmatter metadata, deterministic citation deep links, and zero hallucinations.
           </div>
         </div>
         <div class="card card-primary">
@@ -479,7 +479,7 @@
             <li><strong>Employee Prompt</strong>: <em>"I need to take short-term medical leave starting next Monday. Can you set it up?"</em></li>
             <li><strong>Security Sentinel Interceptor</strong>: Performs prompt injection scan and toxic language check (&lt;20ms).</li>
             <li><strong>Primary Orchestrator (ADK)</strong>: Identifies composite intent <code>UC-2.2</code> and calls <strong>Policy Q&A Specialist</strong>.</li>
-            <li><strong>Policy Specialist</strong>: Retrieves official Medical Leave procedure from Vertex AI Search and returns policy rules + citation link.</li>
+            <li><strong>Policy Specialist</strong>: Retrieves official Medical Leave procedure from Open Knowledge Format (OKF) policy bundle and returns policy rules + citation link.</li>
             <li><strong>Human Confirmation Gate</strong>: Orchestrator asks: <em>"Medical leave allows up to 12 weeks. I will submit 5 days starting Aug 24 and open an IT ticket. Should I proceed?"</em> Employee confirms: <em>"Yes"</em>.</li>
             <li><strong>WorkWeek HCM Specialist</strong>: Submits Leave of Absence with signed JWT (Ref #LOA-9081).</li>
             <li><strong>ServiceImmediately Specialist</strong>: Opens IT ticket to route email to manager during LOA (Ticket INC123456).</li>

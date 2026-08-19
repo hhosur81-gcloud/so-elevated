@@ -7,7 +7,7 @@
     "expected_subagent": "Policy-QnA-Agent",
     "expected_tool_calls": [
       {
-        "name": "VertexAISearchTool",
+        "name": "OKFKnowledgeTool",
         "args": {
           "query": "bereavement leave policy immediate family"
         }
@@ -32,7 +32,7 @@
     "expected_subagent": "Policy-QnA-Agent",
     "expected_tool_calls": [
       {
-        "name": "VertexAISearchTool",
+        "name": "OKFKnowledgeTool",
         "args": {
           "query": "noise-canceling headphones expense remote work"
         }
@@ -52,7 +52,7 @@
     "expected_subagent": "Policy-QnA-Agent",
     "expected_tool_calls": [
       {
-        "name": "VertexAISearchTool",
+        "name": "OKFKnowledgeTool",
         "args": {
           "query": "pet policy animals in office iguana"
         }

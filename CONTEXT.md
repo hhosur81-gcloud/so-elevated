@@ -13,7 +13,7 @@ The enterprise IT and HR Service Desk (ITSM/HRSD) platform managing incident tic
 _Avoid_: ServiceNow, Jira Service Desk, Helpdesk
 
 **Policy Repository**:
-The centralized repository of approved corporate policy documents (PDF/Text) used for grounded informational queries.
+The version-controlled directory in the repository (`knowledge/`) containing approved corporate policy documents structured in Open Knowledge Format (OKF) (Markdown + YAML frontmatter) used for grounded informational queries.
 _Avoid_: Document store, Wiki, KB
 
 **Leave of Absence**:

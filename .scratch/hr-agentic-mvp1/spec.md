@@ -13,7 +13,7 @@ The HR Agentic Solution is an AI-driven, multi-turn virtual assistant built on t
 ![HR Agentic Solution Architecture](file:///usr/local/google/home/harshahosur/Documents/elevate-hrproject/docs/assets/hr_agent_architecture.jpg)
 
 The system:
-1. Integrates with **Vertex AI Search** to perform semantic document retrieval over approved corporate HR policy documents, returning strictly grounded answers with deep-link metadata citations.
+1. Integrates with **repository-resident Open Knowledge Format (OKF)** policy files (`knowledge/`) to perform semantic document retrieval over approved corporate HR policy documents, returning strictly grounded answers with deep-link metadata citations.
 2. Connects to **WorkWeek (HCM)** via signed JWT delegated authorization to perform real-time profile lookup, PTO balance queries, and guarded leave of absence submissions with an explicit **Human Confirmation Gate** on state mutations.
 3. Connects to **ServiceImmediately (ITSM/HRSD)** to manage incident tickets, query status/timeline history, enforce valid lifecycle transitions, and handle interactive priority elevation verification.
 4. Orchestrates complex **Cross-System Workflows** (Equipment Procurement, Medical Leave, Relocation) across policy checks, HCM transactions, and ITSM ticketing with automated forward-recovery audit tracking.
@@ -55,7 +55,7 @@ The system:
 31. As an enterprise operator, I want cross-system workflow failures (e.g. WorkWeek success followed by ServiceImmediately failure) to execute forward recovery with high-priority audit alerts and manual follow-up guidance, so that partial transactions never corrupt enterprise state.
 32. As an employee, I want to say "reset conversation" or "clear session" to immediately purge session state, so that my conversational context is wiped when I am done.
 33. As an enterprise security admin, I want active sessions to automatically expire after 15 minutes of inactivity, so that unattended terminals do not leak session context.
-34. As a QA engineer, I want all policy retrieval tests to execute strictly against live Google Cloud Vertex AI Search datastores, so that tests validate authentic production retrieval behavior.
+34. As a QA engineer, I want all policy retrieval tests to execute strictly against canonical repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), so that tests validate authentic production retrieval behavior.
 35. As a developer, I want all mock services and agents to run with zero external mock leaks and full end-to-end type safety, so that the solution is robust and maintainable.
 
 ## Implementation Decisions
@@ -65,10 +65,10 @@ The system:
    - Built on the Google Cloud Vertex AI Agent Development Kit (ADK) interfacing with Gemini models.
    - Implements Session Lifecycle & TTL Manager (ADR-0009): Dual-trigger session purge on explicit prompts or 15-minute idle TTL.
    - Enforces Human Confirmation Gate (ADR-0007): Intercepts state-changing write operations to require explicit confirmation before execution.
-   - Dispatches declarative tool declarations for WorkWeek, ServiceImmediately, and Vertex AI Search.
+   - Dispatches declarative tool declarations for WorkWeek, ServiceImmediately, and Repository-Resident Open Knowledge Format (OKF) Bundle (`knowledge/`).
 
-2. **Policy Knowledge Retrieval Engine (Live Vertex AI Search)**:
-   - Connects directly to live Google Cloud Vertex AI Search datastores holding approved static HR policy documents (ADR-0008).
+2. **Policy Knowledge Retrieval Engine (Open Knowledge Format - OKF Bundle)**:
+   - Connects directly to repository-resident Open Knowledge Format (OKF) Markdown files (`knowledge/`) holding approved corporate HR policy documents with structured YAML frontmatter (ADR-0002, ADR-0008).
    - Enforces strict grounding with structured citation metadata (document name, section header, source URL/Deep Link).
    - Rejects out-of-domain queries and issues explicit "not found in company policy" fallbacks when context is missing.
 
@@ -99,7 +99,7 @@ The system:
 | **FR-2.2** | Multi-Turn Dialog | Isolated stateful session manager with TTL (ADR-0009) | Context retention & memory leak tests |
 | **FR-3.1–3.4** | WorkWeek Integration | WorkWeek MCP Server + Confirmation Gate (ADR-0001 & ADR-0007) | Balance constraint, date validity & confirmation tests |
 | **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately MCP Server + Priority Guard (ADR-0001 & ADR-0010) | State transition, duplicate detection & priority tests |
-| **FR-5.1–5.5** | Policy Document Q&A | Live Vertex AI Search datastore with metadata citations (ADR-0008) | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
+| **FR-5.1–5.5** | Policy Document Q&A | Repository-Managed Open Knowledge Format (OKF) bundle (`knowledge/`) with metadata citations (ADR-0002, ADR-0008) | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
 | **UC-2.1–2.3** | Cross-System Orchestration | Cross-System Flow Engine with Forward Recovery (ADR-0004) | End-to-end workflow execution & failure recovery tests |
 
 ## Testing Decisions
@@ -110,7 +110,7 @@ The system:
 
 ### Modules Tested
 1. **Security Interceptor Test Suite**: Negative security testing with known prompt injections, jailbreaks, SPII log leak verification, and off-topic queries.
-2. **Policy Grounding Test Suite (Live Vertex Search)**: Evaluation against live Vertex AI Search datastore verifying &ge;95% accuracy, 0% hallucinations, and valid deep-link citation formatting.
+2. **Policy Grounding Test Suite (OKF Bundle Validation)**: Evaluation against canonical Open Knowledge Format (OKF) policy bundles verifying &ge;95% accuracy, 0% hallucinations, and valid deep-link citation formatting.
 3. **WorkWeek Integration Test Suite**: Profile queries, PTO queries, confirmation gate on leave submissions, and edge cases (exceeded PTO balance, past date rejection).
 4. **ServiceImmediately Integration Test Suite**: Ticket creation, interactive priority downgrade flow, status transitions, and illegal state jump rejections.
 5. **Session Lifecycle Test Suite**: Multi-turn context preservation, explicit reset prompts, and 15-minute idle timeout eviction.

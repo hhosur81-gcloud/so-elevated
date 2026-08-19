@@ -16,7 +16,7 @@ To prevent tool selection ambiguity, enforce least-privilege security boundaries
 | :--- | :--- | :--- | :--- | :--- |
 | **0. Security Sentinel Gateway** | Managed Gateway / Middleware | Inbound prompt sanitization, jailbreak defense & Cloud DLP SPII redaction (ADR-0012) | Google Cloud Model Armor Client (Cloud DLP & Safety Filters), Presidio/Regex Fallback | Model Armor Template ID / SCC Integration |
 | **1. Primary HR Orchestrator** | Root Coordinator (ADK) | Intent routing, session state, cross-system workflows, human confirmation gate | Sub-Agent Dispatcher, Forward Recovery Logger, Confirmation Gate | Signed Root JWT (`sub: emp_id`) |
-| **2. Policy Q&A Specialist** | Domain Sub-Agent | Grounded knowledge retrieval from HR policy docs via live Vertex AI Search | `VertexAISearchTool`, Citation Deep-Link Formatter | Read-only Policy Datastore |
+| **2. Policy Q&A Specialist** | Domain Sub-Agent | Grounded knowledge retrieval from HR policy docs via repository-resident Open Knowledge Format (OKF) bundle | `OKFKnowledgeTool`, Citation Deep-Link Formatter | Read-only Repository OKF Policy Bundle (`knowledge/`) |
 | **3. WorkWeek HCM Specialist** | Domain Sub-Agent | Employee self-service & PTO management | `get_profile`, `update_contact`, `get_pto`, `submit_leave` | Signed JWT (`scopes: workweek:*`) |
 | **4. ServiceImmediately Specialist** | Domain Sub-Agent | Support incident & ticket lifecycle management | `get_ticket`, `create_ticket`, `post_comment`, `update_status` | Signed JWT (`scopes: serviceimmediately:*`) |
 
@@ -43,11 +43,12 @@ To prevent tool selection ambiguity, enforce least-privilege security boundaries
   - **Forward Recovery & Compensation (ADR-0004)**: When a downstream sub-agent call fails during a multi-step workflow, writes high-priority audit logs and issues clear manual follow-up guidance.
 
 ### 3.3. Agent 2: Policy Q&A Specialist Agent
-- **Role**: Dedicated knowledge assistant grounded strictly in official corporate HR documents.
+- **Role**: Dedicated knowledge assistant grounded strictly in official corporate HR documents structured in Open Knowledge Format (OKF).
 - **Scope of Usage**:
-  - **Live Vertex AI Search Grounding (ADR-0008)**: Connects to live Google Cloud Vertex AI Search datastores containing approved policies (Leave, Expenses, Remote Work, Code of Conduct).
-  - **Deep-Link Citations (FR-5.3)**: Formats every answer with explicit document name, section title, and clickable deep-link URL.
-  - **Strict Zero-Hallucination Fallback (FR-5.2, FR-5.4)**: If a topic is not present in the indexed knowledge base, explicitly states that the policy is unavailable.
+  - **Open Knowledge Format (OKF) Grounding (ADR-0002 & ADR-0008)**: Connects directly to repository-resident OKF policy knowledge files (`knowledge/`) containing approved policies with structured YAML frontmatter metadata.
+  - **Deterministic Deep-Link Citations (FR-5.3)**: Formats every answer with explicit document name, section title, and clickable deep-link URL generated from canonical OKF file paths and section anchors (`[Policy Title#Section](url)`).
+  - **Strict Zero-Hallucination Fallback (FR-5.2, FR-5.4)**: If a topic is not present in the indexed OKF bundle, explicitly states that the policy is unavailable.
+  - **Progressive Disclosure Navigation**: Uses hierarchical catalog indexes (`index.md`) to resolve policy domains before loading specific concept leaves into context.
 
 ### 3.4. Agent 3: WorkWeek HCM Specialist Agent
 - **Role**: Specialist sub-agent executing employee self-service transactions against the WorkWeek HCM backend.
@@ -113,13 +114,13 @@ sequenceDiagram
 ## 5. Architectural References
 - **[CONTEXT.md](../CONTEXT.md)**: Domain Glossary
 - **[docs/adr/0001-mcp-enterprise-servers.md](./adr/0001-mcp-enterprise-servers.md)**: Mock Server Architecture
-- **[docs/adr/0002-vertex-ai-search-policy-rag.md](./adr/0002-vertex-ai-search-policy-rag.md)**: Policy Grounding Engine
+- **[docs/adr/0002-vertex-ai-search-policy-rag.md](./adr/0002-vertex-ai-search-policy-rag.md)**: Open Knowledge Format (OKF) Grounding Engine
 - **[docs/adr/0003-hybrid-safety-guardrails.md](./adr/0003-hybrid-safety-guardrails.md)**: Safety Pipeline
 - **[docs/adr/0004-cross-system-forward-recovery.md](./adr/0004-cross-system-forward-recovery.md)**: Failure Recovery
 - **[docs/adr/0005-vertex-agent-development-kit.md](./adr/0005-vertex-agent-development-kit.md)**: Vertex ADK Foundation
 - **[docs/adr/0006-signed-jwt-delegated-authorization.md](./adr/0006-signed-jwt-delegated-authorization.md)**: Delegated Auth Tokens
 - **[docs/adr/0007-human-confirmation-on-state-mutations.md](./adr/0007-human-confirmation-on-state-mutations.md)**: Human Confirmation Gate
-- **[docs/adr/0008-strict-live-vertex-ai-search-testing.md](./adr/0008-strict-live-vertex-ai-search-testing.md)**: Live Vertex Search Testing
+- **[docs/adr/0008-strict-live-vertex-ai-search-testing.md](./adr/0008-strict-live-vertex-ai-search-testing.md)**: Strict OKF Policy Testing & Validation
 - **[docs/adr/0009-session-ttl-and-explicit-purge.md](./adr/0009-session-ttl-and-explicit-purge.md)**: Session TTL & Purge
 - **[docs/adr/0010-interactive-priority-downgrade-guardrail.md](./adr/0010-interactive-priority-downgrade-guardrail.md)**: Interactive Priority Guardrail
 - **[docs/adr/0011-tiered-spii-redaction-logging.md](./adr/0011-tiered-spii-redaction-logging.md)**: Tiered SPII Redaction

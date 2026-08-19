@@ -2,11 +2,11 @@
 
 [![Google Cloud Vertex AI](https://img.shields.io/badge/Google%20Cloud-Vertex%20AI%20ADK-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/vertex-ai)
 [![Security: Model Armor](https://img.shields.io/badge/Security-Model%20Armor%20%2B%20Cloud%20DLP-34A853?logo=googlecloud&logoColor=white)](https://cloud.google.com/security-command-center)
-[![Policy RAG: Vertex AI Search](https://img.shields.io/badge/Grounding-Vertex%20AI%20Search-FBBC04?logo=googlecloud&logoColor=white)](https://cloud.google.com/generative-ai-app-builder)
+[![Policy Grounding: Open Knowledge Format](https://img.shields.io/badge/Grounding-Open%20Knowledge%20Format%20(OKF)-FBBC04?logo=googlecloud&logoColor=white)](https://cloud.google.com/knowledge-catalog)
 [![Architecture: ADRs](https://img.shields.io/badge/Architecture-13%20ADRs%20Approved-1A73E8)](./docs/adr/)
 [![Tickets: ready-for-agent](https://img.shields.io/badge/Implementation-8%20Tracer%20Tickets%20Ready-EA4335)](./.scratch/hr-agentic-mvp1/issues/)
 
-A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI Agent Development Kit (ADK)** and secured by **Google Cloud Model Armor**. It automates Tier-1 employee HR/IT inquiries, enforces zero-trust identity provenance (Signed JWTs), and orchestrates complex cross-system workflows across **WorkWeek (HCM)** and **ServiceImmediately (ITSM)** with strict semantic grounding against official corporate policy documents in **Vertex AI Search**.
+A unified, multi-agent virtual assistant built on the **Google Cloud Vertex AI Agent Development Kit (ADK)** and secured by **Google Cloud Model Armor**. It automates Tier-1 employee HR/IT inquiries, enforces zero-trust identity provenance (Signed JWTs), and orchestrates complex cross-system workflows across **WorkWeek (HCM)** and **ServiceImmediately (ITSM)** with strict semantic grounding against official corporate policy documents structured in **Open Knowledge Format (OKF)** stored directly in the repository (`knowledge/`).
 
 ---
 
@@ -43,7 +43,7 @@ The system follows a hierarchical multi-agent pattern built on the **Vertex AI A
 | :--- | :--- | :--- | :--- |
 | **Layer 0: Security Sentinel Gateway** | Managed AI security gateway intercepting prompt injections, jailbreaks & redacting SPII | Google Cloud Model Armor Client, Cloud DLP Templates, Presidio/Regex Fallback | Model Armor Template ID / SCC Integration |
 | **Agent 1: Primary HR Orchestrator** | Multi-turn session manager (15m TTL), intent router, cross-system workflow coordinator, confirmation gate | ADK Sub-Agent Dispatcher, Confirmation Interceptor, Forward Recovery Logger | Signed Root JWT (`sub: <emp_id>`) |
-| **Agent 2: Policy Q&A Specialist** | Semantic policy retrieval with structured metadata deep links & zero hallucination | `VertexAISearchTool` (Grounding Datastore), Citation Formatter | Read-only Policy Datastore |
+| **Agent 2: Policy Q&A Specialist** | Semantic policy retrieval with structured metadata deep links & zero hallucination | `OKFKnowledgeTool` (Repository Bundle Parser), Citation Formatter | Read-only Repository OKF Policy Bundle (`knowledge/`) |
 | **Agent 3: WorkWeek HCM Specialist** | Live profile queries, PTO balances, and guarded leave of absence bookings | `/api/v1/employees/{id}`, `/api/v1/employees/{id}/pto`, `/api/v1/leave/requests` | Signed JWT (`scopes: workweek:*`) |
 | **Agent 4: ServiceImmediately Specialist** | Support incident creation, timeline comments, lifecycle transition guards, duplicate mitigation | `/api/now/table/incident`, `/api/now/table/incident/{id}` | Signed JWT (`scopes: serviceimmediately:*`) |
 
@@ -56,13 +56,13 @@ All architectural design choices are formally documented in [docs/adr/](./docs/a
 | ADR ID | Title | Core Architectural Decision |
 | :--- | :--- | :--- |
 | **[ADR-0001](./docs/adr/0001-mcp-enterprise-servers.md)** | MCP Enterprise Servers | Model Context Protocol (MCP) servers with stateful enterprise fixtures and validation guardrails. |
-| **[ADR-0002](./docs/adr/0002-vertex-ai-search-policy-rag.md)** | Vertex AI Search Policy RAG | Semantic retrieval & strict grounding engine returning clickable section deep links. |
+| **[ADR-0002](./docs/adr/0002-vertex-ai-search-policy-rag.md)** | Open Knowledge Format (OKF) Policy Grounding | Structured semantic retrieval & strict grounding engine returning clickable section deep links and YAML frontmatter metadata. |
 | **[ADR-0003](./docs/adr/0003-hybrid-safety-guardrails.md)** | Hybrid Safety Guardrails | Sub-20ms regex/Presidio SPII masking + LLM safety classifier guaranteeing <300ms SLA. |
 | **[ADR-0004](./docs/adr/0004-cross-system-forward-recovery.md)** | Cross-System Forward Recovery | Audit logging, pending sync tasks, and manual follow-up guidance on partial workflow failure. |
 | **[ADR-0005](./docs/adr/0005-vertex-agent-development-kit.md)** | Vertex AI Agent Development Kit | Unified agent orchestration framework for Gemini model calling, declarative tools, and session state. |
 | **[ADR-0006](./docs/adr/0006-signed-jwt-delegated-authorization.md)** | Signed JWT Delegated Authorization | Cryptographically signed bearer tokens passing user identity (`sub`) and origin (`iss: HR-Agent-v1`). |
 | **[ADR-0007](./docs/adr/0007-human-confirmation-on-state-mutations.md)** | Human Confirmation Gate on Mutations | Explicit confirmation turn required before executing leave bookings, contact updates, or ticket closures. |
-| **[ADR-0008](./docs/adr/0008-strict-live-vertex-ai-search-testing.md)** | Strict Live Vertex AI Search Testing | Integration tests connect directly to live GCP datastores to guarantee 100% production parity. |
+| **[ADR-0008](./docs/adr/0008-strict-live-vertex-ai-search-testing.md)** | Strict OKF Policy Testing & Validation | Integration tests validate answers against canonical OKF bundles to guarantee 100% production parity. |
 | **[ADR-0009](./docs/adr/0009-session-ttl-and-explicit-purge.md)** | Session Expiry via Prompt & 15m TTL | Dual-trigger session memory purge on exit prompts (*"reset"*, *"clear"*, *"log out"*) or 15m idle. |
 | **[ADR-0010](./docs/adr/0010-interactive-priority-downgrade-guardrail.md)** | Interactive Priority Verification | Interactive prompt when Critical priority tag lacks major business outage justification. |
 | **[ADR-0011](./docs/adr/0011-tiered-spii-redaction-logging.md)** | Tiered SPII Redaction | Ephemeral UI self-viewing in active stream with strict persistent log and audit trace masking. |
@@ -82,7 +82,7 @@ flowchart TD
     T2["02 — Security Sentinel Gateway (Model Armor & Tiered SPII)"]
     T3["03 — WorkWeek HCM MCP Server & Tools"]
     T4["04 — ServiceImmediately ITSM MCP Server & Tools"]
-    T5["05 — Policy Q&A Specialist & Live Vertex Search"]
+    T5["05 — Policy Q&A Specialist & OKF Grounding"]
     T6["06 — Primary HR Orchestrator (ADK) & Dispatcher"]
     T7["07 — Cross-System Workflow Handlers (UC-2.x)"]
     T8["08 — End-to-End Evaluation & Latency Benchmark Suite"]
@@ -108,7 +108,7 @@ flowchart TD
 | **02** | **[`02-security-sentinel-spii-guardrails.md`](./.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md)** | `01` | Google Cloud Model Armor integration + Cloud DLP / Presidio tiered SPII masking. |
 | **03** | **[`03-workweek-hcm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md)** | `01` | WorkWeek MCP tools + confirmation gate, PTO & temporal guardrails. |
 | **04** | **[`04-serviceimmediately-itsm-mock-service.md`](./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md)** | `01` | ServiceImmediately MCP tools + lifecycle transitions & priority downgrade guardrail. |
-| **05** | **[`05-policy-qa-specialist-vertex-search.md`](./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md)** | `01, 02` | Policy Q&A Agent with live Vertex AI Search grounding, citations, and 0% hallucination fallback. |
+| **05** | **[`05-policy-qa-specialist-vertex-search.md`](./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md)** | `01, 02` | Policy Q&A Agent with Open Knowledge Format (OKF) grounding, citations, and 0% hallucination fallback. |
 | **06** | **[`06-primary-hr-orchestrator-adk.md`](./.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md)** | `02, 03, 04, 05` | Root multi-turn session orchestrator in Vertex ADK dispatching to domain specialists. |
 | **07** | **[`07-cross-system-workflow-handlers.md`](./.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md)** | `06` | Chained execution for UC-2.1 (Equipment), UC-2.2 (Medical Leave), UC-2.3 (Relocation) + Forward Recovery. |
 | **08** | **[`08-e2e-evaluation-benchmark-suite.md`](./.scratch/hr-agentic-mvp1/issues/08-e2e-evaluation-benchmark-suite.md)** | `07` | Comprehensive evaluation verifying all 35 user stories, red-team tests, and <300ms latency. |
@@ -128,7 +128,7 @@ flowchart TD
 | **FR-2.2** | Multi-Turn Dialog | Isolated stateful session manager with TTL (ADR-0009) | Context retention & memory leak tests |
 | **FR-3.1–3.4** | WorkWeek Integration | WorkWeek FastAPI Connector + Confirmation Gate (ADR-0007) | Balance constraint, date validity & confirmation tests |
 | **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately Connector + Priority Guard (ADR-0010) | State transition, duplicate detection & priority tests |
-| **FR-5.1–5.5** | Policy Document Q&A | Live Vertex AI Search datastore with metadata citations (ADR-0008) | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
+| **FR-5.1–5.5** | Policy Document Q&A | Repository-Managed Open Knowledge Format (OKF) bundle (`knowledge/`) with metadata citations (ADR-0002, ADR-0008) | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
 | **UC-2.1–2.3** | Cross-System Orchestration | Cross-System Flow Engine with Forward Recovery (ADR-0004) | End-to-end workflow execution & failure recovery tests |
 
 ---
