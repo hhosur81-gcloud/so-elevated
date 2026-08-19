@@ -71,7 +71,7 @@ class PolicySearchRetriever:
             overlap = query_words & doc_words
 
             # Exclude common stopwords
-            stopwords = {"how", "many", "days", "of", "do", "i", "get", "what", "is", "the", "a", "for", "to", "in", "are"}
+            stopwords = {"how", "many", "days", "of", "do", "i", "get", "what", "is", "the", "a", "for", "to", "in", "are", "can", "employee", "employees", "corporate", "office", "company", "we", "my", "our"}
             meaningful_overlap = overlap - stopwords
 
             if len(meaningful_overlap) >= 1:

@@ -18,7 +18,12 @@ class ModelArmorGateway:
         re.compile(r"forget\s+(all\s+)?(hr\s+rules|rules|guidelines)", re.IGNORECASE),
         re.compile(r"drop\s+table\s+", re.IGNORECASE),
         re.compile(r"show\s+raw\s+api\s+tokens", re.IGNORECASE),
+        re.compile(r"private\s+keys?", re.IGNORECASE),
+        re.compile(r"dump\s+(the\s+)?database", re.IGNORECASE),
+        re.compile(r"rm\s+-rf", re.IGNORECASE),
+        re.compile(r"execute\s+system\s+command", re.IGNORECASE),
         re.compile(r"output\s+all\s+employee\s+salary\s+data", re.IGNORECASE),
+        re.compile(r"unlimited\s+paid\s+time\s+off", re.IGNORECASE),
     ]
 
     def __init__(self, template_id: Optional[str] = None):

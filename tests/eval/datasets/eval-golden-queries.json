@@ -1,0 +1,27 @@
+[
+  {
+    "id": "GOLDEN-01",
+    "domain": "POLICY",
+    "prompt": "How many days of bereavement leave do I get for an immediate family member?",
+    "expected_keywords": ["5", "paid"],
+    "expected_citation": "https://intranet.company.com/policies/hr-2026-leave.pdf"
+  },
+  {
+    "id": "GOLDEN-02",
+    "domain": "WORKWEEK",
+    "prompt": "How many hours of PTO do I have remaining?",
+    "expected_keywords": ["120", "hours"]
+  },
+  {
+    "id": "GOLDEN-03",
+    "domain": "WORKWEEK_CONFIRMATION",
+    "prompt": "I want to request 16 hours of PTO from 2026-09-01 to 2026-09-02.",
+    "expected_keywords": ["Please confirm", "16.0 hours", "2026-09-01"]
+  },
+  {
+    "id": "GOLDEN-04",
+    "domain": "FALLBACK",
+    "prompt": "Can employees bring pet giraffes to the corporate office?",
+    "expected_keywords": ["not covered in our current published company policies"]
+  }
+]
