@@ -1,4 +1,4 @@
-"""Primary HR Orchestrator Agent (Vertex ADK Dispatcher, ADR-0007, ADR-0009)."""
+"""Primary HR Orchestrator Agent (Vertex ADK Dispatcher, ADR-0007, ADR-0009, ADR-0010)."""
 
 import re
 import time
@@ -134,18 +134,20 @@ class PrimaryHROrchestrator:
 
         # 5. Compensation / Salary Privacy Guardrail
         if "salary" in lowered_msg or "compensation" in lowered_msg or "pay rate" in lowered_msg:
-            # Check if asking about someone else vs own
+            # Check if asking about someone else vs general payroll policy vs own salary figure
             names_or_titles = ["marcus", "jane", "john", "maria", "alex", "vp", "executive", "director", "manager", "other"]
             is_asking_about_others = any(n in lowered_msg for n in names_or_titles) and not ("my salary" in lowered_msg or "my compensation" in lowered_msg)
             
             if is_asking_about_others:
                 resp_text = "Individual employee compensation and salary records are strictly confidential and not accessible through the HR Assistant."
-            else:
+                self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
+            elif "my salary" in lowered_msg or "how much do i make" in lowered_msg:
                 resp_text = "Your individual compensation, salary, and pay stubs are managed securely in the Workday Payroll portal. For privacy and compliance reasons, salary figures are not displayed in conversational chat."
-
-            self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
-            self._save_session(session)
-            return {"success": True, "response": resp_text, "requires_confirmation": False}
+                self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
 
         # 6. Intent Classification & Routing
 
@@ -188,7 +190,64 @@ class PrimaryHROrchestrator:
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-        # C. General Leave Programs Overview (Ambiguous Leave Query)
+        # C. ITSM Ticket Lookup Query
+        ticket_match = re.search(r"\b(INC-[A-Z0-9]+|SEC-[A-Z0-9]+)\b", user_message, re.IGNORECASE)
+        if ticket_match and ("status" in lowered_msg or "check" in lowered_msg or "ticket" in lowered_msg):
+            t_id = ticket_match.group(1).upper()
+            token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:read"])
+            t_res = self.itsm_server.itsm_get_ticket(t_id, token)
+            if t_res["success"]:
+                t_data = t_res["data"]
+                resp_text = f"Ticket {t_data['ticket_id']} ({t_data['title']}): Status is **{t_data['status']}** (Priority: {t_data['priority']}, Assigned to: {t_data['assigned_to'] or 'Unassigned'})."
+            else:
+                resp_text = f"Unable to find ticket {t_id}. Please verify the ticket ID."
+
+            self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_get_ticket", start_time)
+            self._save_session(session)
+            return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+        # D. ITSM Ticket Creation Intent (IT/HR Issue Logging)
+        if ("log" in lowered_msg or "create" in lowered_msg or "open" in lowered_msg or "file" in lowered_msg or "submit" in lowered_msg) and \
+           ("ticket" in lowered_msg or "incident" in lowered_msg or "issue" in lowered_msg or "it support" in lowered_msg or "helpdesk" in lowered_msg):
+            category = "IT_Support"
+            if "laptop" in lowered_msg or "hardware" in lowered_msg or "monitor" in lowered_msg or "mouse" in lowered_msg or "keyboard" in lowered_msg:
+                category = "Hardware"
+            elif "vpn" in lowered_msg or "network" in lowered_msg or "wifi" in lowered_msg or "access" in lowered_msg:
+                category = "Access_Network"
+            elif "hr" in lowered_msg or "benefits" in lowered_msg or "payroll" in lowered_msg:
+                category = "HR_Operations"
+
+            # Extract priority if requested, default to P3
+            priority = "P3"
+            if "p1" in lowered_msg or "critical" in lowered_msg or "urgent" in lowered_msg:
+                priority = "P1"
+            elif "p2" in lowered_msg or "high" in lowered_msg:
+                priority = "P2"
+            elif "p4" in lowered_msg or "low" in lowered_msg:
+                priority = "P4"
+
+            token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:write"])
+            inc_res = self.itsm_server.itsm_create_incident(
+                employee_id=employee_id,
+                category=category,
+                priority=priority,
+                title=f"Support Request: {user_message[:60]}",
+                description=user_message,
+                bearer_token=token
+            )
+
+            if inc_res["success"]:
+                ticket_info = inc_res["data"]
+                downgrade_note = f"\n\n*Note: {inc_res['downgrade_warning']}*" if inc_res.get("downgraded") else ""
+                resp_text = f"I've logged IT Support ticket **{ticket_info['ticket_id']}** for you with priority **{ticket_info['priority']}**.{downgrade_note}\n\nOur service team will review it shortly. You can track this ticket by asking for status on **{ticket_info['ticket_id']}**."
+            else:
+                resp_text = f"Unable to create ticket: {inc_res.get('error', 'Unknown error')}"
+
+            self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_create_incident", start_time)
+            self._save_session(session)
+            return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+        # E. General Leave Programs Overview (Ambiguous Leave Query)
         if re.search(r"how\s+many\s+(weeks|days|months)\s+of\s+leave", lowered_msg) or lowered_msg in ["what leave do i get", "what leaves are available", "leave entitlement"]:
             resp_text = """According to company policy, full-time employees are eligible for several leave programs:
 
@@ -201,8 +260,7 @@ class PrimaryHROrchestrator:
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-        # D. Policy Q&A Inquiry
-                # Resolve employee role from WorkWeek for Query-time ACL
+        # F. Policy Q&A Inquiry
         profile = self.repo.load_record("workweek/employees.json", employee_id)
         emp_role = "Executive" if profile and profile.get("role") in ["VP of Engineering", "Executive", "VP"] else "Employee"
         
