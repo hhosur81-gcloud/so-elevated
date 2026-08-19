@@ -482,27 +482,27 @@
             <tr>
               <td><code>FR-5.1</code></td>
               <td><strong>Document Ingestion</strong></td>
-              <td>Connect to centralized repository to ingest, chunk, and index HR policies.</td>
+              <td>Parse and load structured HR policies directly from repository-resident Open Knowledge Format (OKF) Markdown files (<code>knowledge/</code>) including YAML frontmatter metadata.</td>
             </tr>
             <tr>
               <td><code>FR-5.2</code></td>
               <td><strong>Grounded Answers</strong></td>
-              <td>Generate answers strictly from ingested policies; state clearly when answer is not present.</td>
+              <td>Generate answers strictly from ingested OKF policy bundles; state clearly when answer is not present.</td>
             </tr>
             <tr>
               <td><code>FR-5.3</code></td>
               <td><strong>Source Citation</strong></td>
-              <td>Return clickable metadata/links to the exact document and section used.</td>
+              <td>Return clickable metadata/anchors to the exact OKF document path and section used.</td>
             </tr>
             <tr>
               <td><code>FR-5.4</code></td>
               <td><strong>Retrieval Guardrails</strong></td>
-              <td>• <strong>Strict Grounding:</strong> Refuse when context is insufficient.<br>• <strong>Domain Containment:</strong> Reject prompts outside HR policy.<br>• <strong>Citation Integrity:</strong> Ensure links resolve to active policies.</td>
+              <td>• <strong>Strict Grounding:</strong> Refuse when context is insufficient.<br>• <strong>Domain Containment:</strong> Reject prompts outside HR policy.<br>• <strong>Citation Integrity:</strong> Ensure links resolve to active OKF policies.</td>
             </tr>
             <tr>
               <td><code>FR-5.5</code></td>
               <td><strong>Document Sync Latency</strong></td>
-              <td>Reflect source repository policy updates in Knowledge Base within defined latency window.</td>
+              <td>Reflect updates to OKF policy documents immediately upon repository commit or deployment (0s sync latency).</td>
             </tr>
           </tbody>
         </table>

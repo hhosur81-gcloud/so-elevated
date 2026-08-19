@@ -8,5 +8,5 @@
 
 - [ ] Automated test suite validating all 35 user stories from spec.md.
 - [ ] Negative security red-team injection tests (100% detection rate).
-- [ ] Strict live Vertex AI Search policy grounding test suite.
+- [ ] Strict Open Knowledge Format (OKF) policy grounding test suite.
 - [ ] End-to-end latency benchmark report confirming < 10s start latency and < 300ms safety scanning overhead.

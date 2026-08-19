@@ -17,7 +17,7 @@ Enterprise employees currently experience high-friction, fragmented access to HR
 
 ### 1.2. Solution Architecture Summary
 The HR Agentic Solution resolves these challenges through a unified conversational interface that:
-1. Performs strictly grounded policy retrieval using **Google Cloud Vertex AI Search** over approved corporate policy documents, providing clickable deep-link citations with 0% policy hallucinations.
+1. Performs strictly grounded policy retrieval using **repository-managed Open Knowledge Format (OKF)** policy files (`knowledge/`) over approved corporate policy documents, providing clickable deep-link citations with 0% policy hallucinations.
 2. Connects natively via **Model Context Protocol (MCP) Servers** to **WorkWeek (HCM)** and **ServiceImmediately (ITSM)**, executing profile lookups, PTO inquiries, leave bookings, and ticket lifecycle operations over realistic stateful enterprise fixtures.
 3. Implements **Google Cloud Model Armor** at Layer 0 as the managed AI security gateway, providing prompt injection defense, jailbreak mitigation, and **Cloud Sensitive Data Protection (DLP)** tiered SPII redaction (<300ms overhead).
 4. Enforces cryptographic zero-trust identity provenance using **Signed JWT Bearer Tokens** on all downstream tool invocations.
@@ -40,7 +40,7 @@ To ensure strict alignment across stakeholders, prevent scope creep, and focus d
 | **Enterprise Tenancy** | Single-tenant corporate deployment. | Multi-tenant organization partitioning, cross-subsidiary billing separation. |
 | **HCM / HRIS Operations** | WorkWeek profile view/update, PTO balance lookup, vacation/sick leave booking guardrails via MCP. | Direct payroll processing, compensation adjustments, benefits plan enrollment elections, performance review workflows. |
 | **ITSM Operations** | ServiceImmediately incident lookup, ticket creation (1-Critical to 4-Low), timeline comments, resolution confirmation via MCP. | Asset configuration database (CMDB) live topology discovery, automated network switch port provisioning, change management CAB approvals. |
-| **Policy Ingestion & RAG** | Static HR policy PDFs/Markdown in Vertex AI Search with deep-link citations. | Dynamic employee handbook co-authoring, unapproved intranet wiki crawling. |
+| **Policy Ingestion & Grounding** | Corporate HR policies authored in Open Knowledge Format (OKF) (Markdown + YAML frontmatter) stored directly in repository (`knowledge/`) with section deep links. | Dynamic employee handbook co-authoring, unapproved intranet wiki crawling. |
 | **Channels & Modalities** | Web-based chat interface & API client. | Native Voice/IVR telephony streaming, WhatsApp/SMS messaging, physical smart speaker integrations. |
 
 
@@ -90,7 +90,7 @@ The following domain terms are established across all specifications, tools, and
 
 * **WorkWeek**: The core Human Capital Management (HCM) system of record holding employee profiles, contact details, and PTO balances. (Avoid: HRIS, PeopleSoft, BambooHR).
 * **ServiceImmediately**: The enterprise IT and HR Service Desk (ITSM/HRSD) platform managing incident tickets, equipment requests, and support comments. (Avoid: ServiceNow, Jira Service Desk, Helpdesk).
-* **Policy Repository**: The centralized repository of approved corporate policy documents (PDF/Text) indexed in Vertex AI Search for grounded informational queries. (Avoid: Document store, Wiki, KB).
+* **Policy Repository**: The version-controlled directory in the repository (`knowledge/`) containing approved corporate policy documents structured in Open Knowledge Format (OKF) (Markdown + YAML frontmatter) for grounded informational queries. (Avoid: Document store, Wiki, KB).
 * **Leave of Absence (LOA)**: An employee time-off request (Vacation or Sick) submitted and tracked within WorkWeek. (Avoid: PTO ticket, absence booking).
 * **Incident**: A support or service ticket created within ServiceImmediately with a tracked priority (1-Critical to 4-Low) and status lifecycle. (Avoid: Support case, issue, bug).
 * **Origin Verification**: The cryptographic signed JWT bearer token attached to automated downstream operations distinguishing agent actions from direct user input. (Avoid: Caller ID, system user).
@@ -121,10 +121,10 @@ To address enterprise architectural review, the table below documents the evalua
 * **Decision**: We implement dedicated Model Context Protocol (MCP) servers (`workweek-mcp` and `serviceimmediately-mcp`) backed by realistic stateful enterprise fixtures (seeded employees, PTO balances, and incident timelines) with built-in validation guardrails and signed JWT origin verification.
 * **Consequences**: Standardizes tool schemas for Gemini, eliminates custom HTTP client glue code in the agent, and allows the MCP servers to seamlessly swap internal backends to live enterprise APIs in production without altering agent tool definitions.
 
-### ADR-0002: Use Vertex AI Search for Policy Knowledge Grounding
-* **Context**: Fulfilling FR-5.1 through FR-5.5 requires high-precision semantic retrieval over static corporate HR policy documents with verifiable source citations.
-* **Decision**: We use Google Cloud Vertex AI Search as the semantic retrieval and grounding engine for static HR policy documents.
-* **Consequences**: Delivers managed semantic chunking, high-speed embedding search, zero hallucinated facts, and structured citation metadata with clickable section deep links.
+### ADR-0002: Use Repository-Managed Open Knowledge Format (OKF) for Policy Knowledge Grounding
+* **Context**: Fulfilling FR-5.1 through FR-5.5 requires high-precision semantic retrieval over structured corporate HR policy documents with verifiable source citations and Git-native policy governance without external cloud catalog dependencies.
+* **Decision**: We store corporate HR policy documents directly in the repository as Open Knowledge Format (OKF) Markdown files (`knowledge/`) with structured YAML frontmatter, parsed directly in-memory by the `OKFKnowledgeTool`.
+* **Consequences**: Delivers structured frontmatter metadata, deterministic section deep links, 0% hallucinated facts, and zero external cloud service dependencies.
 
 ### ADR-0003: Multi-Stage Hybrid Guardrails Pipeline for Safety & SPII
 * **Context**: Fulfilling FR-1.3, FR-1.4, and NFR-2.1 requires sub-300ms safety scanning overhead while providing 100% defense against prompt injections and data leakage.
@@ -139,7 +139,7 @@ To address enterprise architectural review, the table below documents the evalua
 ### ADR-0005: Use Vertex AI Agent Development Kit (ADK) for Core Agent Orchestration
 * **Context**: The solution requires multi-turn dialog management, declarative tool calling, session memory isolation, and model parameter management.
 * **Decision**: We standardize on the official Google Cloud Vertex AI Agent Development Kit (ADK) as the unified agent orchestration framework interfacing with Gemini models.
-* **Consequences**: Provides native tool calling, declarative schema reflection, multi-turn context isolation, and direct integration with Vertex AI Search grounding.
+* **Consequences**: Provides native tool calling, declarative schema reflection, multi-turn context isolation, and direct integration with Open Knowledge Format (OKF) policy knowledge bundles.
 
 ### ADR-0006: Use Signed JWT Bearer Tokens for Delegated Authorization & Origin Verification
 * **Context**: FR-1.2 and FR-3.1 mandate that all downstream API and MCP calls verify automated request origin and prevent privilege escalation.
@@ -151,10 +151,10 @@ To address enterprise architectural review, the table below documents the evalua
 * **Decision**: The Primary Orchestrator requires an explicit conversational confirmation turn before committing state-changing write mutations, while read-only inquiries and ticket comments execute directly without confirmation prompts.
 * **Consequences**: Prevents accidental leave deductions, enforces Human-in-the-Loop (HITL) safety, and allows employees to verify calculated balance deductions prior to committal.
 
-### ADR-0008: Strict Live Vertex AI Search Connection for Policy Retrieval
-* **Context**: Discrepancies between local mock retrieval and cloud search can conceal grounding failures during development.
-* **Decision**: All Policy Q&A integration and benchmark evaluation tests connect directly to live Google Cloud Vertex AI Search datastores using authentic GCP project credentials, failing fast if the cloud datastore is unavailable.
-* **Consequences**: Guarantees 100% parity with production cloud retrieval behavior and validates actual deep-link URL formatting.
+### ADR-0008: Strict Repository-Managed Open Knowledge Format (OKF) Policy Grounding Testing & Validation
+* **Context**: Discrepancies between local mock retrieval and production policy knowledge can conceal grounding failures during development.
+* **Decision**: All Policy Q&A integration and benchmark evaluation tests validate answers directly against canonical repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), failing fast if required policy concepts or schema frontmatters are missing.
+* **Consequences**: Guarantees 100% parity with production policy knowledge, validates deterministic citation anchor resolution, and enables hermetic CI evaluation.
 
 ### ADR-0009: Session Expiry via Explicit Reset Prompts and 15-Minute Idle TTL
 * **Context**: Fulfilling FR-2.2 and FR-1.5 requires preventing session context from idling indefinitely on unattended terminals or leaking data between users.
@@ -283,7 +283,7 @@ sequenceDiagram
 31. As an enterprise operator, I want cross-system workflow failures (e.g. WorkWeek success followed by ServiceImmediately failure) to execute forward recovery with high-priority audit alerts and manual follow-up guidance, so that partial transactions never corrupt enterprise state.
 32. As an employee, I want to say "reset conversation" or "clear session" to immediately purge session state, so that my conversational context is wiped when I am done.
 33. As an enterprise security admin, I want active sessions to automatically expire after 15 minutes of inactivity, so that unattended terminals do not leak session context.
-34. As a QA engineer, I want all policy retrieval tests to execute strictly against live Google Cloud Vertex AI Search datastores, so that tests validate authentic production retrieval behavior.
+34. As a QA engineer, I want all policy retrieval tests to execute strictly against canonical repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`), so that tests validate authentic production retrieval behavior.
 35. As a developer, I want all mock services and agents to run with zero external mock leaks and full end-to-end type safety, so that the solution is robust and maintainable.
 
 ---
@@ -301,7 +301,7 @@ sequenceDiagram
 | **FR-2.2** | Multi-Turn Dialog | Isolated stateful session manager with TTL | ADR-0009 | Context retention & memory leak tests |
 | **FR-3.1–3.4** | WorkWeek Integration | WorkWeek MCP Server + Confirmation Gate | ADR-0001, ADR-0007 | Balance constraint, date validity & confirmation tests |
 | **FR-4.1–4.3** | ServiceImmediately Integration | ServiceImmediately MCP Server + Priority Guard | ADR-0001, ADR-0010 | State transition, duplicate detection & priority tests |
-| **FR-5.1–5.5** | Policy Document Q&A | Live Vertex AI Search datastore with metadata citations | ADR-0002, ADR-0008 | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
+| **FR-5.1–5.5** | Policy Document Q&A | Repository-Managed Open Knowledge Format (OKF) bundle (`knowledge/`) with metadata citations | ADR-0002, ADR-0008 | Grounding precision benchmark (≥95% accuracy, 0% hallucination) |
 | **UC-2.1–2.3** | Cross-System Orchestration | Cross-System Flow Engine with Forward Recovery | ADR-0004 | End-to-end workflow execution & failure recovery tests |
 
 ---
@@ -349,14 +349,14 @@ The project is decomposed into 8 vertical tracer-bullet slices ready for Test-Dr
   - [ ] Interactive priority downgrade flow when Critical priority lacks major outage justification.
   - [ ] Unit & integration tests asserting full round-trip MCP tool execution against realistic incident timelines.
 
-### Ticket 05: Policy Q&A Specialist Agent & Live Vertex AI Search Grounding
+### Ticket 05: Policy Q&A Specialist Agent & Open Knowledge Format (OKF) Grounding
 * **Blocked by**: Ticket 01, Ticket 02
-* **What it delivers**: Dedicated Policy Q&A Agent grounding responses against live Vertex AI Search datastore holding approved HR policy documents, returning deep-link citations and strict zero-hallucination fallback.
+* **What it delivers**: Dedicated Policy Q&A Agent grounding responses against repository-resident Open Knowledge Format (OKF) policy files (`knowledge/`) holding approved HR policy documents, returning deep-link citations and strict zero-hallucination fallback.
 * **Acceptance Criteria**:
-  - [ ] Live Vertex AI Search datastore retrieval connector with authentic GCP project credentials.
+  - [ ] Open Knowledge Format (OKF) bundle parser and retrieval connector with YAML frontmatter inspection.
   - [ ] Formats policy answers with clickable citations (`[Document Title#Section](url)`).
   - [ ] Returns explicit fallback message when topic is not covered in company policy.
-  - [ ] Grounding evaluation benchmark demonstrating &ge;95% accuracy and 0% hallucinations against live datastore.
+  - [ ] Grounding evaluation benchmark demonstrating &ge;95% accuracy and 0% hallucinations against canonical OKF policy bundle.
 
 ### Ticket 06: Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher
 * **Blocked by**: Ticket 02, Ticket 03, Ticket 04, Ticket 05
@@ -382,7 +382,7 @@ The project is decomposed into 8 vertical tracer-bullet slices ready for Test-Dr
 * **Acceptance Criteria**:
   - [ ] Automated test suite validating all 35 user stories from spec.md.
   - [ ] Negative security red-team injection tests (100% detection rate).
-  - [ ] Strict live Vertex AI Search policy grounding test suite.
+  - [ ] Strict Open Knowledge Format (OKF) policy grounding test suite.
   - [ ] End-to-end latency benchmark report confirming < 10s start latency and < 300ms safety scanning overhead.
 
 ---
@@ -454,12 +454,12 @@ To provide transparent cost governance and measurable Return on Investment (ROI)
 | Cost Component | Pricing Metric / Unit | Usage per 1,000 Inquiries | Estimated Cost (USD) |
 | :--- | :--- | :--- | :--- |
 | **LLM Inference (Gemini 2.0 Flash)** | $0.10 / 1M Input Tokens<br>$0.40 / 1M Output Tokens | ~1.5M Input Tokens<br>~400K Output Tokens | $0.15<br>$0.16 |
-| **Google Cloud Vertex AI Search** | $2.00 / 1,000 Search Queries | 600 Policy Searches | $1.20 |
+| **Repository OKF Policy Storage** | Local repository filesystem / container image | 100 Policy Documents / Bundles | $0.00 (Included) |
 | **Google Cloud Model Armor** | $0.50 / 10,000 Request Inspections | 2,000 (Ingress + Egress) | $0.10 |
 | **Serverless Compute (Cloud Run)** | $0.00002400 / vCPU-sec<br>$0.00000250 / GiB-sec | ~800 vCPU-seconds | $0.02 |
 | **Cloud DLP Inspection & Cloud Storage** | InfoType inspection / GB | Storage & Logs (<1 GB) | $0.01 |
-| **Total Cloud Cost per 1,000 Turns** | — | — | **$1.64** |
-| **Effective Cost per Employee Inquiry** | — | — | **~$0.0016 – $0.0032** |
+| **Total Cloud Cost per 1,000 Turns** | — | — | **$1.44** |
+| **Effective Cost per Employee Inquiry** | — | — | **~$0.0014 – $0.0028** |
 
 ### 10.2. Enterprise Monthly Projection & ROI Model (10,000 Active Employees)
 
@@ -598,7 +598,7 @@ To guarantee zero unhandled runtime crashes and deterministic user experience du
 
 | Component / Subsystem | Failure Scenario | HTTP / Error Code | Retry Policy & Backoff | Circuit Breaker Action | Fallback & User-Facing Conversational Response |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Vertex AI Search** | Policy Datastore Timeout or 5xx | `504 GATEWAY_TIMEOUT`<br>`503 SERVICE_UNAVAILABLE` | Retry 2x with Exponential Backoff (100ms, 300ms) with jitter | Trip Open after 5 consecutive failures in 30s | *"I am currently unable to retrieve the latest policy document due to a temporary service delay. You can view the static document directly at [Company Policy Portal](https://intranet.example.com/policies) or check back shortly."* |
+| **Repository OKF Policy Bundle** | Missing Document or YAML Parse Error | `404 NOT_FOUND`<br>`500 PARSE_ERROR` | In-memory cache fallback; Fail fast on missing concept | Log schema error to Cloud Logging | *"I am currently unable to locate that specific company policy in our official records. You can view the static document directly at [Company Policy Portal](https://intranet.example.com/policies) or check back shortly."* |
 | **WorkWeek MCP Server** | Rate Limited during peak open enrollment | `429 TOO_MANY_REQUESTS` | Retry 3x with Exponential Backoff (500ms, 1500ms, 3000ms) | Rate Throttling queue activated | *"WorkWeek is currently experiencing high demand. Please hold on for a moment while I retry your request..."* |
 | **WorkWeek MCP Server** | Backend HCM Outage / Maintenance | `500 INTERNAL_SERVER_ERROR`<br>`503 UNAVAILABLE` | No retry on persistent 500; Fail fast after 1 attempt | Trip Open after 3 consecutive failures in 15s | *"WorkWeek is temporarily undergoing maintenance. Your leave request has not been submitted. Would you like me to open a ticket in ServiceImmediately to track this for you?"* |
 | **ServiceImmediately MCP** | ITSM API Error during Cross-System Flow (UC-2.2) | `500 INTERNAL_SERVER_ERROR`<br>`502 BAD_GATEWAY` | Forward Recovery: Log high-priority pending sync task | Keep LOA booked in WorkWeek; Do NOT rollback | *"Your Medical Leave (Ref #LOA-9081) was successfully booked in WorkWeek. However, the automated IT notification ticket timed out. Our system has automatically queued this task for synchronization, and your HR representative has been notified."* |
@@ -607,25 +607,23 @@ To guarantee zero unhandled runtime crashes and deterministic user experience du
 
 ---
 
-## 13. Real-Time Policy Document Synchronization Pipeline
+## 13. Repository-Resident Policy Document Management & In-Memory Synchronization (Open Knowledge Format)
 
 ![Figure 5: Policy Sync Pipeline](./docs/assets/policy_sync_pipeline.jpg)
 
-To eliminate the risk of stale RAG answers when HR guidelines or benefits change, the architecture implements an automated, event-driven synchronization engine.
+To eliminate the operational complexity and latency of external cloud search or catalog engines, corporate policy documents are maintained directly in the repository as structured Open Knowledge Format (OKF) Markdown files.
 
 ```mermaid
 flowchart LR
-    HRAdmin["HR Policy Author<br>(Google Drive / CMS)"] -->|"Exports Approved PDF/MD"| GCSBucket["Cloud Storage Bucket<br>(gs://hr-policy-repo-prod)"]
-    GCSBucket -->|"GCS Object Change Notification"| Eventarc["Cloud Eventarc Trigger"]
-    Eventarc -->|"Executes Incremental Import"| IngestFunc["Cloud Ingestion Service<br>(Cloud Run)"]
-    IngestFunc -->|"Imports and Chunks Document"| VertexSearch["Vertex AI Search Datastore<br>(Discovery Engine)"]
-    VertexSearch -->|"Live Index Ready (under 60s)"| PolicyAgent["Policy Q&A Specialist Agent"]
+    HRAdmin["HR Policy Author<br>(Markdown in Git)"] -->|"Git Commit / Push"| GitRepo["Repository Policy Folder<br>(knowledge/*.md)"]
+    GitRepo -->|"Direct Filesystem / Memory Load"| Parser["OKF Bundle Parser<br>(In-Memory Index & Frontmatter)"]
+    Parser -->|"Deterministic Resolution"| PolicyAgent["Policy Q&A Specialist Agent"]
 ```
 
-### 13.1. Ingestion Pipeline Specifications
-1. **Eventarc Automated Trigger**: When HR publishes an updated PDF/Markdown document to `gs://hr-policy-repo-prod/active/`, Cloud Storage emits a `google.cloud.storage.object.v1.finalized` event.
-2. **Incremental Indexing**: The Ingestion Service invokes the Discovery Engine Document API (`projects.locations.dataStores.branches.documents.import`), performing atomic, zero-downtime document replacement in < 60 seconds.
-3. **Automated Nightly Reconciliation Cron**: A scheduled Cloud Scheduler job runs at 02:00 UTC comparing SHA-256 document checksums in Cloud Storage against indexed Vertex AI Search document metadata to detect and heal any missing synchronization events.
+### 13.1. Repository-Resident Policy Specifications
+1. **Git-Native Version Control**: Policy Markdown files (`.md`) with YAML frontmatter are stored directly in `knowledge/` alongside the application codebase, ensuring all policy modifications are version-controlled, auditable, and code-reviewable.
+2. **In-Memory Loading & Instant Sync**: The `OKFKnowledgeTool` parses `knowledge/index.md` and policy concept files into memory on startup, providing sub-millisecond retrieval latency with 0s sync delay upon deployment.
+3. **Automated CI/CD Validation**: A presubmit CI workflow (`knowledge/check_okf.py`) validates YAML frontmatter schema compliance, internal cross-links, and citation anchors before any policy change merges into `main`.
 
 ---
 
@@ -664,15 +662,8 @@ terraform {
   }
 }
 
-# 1. Vertex AI Search Datastore for HR Policies
-resource "google_discovery_engine_data_store" "hr_policy_store" {
-  location                     = "global"
-  data_store_id                = "hr-policy-datastore"
-  display_name                 = "HR Approved Policies Datastore"
-  industry_vertical            = "GENERIC"
-  content_config               = "CONTENT_REQUIRED"
-  solution_types               = ["SOLUTION_TYPE_SEARCH"]
-}
+# 1. Repository-Resident Policy Knowledge
+# (Policies are maintained directly in Git under knowledge/ and packaged into the Cloud Run container image)
 
 # 2. Google Cloud Model Armor Security Template
 resource "google_model_armor_template" "hr_security_gateway" {
@@ -745,8 +736,8 @@ For non-technical business leaders and executive sponsors, this section translat
 
 * **What is the Primary Orchestrator?**  
   *Analogy*: **The Concierge Desk**. When an employee arrives with a question or request, the concierge understands their need, checks their employee badge, and escorts them to the exact department specialist rather than making them search the building themselves.
-* **What is Vertex AI Search Grounding?**  
-  *Analogy*: **The Corporate Law Librarian**. Instead of an AI guessing or inventing policies from memory, the librarian pulls out the exact, approved HR policy handbook, points their finger directly to the paragraph, and hands the employee a certified photocopy with the page number.
+* **What is Repository-Managed Open Knowledge Format (OKF) Grounding?**  
+  *Analogy*: **The Structured Corporate Policy Compendium**. Instead of an AI guessing or inventing policies from memory, the system consults an organized, indexed repository binder of official policies with clear section titles, tags, and paragraph links, and provides the employee with the verified section reference and direct anchor link.
 * **What is Google Cloud Model Armor?**  
   *Analogy*: **The Security Scanner at the Entrance & Exit**. It inspects every incoming message to block tricksters or unauthorized instructions (prompt injections) and scans outgoing messages to make sure personal home addresses or confidential numbers are never written onto public bulletin boards.
 * **What are MCP (Model Context Protocol) Servers?**  
@@ -761,8 +752,8 @@ To satisfy Data Protection Officer (DPO) governance under GDPR (Articles 17 & 21
 
 #### 1. GDPR 'Right to be Forgotten' Vector Embedding Purge Procedure
 When an employee departs the organization and triggers an offboarding event (`employee.offboarded`):
-1. **Automated Document Discovery**: The Compliance Service queries Vertex AI Search metadata filtering for `author_id: <user_id>` or `subject_employee_id: <user_id>`.
-2. **Deterministic Chunk & Vector Deletion**: All personalized document chunks and associated vector embeddings are purged from the live index using the Discovery Engine Batch Delete API within **< 24 hours**.
+1. **Automated Document Discovery**: The Compliance Service queries application session and repository metadata filtering for `author_id: <user_id>` or `subject_employee_id: <user_id>`.
+2. **Deterministic Record Deletion**: All personalized conversation records and associated session data are purged from application memory and database stores within **< 24 hours**.
 3. **Audit Trail Cryptographic Hashing**: Historical audit log entries referencing the departed employee have their personal identifiers replaced with a one-way cryptographically salted SHA-256 hash (`salt + user_id`), preserving aggregate audit statistics without retaining identifiable PII.
 
 #### 2. User Conversational Consent Withdrawal Controls
@@ -775,7 +766,7 @@ Employees can exercise direct privacy rights natively within the chat stream:
 ### 14.3. Real-Time Vector Access Control (ACL) Query-Time Filtering & Revocation Latency SLA
 
 To guarantee zero latency exposure of confidential HR policy data when user roles change:
-1. **Query-Time Metadata Security Filtering**: Rather than relying on slow background vector re-indexing, every search query dispatched to Vertex AI Search injects a mandatory dynamic security filter:
+1. **Query-Time Metadata Security Filtering**: Rather than relying on slow background vector re-indexing, every search query dispatched to the repository OKF bundle parser injects a mandatory dynamic security filter based on YAML frontmatter `access_control` and roles:
    ```json
    filter = "authorized_roles:ANY(\"" + user_role + "\") AND minimum_clearance <= " + user_clearance
    ```
@@ -792,7 +783,7 @@ A structured assessment of technical, operational, security, and organizational 
 
 | Risk ID | Risk Category | Risk Description | Likelihood (1–5) | Impact (1–5) | Severity (L x I) | Proactive Mitigation Strategy | Owner | Contingency / Fallback Plan |
 | :--- | :--- | :--- | :-: | :-: | :-: | :--- | :--- | :--- |
-| **RSK-01** | **Technical** | Vertex AI Search experience temporary regional outage during peak query load. | 2 | 4 | **Medium (8)** | Live dual-region failover + client-side exponential backoff retries. | Cloud Infra Lead | Circuit breaker trips; user presented with static intranet policy portal link. |
+| **RSK-01** | **Technical** | Repository OKF policy Markdown file contains malformed YAML frontmatter. | 2 | 4 | **Medium (8)** | Pre-commit CI schema validation + in-memory fallback parser. | Cloud Infra Lead | Circuit breaker trips; user presented with static intranet policy portal link. |
 | **RSK-02** | **Security** | Adversarial prompt injection bypasses Layer 0 Model Armor filter. | 2 | 5 | **High (10)** | Multi-stage defense: Model Armor + strict ADK tool schema bounds + output toxicity/hallucination filter. | Security Architect | Hard-block on unrecognized tool commands; immediate alert dispatched to SCC. |
 | **RSK-03** | **Compliance** | Stale employee PII retained in persistent logs violating GDPR Art. 17. | 1 | 5 | **Medium (5)** | Automated Cloud DLP tiered redaction on log writes + 90-day automated partition purge + salted hash offboarding. | DPO / Lead Engineer | Automated daily log integrity scanner flags unmasked SPII for immediate remediation. |
 | **RSK-04** | **Operational** | WorkWeek API 429 throttling during annual open-enrollment benefits rush. | 4 | 3 | **High (12)** | In-memory Token Bucket rate limiter (100 RPS) with prioritized queueing for in-flight transactions. | Backend Lead | Graceful degradation queue with friendly user wait notifications. |

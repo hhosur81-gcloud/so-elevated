@@ -64,7 +64,7 @@
     <div class="badge-bar">
       <span class="badge">Google Cloud Vertex AI ADK</span>
       <span class="badge">Model Armor & Cloud DLP</span>
-      <span class="badge">Vertex AI Search RAG</span>
+      <span class="badge">Open Knowledge Format (OKF)</span>
       <span class="badge">13 ADRs Approved</span>
       <span class="badge">TDD Ready</span>
     </div>
@@ -82,7 +82,7 @@
     <section>
       <h2>Executive Summary</h2>
       <div class="card">
-        The <strong>HR Agentic Solution</strong> automates Tier-1 HR inquiries and orchestrates self-service transactions across core enterprise platforms (<strong>WorkWeek HCM</strong> and <strong>ServiceImmediately ITSM</strong>) with strict grounding against official corporate policy documents in <strong>Vertex AI Search</strong>.<br><br>
+        The <strong>HR Agentic Solution</strong> automates Tier-1 HR inquiries and orchestrates self-service transactions across core enterprise platforms (<strong>WorkWeek HCM</strong> and <strong>ServiceImmediately ITSM</strong>) with strict grounding against official corporate policy documents structured in <strong>Open Knowledge Format (OKF)</strong> stored directly in the repository (<code>knowledge/</code>).<br><br>
         Deployed via the <strong>Vertex AI Agent Development Kit (ADK)</strong> and protected by <strong>Google Cloud Model Armor</strong>, it enforces zero-trust origin authentication (Signed JWTs), multi-stage safety interceptors (<20ms SPII redaction & prompt injection defense), and automatic forward recovery for partial cross-system failures.
       </div>
     </section>
@@ -164,8 +164,8 @@
           </tr>
           <tr>
             <td><a href="./docs/adr/0002-vertex-ai-search-policy-rag.md">ADR-0002</a></td>
-            <td>Vertex AI Search Policy RAG</td>
-            <td>Enterprise semantic retrieval engine with structured citation metadata and deep links.</td>
+            <td>Open Knowledge Format (OKF) Policy Grounding</td>
+            <td>Structured semantic retrieval engine with YAML frontmatter metadata and section deep links.</td>
           </tr>
           <tr>
             <td><a href="./docs/adr/0003-hybrid-safety-guardrails.md">ADR-0003</a></td>
@@ -194,8 +194,8 @@
           </tr>
           <tr>
             <td><a href="./docs/adr/0008-strict-live-vertex-ai-search-testing.md">ADR-0008</a></td>
-            <td>Live Vertex AI Search Testing</td>
-            <td>Integration tests connect directly to live GCP datastores to ensure 100% production parity.</td>
+            <td>Strict OKF Policy Testing & Validation</td>
+            <td>Integration tests validate answers against canonical OKF bundles to ensure 100% production parity.</td>
           </tr>
           <tr>
             <td><a href="./docs/adr/0009-session-ttl-and-explicit-purge.md">ADR-0009</a></td>
@@ -234,7 +234,7 @@
         <li><a href="./.scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md">Ticket 02</a> — Security Sentinel Gateway (Model Armor & Tiered SPII)</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md">Ticket 03</a> — WorkWeek HCM MCP Server & Connector Tools</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md">Ticket 04</a> — ServiceImmediately ITSM MCP Server & Connector Tools</li>
-        <li><a href="./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md">Ticket 05</a> — Policy Q&A Specialist Agent & Live Vertex AI Search Grounding</li>
+        <li><a href="./.scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md">Ticket 05</a> — Policy Q&A Specialist Agent & Open Knowledge Format (OKF) Grounding</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md">Ticket 06</a> — Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md">Ticket 07</a> — Cross-System Workflow Handlers with Forward Recovery</li>
         <li><a href="./.scratch/hr-agentic-mvp1/issues/08-e2e-evaluation-benchmark-suite.md">Ticket 08</a> — End-to-End Evaluation Suite & Performance Benchmark</li>

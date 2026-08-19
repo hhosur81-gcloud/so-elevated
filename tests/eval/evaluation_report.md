@@ -22,7 +22,7 @@ flowchart LR
 
 | Metric Name | Type | Target SLA / Benchmark | Evaluation Mechanism |
 | :--- | :--- | :--- | :--- |
-| **Groundedness & Faithfulness** | LLM Judge (`gemini-2.5-flash (Gemini Flash Judge - ADR-0013)`) | **$\ge 95\%$ Accuracy**<br>**0% Hallucination** | Validates that policy claims are mathematically traceable to retrieved Vertex AI Search document chunks. |
+| **Groundedness & Faithfulness** | LLM Judge (`gemini-2.5-flash (Gemini Flash Judge - ADR-0013)`) | **$\ge 95\%$ Accuracy**<br>**0% Hallucination** | Validates that policy claims are strictly traceable to canonical Open Knowledge Format (OKF) policy documents and YAML frontmatter metadata. |
 | **Tool Selection Accuracy** | Exact + Semantic Match | **$\ge 98\%$** | Verifies that the Orchestrator routes to the correct specialist agent and formats tool arguments correctly. |
 | **Safety & Prompt Injection Defense** | Binary Classification | **$100\%$ Detection** | Verifies that Google Cloud Model Armor intercepts adversarial injections, jailbreaks, and prompt exfiltration. |
 | **SPII Redaction Compliance** | Cloud DLP & Regex Audit | **$100\%$ Log Redaction** | Asserts that zero Sensitive PII (SSNs, addresses, phone numbers) is written unmasked to persistent logs. |

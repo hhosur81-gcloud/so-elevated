@@ -58,7 +58,7 @@ function createHRAgenticDeck() {
     [
       '• Layer 0: Security Sentinel Interceptor — Sub-20ms Presidio/Regex SPII redaction & prompt injection defense.',
       '• Agent 1: Primary HR Orchestrator (ADK) — Root router, session manager (15m TTL), confirmation gate, and workflow engine.',
-      '• Agent 2: Policy Q&A Specialist — Live Vertex AI Search grounding, citation deep links, and zero-hallucination fallback.',
+      '• Agent 2: Policy Q&A Specialist — Open Knowledge Format (OKF) grounding, YAML frontmatter citations, and zero-hallucination fallback.',
       '• Agent 3: WorkWeek HCM Specialist — Profile queries, PTO balances, and guarded leave bookings (Signed JWT: workweek:*).',
       '• Agent 4: ServiceImmediately ITSM Specialist — Incident creation, comments, lifecycle transitions (Signed JWT: serviceimmediately:*).'
     ]
@@ -69,7 +69,7 @@ function createHRAgenticDeck() {
     'Architectural Decision Records',
     [
       '• ADR-0001: MCP Enterprise Servers — Model Context Protocol (MCP) servers with stateful enterprise fixtures & validation guardrails.',
-      '• ADR-0002 & 0008: Live Vertex AI Search Policy RAG — Strict live connection to Google Cloud datastores with structured citation deep links.',
+      '• ADR-0002 & 0008: Open Knowledge Format (OKF) Grounding — Canonical OKF knowledge bundles with YAML frontmatter metadata and section deep links.',
       '• ADR-0005: Vertex AI Agent Development Kit (ADK) — Standardized unified framework for Gemini model calling, tools, and session state.',
       '• ADR-0004: Cross-System Forward Recovery — Partial failure handling with audit logs and manual follow-up rather than destructive rollbacks.'
     ]
@@ -119,7 +119,7 @@ function createHRAgenticDeck() {
       '• Ticket 02: Security Sentinel Interceptor (Tiered SPII & Prompt Safety)',
       '• Ticket 03: WorkWeek HCM MCP Server & Connector Tools',
       '• Ticket 04: ServiceImmediately ITSM MCP Server & Connector Tools',
-      '• Ticket 05: Policy Q&A Specialist Agent & Live Vertex AI Search Grounding',
+      '• Ticket 05: Policy Q&A Specialist Agent & Open Knowledge Format (OKF) Grounding',
       '• Ticket 06: Primary HR Orchestrator Agent (Vertex ADK) & Dispatcher',
       '• Ticket 07: Cross-System Workflow Handlers with Forward Recovery',
       '• Ticket 08: End-to-End Evaluation Suite & Performance Benchmark'

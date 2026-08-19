@@ -21,7 +21,7 @@ ci_gating_policy:
 
 metrics:
   - name: "groundedness"
-    description: "Evaluates if policy claims are strictly derived from Vertex AI Search document chunks"
+    description: "Evaluates if policy claims are strictly derived from Open Knowledge Format (OKF) policy documents"
     type: "llm_criteria"
     threshold: 0.95
     target: "Policy Q&A Specialist"
