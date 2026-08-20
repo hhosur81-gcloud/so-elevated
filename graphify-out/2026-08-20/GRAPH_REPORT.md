@@ -1,16 +1,16 @@
 # Graph Report - elevate-hrproject  (2026-08-20)
 
 ## Corpus Check
-- 373 files · ~244,834 words
+- 374 files · ~245,467 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1821 nodes · 2024 edges · 327 communities (114 shown, 213 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 91 edges (avg confidence: 0.5)
+- 1842 nodes · 2091 edges · 328 communities (113 shown, 215 thin omitted)
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 113 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9396aa59`
+- Built from commit: `cf5f3cb2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -331,35 +331,37 @@
 - sdd-so-elevated.md
 - interactive_cli.py
 - ModelArmorGateway
+- sdd-so-elevated.md
+- .answer_policy_query
 
 ## God Nodes (most connected - your core abstractions)
-1. `FileStoreRepository` - 62 edges
-2. `JWTManager` - 42 edges
-3. `PrimaryHROrchestrator` - 39 edges
+1. `FileStoreRepository` - 69 edges
+2. `PrimaryHROrchestrator` - 42 edges
+3. `JWTManager` - 42 edges
 4. `Altostrat Singapore Employee Policy Handbook & Conduct Guidelines` - 34 edges
-5. `RemoteServiceImmediatelyClient` - 23 edges
-6. `EnterpriseBaseModel` - 22 edges
-7. `RemoteWorkWeekClient` - 21 edges
-8. `System Design Document (SDD): HR Agentic Solution (MVP 1)` - 21 edges
-9. `ContinuousSyntheticCanary` - 20 edges
-10. `WorkWeekAgent` - 17 edges
+5. `WorkWeekAgent` - 23 edges
+6. `RemoteServiceImmediatelyClient` - 23 edges
+7. `ContinuousSyntheticCanary` - 23 edges
+8. `EnterpriseBaseModel` - 22 edges
+9. `ITSMAgent` - 21 edges
+10. `PolicyAgent` - 21 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `TestEndToEndBenchmarks` --uses--> `PrimaryHROrchestrator`  [INFERRED]
-  tests/e2e/test_end_to_end_benchmarks.py → src/agents/orchestrator_agent.py
-- `TestOrchestratorAgent` --uses--> `PrimaryHROrchestrator`  [INFERRED]
-  tests/integration/test_orchestrator_agent.py → src/agents/orchestrator_agent.py
-- `TestPolicyAgent` --uses--> `PolicyAgent`  [INFERRED]
-  tests/integration/test_policy_agent.py → src/agents/policy_agent.py
-- `TestDedicatedAgents` --uses--> `WorkWeekAgent`  [INFERRED]
-  tests/unit/test_dedicated_agents.py → src/agents/workweek_agent.py
-- `TestEndToEndBenchmarks` --uses--> `JWTManager`  [INFERRED]
-  tests/e2e/test_end_to_end_benchmarks.py → src/config/security.py
+- `ChatRequest` --uses--> `PrimaryHROrchestrator`  [INFERRED]
+  server.py → src/agents/orchestrator_agent.py
+- `ChatRequest` --uses--> `ContinuousSyntheticCanary`  [INFERRED]
+  server.py → src/services/canary_service.py
+- `ResetRequest` --uses--> `PrimaryHROrchestrator`  [INFERRED]
+  server.py → src/agents/orchestrator_agent.py
+- `ResetRequest` --uses--> `ContinuousSyntheticCanary`  [INFERRED]
+  server.py → src/services/canary_service.py
+- `TestDedicatedAgents` --uses--> `ITSMAgent`  [INFERRED]
+  tests/unit/test_dedicated_agents.py → src/agents/itsm_agent.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (327 total, 213 thin omitted)
+## Communities (328 total, 215 thin omitted)
 
 ### Community 0 - "EnterpriseBaseModel"
 Cohesion: 0.05
@@ -382,8 +384,8 @@ Cohesion: 0.06
 Nodes (34): Altostrat Singapore Employee Policy Handbook & Conduct Guidelines, Section 10: ALCOHOL, SMOKING, AND DRUGS, Section 12: CONFLICTS OF INTEREST POLICY, Section 13: ANTI-BRIBERY & GOVERNMENT ETHICS POLICY, Section 14: COMMERCIAL GIFTS & ENTERTAINMENT (NON-GOVERNMENT), Section 16: EMPLOYEE PRIVACY POLICY, Section 17: FLEXIBLE WORK REQUESTS (SINGAPORE), Section 18: UNPAID TIME OFF & PERSONAL LEAVE (+26 more)
 
 ### Community 5 - "JWTManager"
-Cohesion: 0.20
-Nodes (5): E2E Evaluation Suite asserting safety detection rate, grounding accuracy, and la, Verify 100% detection and blocking rate across all adversarial attack vectors (Q, Verify 100% accuracy and grounded citations on Golden Query evaluation dataset., Verify total turn execution latency is under 3000ms (NFR-1.1)., TestEndToEndBenchmarks
+Cohesion: 0.12
+Nodes (10): PrimaryHROrchestrator, Root multi-agent supervisor orchestrating sub-agents (WorkWeek, ITSM, Policy, Se, Record turn history with DLP masking for audit safety., Delegate date extraction to WorkWeek specialist., End-to-End Evaluation Benchmark Suite (agents-cli, ADR-0012, 100% Security Pass, E2E Evaluation Suite asserting safety detection rate, grounding accuracy, and la, Verify 100% detection and blocking rate across all adversarial attack vectors (Q, Verify 100% accuracy and grounded citations on Golden Query evaluation dataset. (+2 more)
 
 ### Community 6 - "Triage"
 Cohesion: 0.06
@@ -394,8 +396,8 @@ Cohesion: 0.08
 Nodes (16): HR Agentic Solution, Language, Technology Tradeoff Analysis: Custom REST Endpoints vs. Model Context Protocol (MCP), Use Model Context Protocol (MCP) Servers for Enterprise Integrations, Use Repository-Managed Open Knowledge Format (OKF) for Policy Knowledge Grounding, Multi-Stage Hybrid Guardrails Pipeline for Safety & SPII, Forward Recovery for Cross-System Orchestration Failures, Use Vertex AI Agent Development Kit (ADK) for Core Agent Orchestration (+8 more)
 
 ### Community 8 - "PrimaryHROrchestrator"
-Cohesion: 0.11
-Nodes (25): BaseModel, post, main(), print_header(), ChatRequest, process_chat(), FastAPI Production Server for So-Elevated Enterprise HR Assistant on Google Clou, Execute conversational turn across Model Armor, ADK Router, and FastMCP. (+17 more)
+Cohesion: 0.13
+Nodes (17): Vertex AI Agent Engine / Reasoning Engine Module for So-Elevated HR Assistant &, ServiceImmediately Specialist Agent for ITSM, Facilities, and Compliance Operati, Primary HR Orchestrator Agent (Vertex ADK Supervisor Pattern, ADR-0005, ADR-0007, WorkWeek Specialist Agent for HCM, Balances, and Leave Management (ADK Pattern)., Cryptographic Signed JWT Token Management & JWKS Export (ADR-0006, SEC-0001)., Application Settings and Configuration., Core application environment settings., Settings (+9 more)
 
 ### Community 9 - "teach/SKILL.md"
 Cohesion: 0.07
@@ -410,8 +412,8 @@ Cohesion: 0.07
 Nodes (25): 1. State the question, 2. Isolate the logic in a portable module, 3. Build the shareable HTML file, 4. Hand it over, 5. Capture the answer and the prototype, Anti-patterns, Logic Prototype, Process (+17 more)
 
 ### Community 12 - "FileStoreRepository"
-Cohesion: 0.14
-Nodes (10): Cryptographic Signed JWT Token Management & JWKS Export (ADR-0006, SEC-0001)., Application Settings and Configuration., Core application environment settings., Settings, Atomic FileStore Repository with Linux kernel file locking (fcntl.flock) (Q1 & Q, Cloud Tasks / PubSub Asynchronous DLQ & Idempotent Worker (ENG-0002, ADR-0004)., Security Command Center (SCC) Premium Streaming & Automated P1 Alert Handler (SE, End-to-End Evaluation Benchmark Suite (agents-cli, ADR-0012, 100% Security Pass (+2 more)
+Cohesion: 0.29
+Nodes (9): BaseModel, post, ChatRequest, process_chat(), FastAPI Production Server for So-Elevated Enterprise HR Assistant on Google Clou, Execute conversational turn across Model Armor, ADK Router, and FastMCP., Explicitly purge session context from memory., reset_session() (+1 more)
 
 ### Community 13 - "ModelArmorGateway"
 Cohesion: 0.07
@@ -446,12 +448,12 @@ Cohesion: 0.22
 Nodes (16): ask(), ask_secret(), banner(), _clear(), finish(), note(), open_url(), pause() (+8 more)
 
 ### Community 21 - "run_live_simulation.py"
-Cohesion: 0.15
-Nodes (12): FileStoreRepository, Atomic, thread-safe, and process-safe FileStore data persistence., OpenTelemetryTracer, OpenTelemetry Distributed Tracing & W3C Span Context Propagation (SEC-0006, Q7)., Manages distributed trace contexts and spans., Eventarc subscriber streaming Model Armor attacks to SCC and automating P1 IT in, SCCThreatAutomationService, Integration tests for OpenTelemetry Distributed Tracing & SCC Threat Automation (+4 more)
+Cohesion: 0.09
+Nodes (23): main(), print_header(), JWTManager, Manages asymmetric cryptographic signing, claim validation, and JWKS discovery., FileStoreRepository, Atomic, thread-safe, and process-safe FileStore data persistence., ContinuousSyntheticCanary, Automated probe worker executing synthetic transactions every 5 minutes against (+15 more)
 
 ### Community 22 - "RemoteWorkWeekClient"
-Cohesion: 0.09
-Nodes (17): EllipticCurvePrivateKey, PolicyAgent, Any, Specialist sub-agent resolving enterprise policy queries with strict grounding a, Process user policy question with cache lookup, search retrieval, and citation s, JWTManager, Manages asymmetric cryptographic signing, claim validation, and JWKS discovery., Initialize JWTManager with an ECDSA P-256 key pair. (+9 more)
+Cohesion: 0.15
+Nodes (8): CrossSystemWorkflowCoordinator, Coordinates complex multi-system enterprise workflows across HCM, ITSM, and Poli, Integration tests for Cross-System Workflow Coordination & Forward Recovery (ADR, Test suite verifying cross-system workflows across Policy, WorkWeek, and ITSM., Verify UC-2.1: Policy check -> WorkWeek verify -> ServiceImmediately ticket crea, Verify UC-2.2: Policy check -> WorkWeek LOA booking -> ServiceImmediately IT rou, Verify forward recovery creates compensation alert on downstream failure (ADR-00, TestWorkflowCoordinator
 
 ### Community 23 - "4. Architectural Decision Records (ADRs 0001–0013)"
 Cohesion: 0.12
@@ -466,8 +468,8 @@ Cohesion: 0.12
 Nodes (14): Phase boundaries, Primary and secondary sources, The five options, The tree, These are judgement calls, Ask Matt, Codebase health, Context hygiene (+6 more)
 
 ### Community 26 - "TaskQueueManager"
-Cohesion: 0.13
-Nodes (10): Any, Manages asynchronous task dispatch, exponential backoff retries, and Dead Letter, Enqueue a background task with unique ID and Idempotency-Key., Worker execution loop with exponential retry handling and DLQ escalation., TaskQueueManager, Integration tests for Cloud Tasks Asynchronous DLQ & Idempotent Worker (ENG-0002, Test suite verifying async task queuing, exponential retries, idempotency, and D, Verify task execution commits once and caches idempotency key. (+2 more)
+Cohesion: 0.12
+Nodes (11): Any, Cloud Tasks / PubSub Asynchronous DLQ & Idempotent Worker (ENG-0002, ADR-0004)., Manages asynchronous task dispatch, exponential backoff retries, and Dead Letter, Enqueue a background task with unique ID and Idempotency-Key., Worker execution loop with exponential retry handling and DLQ escalation., TaskQueueManager, Integration tests for Cloud Tasks Asynchronous DLQ & Idempotent Worker (ENG-0002, Test suite verifying async task queuing, exponential retries, idempotency, and D (+3 more)
 
 ### Community 27 - "Span"
 Cohesion: 0.14
@@ -482,8 +484,8 @@ Cohesion: 0.13
 Nodes (8): Unit tests for Asymmetric Signed JWT Token Generation & Verification (ADR-0006,, Verify generation and cryptographic verification of delegated bearer token., Verify scope authorization checking., Verify expired tokens are rejected with TokenExpired error., Verify token tampering breaks signature verification., Verify JSON Web Key Set (JWKS) public key export (SEC-0001)., Test suite verifying asymmetric JWT signing, claims validation, and JWKS discove, TestSecurityJWT
 
 ### Community 30 - "TestOrchestratorAgent"
-Cohesion: 0.10
-Nodes (10): Verify multi-turn dynamic elicitation when dates and hours are not initially pro, Test suite verifying multi-agent routing, confirmation gates, and session lifecy, Verify user can revise dates/hours when presented with confirmation gate., Verify natural language date parsing (e.g., '2 days from 16 sep')., Verify 2 weeks duration parsing and revision during confirmation., Verify prompt injection is rejected before any agent or tool is invoked., Verify general policy inquiries route to PolicyAgent with citations., Verify PTO queries route to WorkWeek MCP server. (+2 more)
+Cohesion: 0.09
+Nodes (11): Integration tests for Primary HR Orchestrator Agent (Vertex ADK, ADR-0007, ADR-0, Verify multi-turn dynamic elicitation when dates and hours are not initially pro, Test suite verifying multi-agent routing, confirmation gates, and session lifecy, Verify user can revise dates/hours when presented with confirmation gate., Verify natural language date parsing (e.g., '2 days from 16 sep')., Verify 2 weeks duration parsing and revision during confirmation., Verify prompt injection is rejected before any agent or tool is invoked., Verify general policy inquiries route to PolicyAgent with citations. (+3 more)
 
 ### Community 31 - "Steps"
 Cohesion: 0.15
@@ -502,16 +504,16 @@ Cohesion: 0.15
 Nodes (11): Context pointers, Information hierarchy, Leading words, Invocation, Router skills, Skill mechanics, Splitting by invocation, Pruning (+3 more)
 
 ### Community 35 - "SoElevatedHRAgentEngine"
-Cohesion: 0.22
-Nodes (7): Any, Vertex AI Managed Agent Engine / Reasoning Engine entrypoint.          Adheres t, Initializes agents, policy knowledge base, and FastMCP connectors upon runtime s, Processes a single conversational turn in the Vertex AI Agent Engine runtime., Explicitly purges conversational session context from Agent Engine memory., Returns deep subsystem health and readiness metrics., SoElevatedHRAgentEngine
+Cohesion: 0.17
+Nodes (8): Any, Execute state mutation to live WorkWeek server., Process ITSM ticketing and support operations., Process policy Q&A query with citation grounding., Processes a conversational turn through the root orchestrator and specialist sub, Explicitly purges conversational session context from Agent Engine memory., Returns deep subsystem health and readiness metrics., Process HCM time-off and leave balance queries.
 
 ### Community 36 - "Feature Spec: HR Agentic Solution (MVP 1)"
 Cohesion: 0.15
 Nodes (12): Feature Spec: HR Agentic Solution (MVP 1), Further Notes, Implementation Decisions, Module Architecture & Seams, Modules Tested, Out of Scope, Problem Statement, Requirements Traceability Matrix (+4 more)
 
 ### Community 37 - "RemoteServiceImmediatelyClient"
-Cohesion: 0.10
-Nodes (12): ITSMAgent, ServiceImmediately Specialist Agent for ITSM, Facilities, and Compliance Operati, Specialist sub-agent governing IT Service Management (ITSM) and Incident Workflo, Unit tests for dedicated WorkWeekAgent and ITSMAgent specialist sub-agents (ADK, Test suite verifying modular specialist agent contracts., Verify multi-format natural language date parsing., Verify hours, days, and weeks duration conversions., Verify elicitation prompt when details are omitted. (+4 more)
+Cohesion: 0.13
+Nodes (8): Test suite verifying modular specialist agent contracts., Verify multi-format natural language date parsing., Verify hours, days, and weeks duration conversions., Verify elicitation prompt when details are omitted., Verify confirmation gate generation when all parameters are resolved., Verify accurate categorization across Hardware, Access, Compliance, and Operatio, Verify ADR-0010 priority downgrade without active major outage., TestDedicatedAgents
 
 ### Community 38 - "System Design Document (SDD): HR Agentic Solution (MVP 1)"
 Cohesion: 0.15
@@ -558,7 +560,7 @@ Cohesion: 0.20
 Nodes (9): `as Type` → `fromPartial()`, `as unknown as Type` → `fromAny()`, Install, Large objects with few needed properties, Migrate to Shoehorn, Migration patterns, When to use each, Why shoehorn? (+1 more)
 
 ### Community 49 - "sdd-so-elevated.md"
-Cohesion: 0.40
+Cohesion: 0.29
 Nodes (4): Consequences, Context, Decision, ENG-0001: Semantic Versioning (SemVer 2.0.0) & Tolerant Reader Schema Evolution
 
 ### Community 50 - "TestSyntheticCanary"
@@ -698,8 +700,8 @@ Cohesion: 0.40
 Nodes (4): Consequences, Context, Decision, SEC-0006: OpenTelemetry (OTel) Distributed Tracing & Token Profiling
 
 ### Community 84 - "EnterpriseBaseModel"
-Cohesion: 0.17
-Nodes (8): Any, Fetch employee leave balances from live WorkWeek FastMCP server., Evaluate PTO request parameters and generate elicitation prompt or confirmation, Specialist sub-agent governing Human Capital Management (HCM) operations., Execute state mutation to live WorkWeek FastMCP server upon human approval., Extract ISO, slash, and natural language dates (e.g. '16 sep', 'sep 16', '2026-0, Extract hours/days/weeks duration and calculate calendar span days., WorkWeekAgent
+Cohesion: 0.09
+Nodes (18): ITSMAgentEngine, PolicyAgentEngine, Dedicated Vertex AI Reasoning Engine runtime for ITSM ServiceImmediately Agent., Dedicated Vertex AI Reasoning Engine runtime for Policy Specialist Agent., Dedicated Vertex AI Reasoning Engine runtime for WorkWeek HCM Agent., WorkWeekAgentEngine, ITSMAgent, Specialist sub-agent governing IT Service Management (ITSM) and Incident Workflo (+10 more)
 
 ### Community 85 - "11.4. Data Protection: Vector Embedding Purge Lifecycle & Conversational Consent Controls (GDPR / DPO Compliance)"
 Cohesion: 0.40
@@ -762,8 +764,8 @@ Cohesion: 0.22
 Nodes (8): print_header(), run_demo(), Remote Model Context Protocol (MCP) Streamable HTTP Client.  Connects to live Fa, Specialized client for live ServiceImmediately ITSM FastMCP Server., Append a comment/note to the activity log of a ticket., Alias for add_ticket_comment., RemoteServiceImmediatelyClient, Integration tests for ServiceImmediately ITSM FastMCP Client (ADR-0001, ADR-0010
 
 ### Community 323 - "sdd-so-elevated.md"
-Cohesion: 0.25
-Nodes (4): Test suite verifying 24/7 continuous canaries on EMP-CANARY-01 and /healthz endp, Verify /healthz returns deep subsystem readiness for Global Load Balancer (SEC-0, Verify synthetic probe executes full 3-step transaction and exports SLA metrics, TestSyntheticCanary
+Cohesion: 0.33
+Nodes (3): Root Vertex AI Managed Agent Engine / Reasoning Engine entrypoint.          Adhe, Initializes agents, policy knowledge base, and FastMCP connectors upon runtime s, SoElevatedHRAgentEngine
 
 ### Community 324 - "interactive_cli.py"
 Cohesion: 0.28
@@ -776,22 +778,22 @@ Nodes (7): get, get_system_status(), health_check(), Serve Google Material Respo
 ## Knowledge Gaps
 - **778 isolated node(s):** `block-dangerous-git.sh script`, `deploy_cloud_run.sh script`, `The five options`, `The tree`, `Primary and secondary sources` (+773 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **213 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **215 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `FileStoreRepository` connect `run_live_simulation.py` to `sdd-so-elevated.md`, `RemoteServiceImmediatelyClient`, `JWTManager`, `PrimaryHROrchestrator`, `FileStoreRepository`, `TestFileStoreRepository`, `._get_full_path`, `TestSyntheticCanary`, `EnterpriseBaseModel`, `RemoteWorkWeekClient`, `TaskQueueManager`, `Span`, `TestOrchestratorAgent`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **Why does `PrimaryHROrchestrator` connect `PrimaryHROrchestrator` to `EnterpriseBaseModel`, `SoElevatedHRAgentEngine`, `RemoteServiceImmediatelyClient`, `JWTManager`, `FileStoreRepository`, `ModelArmorGateway`, `TestSyntheticCanary`, `EnterpriseBaseModel`, `run_live_simulation.py`, `RemoteWorkWeekClient`, `TestOrchestratorAgent`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
-- **Why does `JWTManager` connect `RemoteWorkWeekClient` to `Any`, `sdd-so-elevated.md`, `JWTManager`, `PrimaryHROrchestrator`, `FileStoreRepository`, `TestSyntheticCanary`, `EnterpriseBaseModel`, `run_live_simulation.py`, `TestSecurityJWT`, `TestOrchestratorAgent`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Are the 17 inferred relationships involving `FileStoreRepository` (e.g. with `ITSMAgent` and `PrimaryHROrchestrator`) actually correct?**
-  _`FileStoreRepository` has 17 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `FileStoreRepository` connect `run_live_simulation.py` to `sdd-so-elevated.md`, `JWTManager`, `RemoteServiceImmediatelyClient`, `PrimaryHROrchestrator`, `TestFileStoreRepository`, `._get_full_path`, `TestSyntheticCanary`, `EnterpriseBaseModel`, `RemoteWorkWeekClient`, `TaskQueueManager`, `Span`, `TestOrchestratorAgent`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+- **Why does `PrimaryHROrchestrator` connect `JWTManager` to `EnterpriseBaseModel`, `sdd-so-elevated.md`, `PrimaryHROrchestrator`, `FileStoreRepository`, `ModelArmorGateway`, `TestSyntheticCanary`, `EnterpriseBaseModel`, `run_live_simulation.py`, `TestOrchestratorAgent`?**
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **Why does `RemoteWorkWeekClient` connect `TestEndToEndBenchmarks` to `get`, `interactive_cli.py`, `PrimaryHROrchestrator`, `Any`, `EnterpriseBaseModel`, `RemoteWorkWeekClient`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Are the 21 inferred relationships involving `FileStoreRepository` (e.g. with `ITSMAgentEngine` and `PolicyAgentEngine`) actually correct?**
+  _`FileStoreRepository` has 21 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 19 inferred relationships involving `PrimaryHROrchestrator` (e.g. with `ChatRequest` and `ResetRequest`) actually correct?**
+  _`PrimaryHROrchestrator` has 19 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 10 inferred relationships involving `JWTManager` (e.g. with `PrimaryHROrchestrator` and `ContinuousSyntheticCanary`) actually correct?**
   _`JWTManager` has 10 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 16 inferred relationships involving `PrimaryHROrchestrator` (e.g. with `ChatRequest` and `ResetRequest`) actually correct?**
-  _`PrimaryHROrchestrator` has 16 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 4 inferred relationships involving `RemoteServiceImmediatelyClient` (e.g. with `ITSMAgent` and `SCCThreatAutomationService`) actually correct?**
-  _`RemoteServiceImmediatelyClient` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 9 inferred relationships involving `WorkWeekAgent` (e.g. with `ITSMAgentEngine` and `PolicyAgentEngine`) actually correct?**
+  _`WorkWeekAgent` has 9 INFERRED edges - model-reasoned connections that need verification._

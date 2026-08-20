@@ -82,6 +82,48 @@ class PrimaryHROrchestrator:
         s_dict["last_activity_at_ts"] = time.time()
         self.repo.save_record(self.SESSION_STORE, session.session_id, s_dict)
 
+    AGENT_METADATA = {
+        "workweek_agent": {
+            "name": "WorkWeek Agent",
+            "short_name": "WorkWeek",
+            "badge": "💼 WorkWeek Agent",
+            "role": "HCM & Time-off Specialist"
+        },
+        "itsm_agent": {
+            "name": "ITSM Agent",
+            "short_name": "ITSM",
+            "badge": "🎫 ITSM Agent",
+            "role": "ServiceImmediately Specialist"
+        },
+        "policy_agent": {
+            "name": "Policy Specialist",
+            "short_name": "Policy",
+            "badge": "📖 Policy Specialist",
+            "role": "OKF Grounding Specialist"
+        },
+        "orchestrator": {
+            "name": "HR Supervisor",
+            "short_name": "Supervisor",
+            "badge": "👑 HR Supervisor",
+            "role": "Root Multi-Agent Orchestrator"
+        },
+        "security_sentinel": {
+            "name": "Security Sentinel",
+            "short_name": "Security",
+            "badge": "🛡️ Security Sentinel",
+            "role": "Layer 0 Model Armor Guardrail"
+        }
+    }
+
+    def _format_result(self, result: Dict[str, Any], acting_agent: str = "orchestrator") -> Dict[str, Any]:
+        """Enrich turn response with standardized agent branding and badges for Web/API consumers."""
+        meta = self.AGENT_METADATA.get(acting_agent, self.AGENT_METADATA["orchestrator"])
+        result["acting_agent"] = acting_agent
+        result["agent_name"] = meta["name"]
+        result["agent_badge"] = meta["badge"]
+        result["agent_short_name"] = meta["short_name"]
+        return result
+
     def process_turn(self, session_id: str, employee_id: str, user_message: str) -> Dict[str, Any]:
         """Execute a conversational turn across Security Sentinel, Session Router, and Sub-agents."""
         start_time = time.perf_counter()
@@ -90,12 +132,13 @@ class PrimaryHROrchestrator:
         # 1. Layer 0 Security Sentinel Gate (Model Armor)
         inspection = self.guardrail.inspect_inbound_prompt(user_message, employee_id=employee_id)
         if not inspection.is_valid:
-            return {
+            return self._format_result({
                 "success": False,
                 "error_code": "SECURITY_BLOCKED",
                 "response": inspection.sanitized_text,
-                "category": inspection.category
-            }
+                "category": inspection.category,
+                "requires_confirmation": False
+            }, acting_agent="security_sentinel")
 
         # 2. Session Context Resolution
         session = self._get_or_create_session(session_id, employee_id)
@@ -106,11 +149,11 @@ class PrimaryHROrchestrator:
             session.pending_confirmation = None
             session.is_revoked = False
             self._save_session(session)
-            return {
+            return self._format_result({
                 "success": True,
                 "response": "Session context has been reset. How may I assist you today?",
                 "requires_confirmation": False
-            }
+            }, acting_agent="orchestrator")
 
         # 4. Confirmation Gate Check (ADR-0007, Q4)
         if session.pending_confirmation:
@@ -131,7 +174,7 @@ class PrimaryHROrchestrator:
                     res = self.workweek_agent.execute_confirmed_leave(employee_id, pending.payload)
                     self._record_turn(session, user_message, res["response"], res.get("acting_agent", "workweek_agent"), res.get("tool_invoked", "workweek_submit_leave_request"), start_time)
                     self._save_session(session)
-                    return res
+                    return self._format_result(res, acting_agent="workweek_agent")
 
             elif is_revision_attempt:
                 session.pending_confirmation = None
@@ -142,7 +185,7 @@ class PrimaryHROrchestrator:
                 resp_text = "The pending action has been cancelled. Let me know if you need anything else."
                 self._record_turn(session, user_message, resp_text, "orchestrator", None, start_time)
                 self._save_session(session)
-                return {"success": True, "response": resp_text, "requires_confirmation": False}
+                return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="orchestrator")
 
         # 5. Compensation / Salary Privacy Guardrail
         if "salary" in lowered_msg or "compensation" in lowered_msg or "pay rate" in lowered_msg:
@@ -153,12 +196,12 @@ class PrimaryHROrchestrator:
                 resp_text = "Individual employee compensation and salary records are strictly confidential and not accessible through the HR Assistant."
                 self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
                 self._save_session(session)
-                return {"success": True, "response": resp_text, "requires_confirmation": False}
+                return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="orchestrator")
             elif "my salary" in lowered_msg or "how much do i make" in lowered_msg:
                 resp_text = "Your individual compensation, salary, and pay stubs are managed securely in the Workday Payroll portal. For privacy and compliance reasons, salary figures are not displayed in conversational chat."
                 self._record_turn(session, user_message, resp_text, "orchestrator", "privacy_guardrail", start_time)
                 self._save_session(session)
-                return {"success": True, "response": resp_text, "requires_confirmation": False}
+                return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="orchestrator")
 
         # 6. Intent Classification & Routing
 
@@ -209,18 +252,18 @@ class PrimaryHROrchestrator:
                 session.pending_confirmation = res["pending_confirmation"]
             self._record_turn(session, user_message, res["response"], res.get("acting_agent", "workweek_agent"), res.get("tool_invoked", "prompt_pto_details"), start_time)
             self._save_session(session)
-            return {
+            return self._format_result({
                 "success": res.get("success", True),
                 "response": res["response"],
                 "requires_confirmation": res.get("requires_confirmation", False)
-            }
+            }, acting_agent="workweek_agent")
 
         # B. WorkWeek PTO Balance Query
         if is_pto_balance_query:
             res = self.workweek_agent.get_balances(employee_id)
             self._record_turn(session, user_message, res["response"], res.get("acting_agent", "workweek_agent"), res.get("tool_invoked", "workweek_get_pto_balances"), start_time)
             self._save_session(session)
-            return {"success": True, "response": res["response"], "requires_confirmation": False}
+            return self._format_result({"success": True, "response": res["response"], "requires_confirmation": False}, acting_agent="workweek_agent")
 
         # C. ITSM Ticket Lookup Query
         ticket_match = re.search(r"\b(INC[0-9]+|INC-[A-Z0-9]+|SEC-[A-Z0-9]+)\b", user_message, re.IGNORECASE)
@@ -232,7 +275,7 @@ class PrimaryHROrchestrator:
             res = self.itsm_agent.lookup_tickets(user_message, employee_id, ticket_match=t_id)
             self._record_turn(session, user_message, res["response"], res.get("acting_agent", "itsm_agent"), res.get("tool_invoked", "itsm_get_ticket"), start_time)
             self._save_session(session)
-            return {"success": True, "response": res["response"], "requires_confirmation": False}
+            return self._format_result({"success": True, "response": res["response"], "requires_confirmation": False}, acting_agent="itsm_agent")
 
         # D. ITSM Ticket Creation Intent
         if is_ticket_intent:
@@ -250,7 +293,7 @@ class PrimaryHROrchestrator:
             res = self.itsm_agent.create_ticket(user_message, employee_id, policy_guidance=policy_guidance)
             self._record_turn(session, user_message, res["response"], res.get("acting_agent", "itsm_agent"), res.get("tool_invoked", "itsm_create_incident"), start_time)
             self._save_session(session)
-            return {"success": True, "response": res["response"], "requires_confirmation": False}
+            return self._format_result({"success": True, "response": res["response"], "requires_confirmation": False}, acting_agent="itsm_agent")
 
         # E. General Leave Programs Overview (Ambiguous Leave Query)
         if re.search(r"how\s+many\s+(weeks|days|months)\s+of\s+leave", lowered_msg) or lowered_msg in ["what leave do i get", "what leaves are available", "leave entitlement"]:
@@ -263,7 +306,7 @@ class PrimaryHROrchestrator:
 
             self._record_turn(session, user_message, resp_text, "policy_agent", "leave_overview", start_time)
             self._save_session(session)
-            return {"success": True, "response": resp_text, "requires_confirmation": False}
+            return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="policy_agent")
 
         # F. Policy Q&A Inquiry
         profile = self.repo.load_record("workweek/employees.json", employee_id)
@@ -276,7 +319,7 @@ class PrimaryHROrchestrator:
 
         self._record_turn(session, user_message, resp_text, "policy_agent", "search_policies", start_time)
         self._save_session(session)
-        return {"success": True, "response": resp_text, "requires_confirmation": False}
+        return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="policy_agent")
 
     def _record_turn(
         self,

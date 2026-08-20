@@ -396,8 +396,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "deploy_agent_engine",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "deploy_agent_engine.py"
     },
     {
@@ -778,8 +778,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_live_simulation",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "run_live_simulation.py"
     },
     {
@@ -1020,8 +1020,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agent_engine",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "agent_engine.py"
     },
     {
@@ -1031,8 +1031,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_agent_engine_soelevatedhragentengine",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "soelevatedhragentengine"
     },
     {
@@ -1042,8 +1042,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_agent_engine_soelevatedhragentengine_init",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": ".__init__()"
     },
     {
@@ -1053,8 +1053,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_agent_engine_soelevatedhragentengine_set_up",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": ".set_up()"
     },
     {
@@ -1251,8 +1251,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agent_engine_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "vertex ai agent engine / reasoning engine module for so-elevated hr assistant &"
     },
     {
@@ -1262,8 +1262,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_agent_engine_rationale_20",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "root vertex ai managed agent engine / reasoning engine entrypoint.          adhe"
     },
     {
@@ -1273,8 +1273,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_agent_engine_rationale_38",
-      "community": 323,
-      "community_name": "sdd-so-elevated.md",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "initializes agents, policy knowledge base, and fastmcp connectors upon runtime s"
     },
     {
@@ -1416,8 +1416,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_itsm_agent",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "itsm_agent.py"
     },
     {
@@ -1504,8 +1504,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_itsm_agent_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "serviceimmediately specialist agent for itsm, facilities, and compliance operati"
     },
     {
@@ -1570,8 +1570,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "orchestrator_agent.py"
     },
     {
@@ -1581,8 +1581,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator",
-      "community": 5,
-      "community_name": "JWTManager",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "primaryhrorchestrator"
     },
     {
@@ -1592,8 +1592,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_init",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 13,
+      "community_name": "ModelArmorGateway",
       "norm_label": ".__init__()"
     },
     {
@@ -1603,8 +1603,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_parse_natural_dates",
-      "community": 5,
-      "community_name": "JWTManager",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "._parse_natural_dates()"
     },
     {
@@ -1614,8 +1614,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_get_or_create_session",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "._get_or_create_session()"
     },
     {
@@ -1625,20 +1625,20 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_save_session",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "._save_session()"
     },
     {
-      "label": ".process_turn()",
+      "label": "._format_result()",
       "file_type": "code",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L85",
+      "source_location": "L118",
       "_origin": "ast",
-      "id": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
-      "norm_label": ".process_turn()"
+      "id": "src_agents_orchestrator_agent_primaryhrorchestrator_format_result",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
+      "norm_label": "._format_result()"
     },
     {
       "label": "Any",
@@ -1647,19 +1647,30 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_py_any",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "any"
+    },
+    {
+      "label": ".process_turn()",
+      "file_type": "code",
+      "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L127",
+      "_origin": "ast",
+      "id": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
+      "norm_label": ".process_turn()"
     },
     {
       "label": "._record_turn()",
       "file_type": "code",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L281",
+      "source_location": "L324",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
-      "community": 5,
-      "community_name": "JWTManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "._record_turn()"
     },
     {
@@ -1669,8 +1680,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "primary hr orchestrator agent (vertex adk supervisor pattern, adr-0005, adr-0007"
     },
     {
@@ -1680,8 +1691,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_20",
-      "community": 5,
-      "community_name": "JWTManager",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "root multi-agent supervisor orchestrating sub-agents (workweek, itsm, policy, se"
     },
     {
@@ -1691,8 +1702,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_49",
-      "community": 5,
-      "community_name": "JWTManager",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "delegate date extraction to workweek specialist."
     },
     {
@@ -1702,8 +1713,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_53",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "retrieve existing active session state or initialize new one with ttl check."
     },
     {
@@ -1713,30 +1724,41 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_80",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "persist session state to atomic filestore."
+    },
+    {
+      "label": "Enrich turn response with standardized agent branding and badges for Web/API con",
+      "file_type": "rationale",
+      "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L119",
+      "_origin": "ast",
+      "id": "src_agents_orchestrator_agent_rationale_119",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
+      "norm_label": "enrich turn response with standardized agent branding and badges for web/api con"
     },
     {
       "label": "Execute a conversational turn across Security Sentinel, Session Router, and Sub-",
       "file_type": "rationale",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L86",
+      "source_location": "L128",
       "_origin": "ast",
-      "id": "src_agents_orchestrator_agent_rationale_86",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "id": "src_agents_orchestrator_agent_rationale_128",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "execute a conversational turn across security sentinel, session router, and sub-"
     },
     {
       "label": "Record turn history with DLP masking for audit safety.",
       "file_type": "rationale",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L290",
+      "source_location": "L333",
       "_origin": "ast",
-      "id": "src_agents_orchestrator_agent_rationale_290",
-      "community": 5,
-      "community_name": "JWTManager",
+      "id": "src_agents_orchestrator_agent_rationale_333",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "record turn history with dlp masking for audit safety."
     },
     {
@@ -1746,8 +1768,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_policy_agent",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "policy_agent.py"
     },
     {
@@ -1757,8 +1779,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_agents_policy_agent_policyagent",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "policyagent"
     },
     {
@@ -1801,8 +1823,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_agents_policy_agent_rationale_10",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "specialist sub-agent resolving enterprise policy queries with strict grounding a"
     },
     {
@@ -1823,8 +1845,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_workweek_agent",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "workweek_agent.py"
     },
     {
@@ -1856,8 +1878,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_workweekagent_parse_natural_dates",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": ".parse_natural_dates()"
     },
     {
@@ -1867,8 +1889,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_workweekagent_parse_duration",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": ".parse_duration()"
     },
     {
@@ -1878,8 +1900,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_workweekagent_get_balances",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": ".get_balances()"
     },
     {
@@ -1889,8 +1911,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_py_any",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "any"
     },
     {
@@ -1900,8 +1922,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_workweekagent_process_leave_intent",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": ".process_leave_intent()"
     },
     {
@@ -1911,8 +1933,8 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_workweekagent_execute_confirmed_leave",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": ".execute_confirmed_leave()"
     },
     {
@@ -1922,8 +1944,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "workweek specialist agent for hcm, balances, and leave management (adk pattern)."
     },
     {
@@ -1944,8 +1966,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_44",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "extract iso, slash, and natural language dates (e.g. '16 sep', 'sep 16', '2026-0"
     },
     {
@@ -1955,8 +1977,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_86",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "extract hours/days/weeks duration and calculate calendar span days."
     },
     {
@@ -1966,8 +1988,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_110",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "fetch employee leave balances from live workweek fastmcp server."
     },
     {
@@ -1977,8 +1999,8 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_125",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "evaluate pto request parameters and generate elicitation prompt or confirmation"
     },
     {
@@ -1988,8 +2010,8 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "src_agents_workweek_agent_rationale_206",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 328,
+      "community_name": ".process_leave_intent",
       "norm_label": "execute state mutation to live workweek fastmcp server upon human approval."
     },
     {
@@ -2021,8 +2043,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_security",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "security.py"
     },
     {
@@ -2131,8 +2153,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_security_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "cryptographic signed jwt token management & jwks export (adr-0006, sec-0001)."
     },
     {
@@ -2208,8 +2230,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_settings",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "settings.py"
     },
     {
@@ -2219,8 +2241,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_config_settings_settings",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "settings"
     },
     {
@@ -2230,8 +2252,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_settings_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "application settings and configuration."
     },
     {
@@ -2241,8 +2263,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_config_settings_rationale_9",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "core application environment settings."
     },
     {
@@ -2780,8 +2802,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_common",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "common.py"
     },
     {
@@ -2791,8 +2813,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_models_common_enterprisebasemodel",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "enterprisebasemodel"
     },
     {
@@ -2802,8 +2824,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_models_common_enterprisebasemodel_from_dict",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": ".from_dict()"
     },
     {
@@ -2813,8 +2835,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "t",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "t"
     },
     {
@@ -2824,8 +2846,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_models_common_py_any",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "any"
     },
     {
@@ -2835,8 +2857,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_models_common_enterprisebasemodel_to_dict",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": ".to_dict()"
     },
     {
@@ -2846,8 +2868,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_models_common_enterprisebasemodel_to_json",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": ".to_json()"
     },
     {
@@ -2857,8 +2879,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_common_rationale_1",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "common base domain model with tolerant reader pattern (eng-0001)."
     },
     {
@@ -2868,8 +2890,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_models_common_rationale_12",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "base class for all enterprise domain models.          implements the tolerant re"
     },
     {
@@ -2879,8 +2901,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_models_common_rationale_21",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "create a model instance from a dictionary, safely ignoring unmapped extra fields"
     },
     {
@@ -2890,8 +2912,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_models_common_rationale_35",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "serialize model instance to a clean dictionary."
     },
     {
@@ -2901,8 +2923,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_models_common_rationale_53",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "serialize model instance to json string."
     },
     {
@@ -2989,8 +3011,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_models_employee_ptobalance",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "ptobalance"
     },
     {
@@ -3066,8 +3088,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_models_employee_rationale_52",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "employee pto and sick leave hour balance."
     },
     {
@@ -3088,8 +3110,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_guardrail",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "guardrail.py"
     },
     {
@@ -3099,8 +3121,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_models_guardrail_inspectionresult",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "inspectionresult"
     },
     {
@@ -3110,8 +3132,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_guardrail_rationale_1",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "guardrail and security sentinel models (adr-0012, sec-0005)."
     },
     {
@@ -3121,8 +3143,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_models_guardrail_rationale_10",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "result of a prompt inspection by the model armor gateway."
     },
     {
@@ -3143,8 +3165,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_models_session_conversationturn",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 331,
+      "community_name": "ConversationTurn",
       "norm_label": "conversationturn"
     },
     {
@@ -3154,8 +3176,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_models_session_pendingconfirmation",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "pendingconfirmation"
     },
     {
@@ -3165,8 +3187,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_models_session_sessionstate",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "sessionstate"
     },
     {
@@ -3176,8 +3198,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_models_session_sessionstate_from_dict",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": ".from_dict()"
     },
     {
@@ -3198,8 +3220,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_models_session_rationale_10",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 331,
+      "community_name": "ConversationTurn",
       "norm_label": "a single turn in the multi-agent conversational dialog."
     },
     {
@@ -3209,8 +3231,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_models_session_rationale_23",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "encapsulates a pending state mutation requiring employee approval (adr-0007)."
     },
     {
@@ -3220,8 +3242,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_models_session_rationale_33",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "active multi-turn session state for an authenticated employee."
     },
     {
@@ -3231,8 +3253,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_ticket",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "ticket.py"
     },
     {
@@ -3242,8 +3264,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_models_ticket_priorityenum",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "priorityenum"
     },
     {
@@ -3253,8 +3275,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_models_ticket_py_str",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "str"
     },
     {
@@ -3264,8 +3286,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_models_ticket_py_enum",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "enum"
     },
     {
@@ -3275,8 +3297,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_models_ticket_ticketstatusenum",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "ticketstatusenum"
     },
     {
@@ -3286,8 +3308,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_models_ticket_ticketcomment",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "ticketcomment"
     },
     {
@@ -3297,8 +3319,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_models_ticket_incidentticket",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "incidentticket"
     },
     {
@@ -3308,8 +3330,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_models_ticket_incidentticket_from_dict",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": ".from_dict()"
     },
     {
@@ -3319,8 +3341,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_ticket_rationale_1",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "serviceimmediately itsm domain models (fr-3.1 to fr-3.5)."
     },
     {
@@ -3330,8 +3352,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_models_ticket_rationale_10",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "incident priority levels."
     },
     {
@@ -3341,8 +3363,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_models_ticket_rationale_18",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "incident ticket lifecycle states."
     },
     {
@@ -3352,8 +3374,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_models_ticket_rationale_28",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "a comment or timeline update on an incident ticket."
     },
     {
@@ -3363,8 +3385,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_models_ticket_rationale_36",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "core itsm incident ticket model."
     },
     {
@@ -3396,8 +3418,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "filestore_repository.py"
     },
     {
@@ -3407,8 +3429,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_filestorerepository",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "filestorerepository"
     },
     {
@@ -3418,8 +3440,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_filestorerepository_init",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".__init__()"
     },
     {
@@ -3495,8 +3517,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "atomic filestore repository with linux kernel file locking (fcntl.flock) (q1 & q"
     },
     {
@@ -3506,8 +3528,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_rationale_12",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "atomic, thread-safe, and process-safe filestore data persistence."
     },
     {
@@ -3770,8 +3792,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_canary_service",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "canary_service.py"
     },
     {
@@ -3781,8 +3803,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_services_canary_service_continuoussyntheticcanary",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "continuoussyntheticcanary"
     },
     {
@@ -3792,8 +3814,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_services_canary_service_continuoussyntheticcanary_init",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": ".__init__()"
     },
     {
@@ -3847,8 +3869,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_services_canary_service_rationale_14",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "automated probe worker executing synthetic transactions every 5 minutes against"
     },
     {
@@ -4166,8 +4188,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_task_queue_service",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "task_queue_service.py"
     },
     {
@@ -4232,8 +4254,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_task_queue_service_rationale_1",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "cloud tasks / pubsub asynchronous dlq & idempotent worker (eng-0002, adr-0004)."
     },
     {
@@ -4276,8 +4298,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_telemetry_service",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "telemetry_service.py"
     },
     {
@@ -4408,8 +4430,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_telemetry_service_rationale_1",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "opentelemetry distributed tracing & w3c span context propagation (sec-0006, q7)."
     },
     {
@@ -4507,8 +4529,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_threat_automation_service",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "threat_automation_service.py"
     },
     {
@@ -4540,8 +4562,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_sccthreatautomationservice_handle_security_finding",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": ".handle_security_finding()"
     },
     {
@@ -4551,8 +4573,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_py_any",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "any"
     },
     {
@@ -4562,8 +4584,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "security command center (scc) premium streaming & automated p1 alert handler (se"
     },
     {
@@ -4584,8 +4606,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_rationale_32",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "stream event to scc premium and create automated p1 security incident."
     },
     {
@@ -4595,8 +4617,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_workflow_service",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "workflow_service.py"
     },
     {
@@ -4672,8 +4694,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_workflow_service_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "cross-system workflow coordinator with forward recovery (adr-0004, uc-2.1, uc-2."
     },
     {
@@ -5057,8 +5079,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_orchestrator_agent",
-      "community": 30,
-      "community_name": "TestOrchestratorAgent",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "test_orchestrator_agent.py"
     },
     {
@@ -5189,8 +5211,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_orchestrator_agent_rationale_1",
-      "community": 30,
-      "community_name": "TestOrchestratorAgent",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "integration tests for primary hr orchestrator agent (vertex adk, adr-0007, adr-0"
     },
     {
@@ -5596,8 +5618,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "test_synthetic_canary.py"
     },
     {
@@ -5607,8 +5629,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "testsyntheticcanary"
     },
     {
@@ -5618,8 +5640,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_setup",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": ".setup()"
     },
     {
@@ -5629,8 +5651,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_teardown",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": ".teardown()"
     },
     {
@@ -5640,8 +5662,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_test_deep_health_check_endpoint",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": ".test_deep_health_check_endpoint()"
     },
     {
@@ -5651,8 +5673,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_test_synthetic_canary_probe_execution",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": ".test_synthetic_canary_probe_execution()"
     },
     {
@@ -5662,8 +5684,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_1",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "integration tests for continuous synthetic canary & dual-region health probes (s"
     },
     {
@@ -5673,8 +5695,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_12",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "test suite verifying 24/7 continuous canaries on emp-canary-01 and /healthz endp"
     },
     {
@@ -5684,8 +5706,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_43",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "verify /healthz returns deep subsystem readiness for global load balancer (sec-0"
     },
     {
@@ -5695,8 +5717,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_55",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 329,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "verify synthetic probe executes full 3-step transaction and exports sla metrics"
     },
     {
@@ -5772,8 +5794,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "tests_integration_test_telemetry_and_scc_testtelemetryandscc_test_scc_threat_streaming_and_p1_incident_automation",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": ".test_scc_threat_streaming_and_p1_incident_automation()"
     },
     {
@@ -5827,8 +5849,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_integration_test_telemetry_and_scc_rationale_55",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "verify high-confidence injection triggers scc event and p1 incident creation (se"
     },
     {
@@ -6146,8 +6168,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "test_dedicated_agents.py"
     },
     {
@@ -6157,8 +6179,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "testdedicatedagents"
     },
     {
@@ -6168,8 +6190,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_setup",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".setup()"
     },
     {
@@ -6179,8 +6201,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_workweek_natural_dates_parsing",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_workweek_natural_dates_parsing()"
     },
     {
@@ -6190,8 +6212,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_workweek_duration_parsing",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_workweek_duration_parsing()"
     },
     {
@@ -6201,8 +6223,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_workweek_process_leave_intent_missing_details",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_workweek_process_leave_intent_missing_details()"
     },
     {
@@ -6212,8 +6234,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_workweek_process_leave_intent_full_details",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_workweek_process_leave_intent_full_details()"
     },
     {
@@ -6223,8 +6245,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_itsm_category_classification",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_itsm_category_classification()"
     },
     {
@@ -6234,8 +6256,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_testdedicatedagents_test_itsm_priority_downgrade_guardrail",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": ".test_itsm_priority_downgrade_guardrail()"
     },
     {
@@ -6245,8 +6267,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "unit tests for dedicated workweekagent and itsmagent specialist sub-agents (adk"
     },
     {
@@ -6256,8 +6278,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_11",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "test suite verifying modular specialist agent contracts."
     },
     {
@@ -6267,8 +6289,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_20",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify multi-format natural language date parsing."
     },
     {
@@ -6278,8 +6300,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_31",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify hours, days, and weeks duration conversions."
     },
     {
@@ -6289,8 +6311,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_45",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify elicitation prompt when details are omitted."
     },
     {
@@ -6300,8 +6322,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_51",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify confirmation gate generation when all parameters are resolved."
     },
     {
@@ -6311,8 +6333,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_58",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify accurate categorization across hardware, access, compliance, and operatio"
     },
     {
@@ -6322,8 +6344,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "tests_unit_test_dedicated_agents_rationale_65",
-      "community": 37,
-      "community_name": "RemoteServiceImmediatelyClient",
+      "community": 84,
+      "community_name": "EnterpriseBaseModel",
       "norm_label": "verify adr-0010 priority downgrade without active major outage."
     },
     {
@@ -6377,8 +6399,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_testdomainmodels_test_incident_ticket_tolerant_reader",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": ".test_incident_ticket_tolerant_reader()"
     },
     {
@@ -6388,8 +6410,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_testdomainmodels_test_session_state_and_turn_history",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 331,
+      "community_name": "ConversationTurn",
       "norm_label": ".test_session_state_and_turn_history()"
     },
     {
@@ -6443,8 +6465,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_rationale_59",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 37,
+      "community_name": "RemoteServiceImmediatelyClient",
       "norm_label": "verify incidentticket model and priorityenum validation."
     },
     {
@@ -6454,8 +6476,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_rationale_83",
-      "community": 0,
-      "community_name": "EnterpriseBaseModel",
+      "community": 331,
+      "community_name": "ConversationTurn",
       "norm_label": "verify sessionstate and turnhistory models for multi-turn dialogues."
     },
     {
@@ -17960,7 +17982,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "requirements_hr_agentic_brd",
-      "community": 49,
+      "community": 330,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "hr-agentic-brd.md"
     },
@@ -18202,7 +18224,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "sdd_so_elevated",
-      "community": 49,
+      "community": 330,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "sdd-so-elevated.md"
     },
@@ -19203,7 +19225,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_readme",
-      "community": 49,
+      "community": 330,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "technical_design/readme.md"
     },
@@ -19698,7 +19720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_capabilities_mapping_matrix",
-      "community": 49,
+      "community": 330,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "capabilities_mapping_matrix.md"
     },
@@ -19951,7 +19973,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_technical_design_document",
-      "community": 49,
+      "community": 330,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "technical_design_document.md"
     },
@@ -23918,6 +23940,17 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L118",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_agents_orchestrator_agent_primaryhrorchestrator",
+      "target": "src_agents_orchestrator_agent_primaryhrorchestrator_format_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/orchestrator_agent.py",
       "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
@@ -23951,7 +23984,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L85",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator",
@@ -23962,7 +23995,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L281",
+      "source_location": "L324",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator",
@@ -24307,7 +24340,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L101",
+      "source_location": "L144",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -24330,7 +24363,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L108",
+      "source_location": "L151",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -24361,15 +24394,38 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L118",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_agents_orchestrator_agent_primaryhrorchestrator_format_result",
+      "target": "src_agents_orchestrator_agent_py_any",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L132",
+      "source_location": "L135",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
-      "target": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
+      "target": "src_agents_orchestrator_agent_primaryhrorchestrator_format_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L119",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_agents_orchestrator_agent_rationale_119",
+      "target": "src_agents_orchestrator_agent_primaryhrorchestrator_format_result",
       "confidence_score": 1.0
     },
     {
@@ -24377,7 +24433,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L85",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -24385,13 +24441,25 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/orchestrator_agent.py",
+      "source_location": "L175",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
+      "target": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L86",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_agents_orchestrator_agent_rationale_86",
+      "source": "src_agents_orchestrator_agent_rationale_128",
       "target": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
       "confidence_score": 1.0
     },
@@ -24401,7 +24469,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L295",
+      "source_location": "L338",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
@@ -24412,7 +24480,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L281",
+      "source_location": "L324",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
@@ -24423,10 +24491,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L290",
+      "source_location": "L333",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_agents_orchestrator_agent_rationale_290",
+      "source": "src_agents_orchestrator_agent_rationale_333",
       "target": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
       "confidence_score": 1.0
     },
@@ -43811,5 +43879,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cf5f3cb2d0a1e35d2a00fc43d37d0778c22266a0"
+  "built_at_commit": "201543e9fd30fe660b8c29e39c26a58fb7f48ad9"
 }

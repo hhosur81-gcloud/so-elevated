@@ -282,6 +282,47 @@ async def serve_ui():
       border: 1px solid var(--google-gray-200);
       border-bottom-left-radius: 4px;
     }
+    .agent-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .agent-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-workweek_agent {
+      background: #e6f4ea;
+      color: #137333;
+      border: 1px solid #ceead6;
+    }
+    .badge-itsm_agent {
+      background: #f3e8fd;
+      color: #7627bb;
+      border: 1px solid #e1cbf9;
+    }
+    .badge-policy_agent {
+      background: #fef7e0;
+      color: #b06000;
+      border: 1px solid #fdd663;
+    }
+    .badge-orchestrator {
+      background: #e8f0fe;
+      color: #1a73e8;
+      border: 1px solid #aecbfa;
+    }
+    .badge-security_sentinel {
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f5c2c7;
+    }
     .bubble a {
       color: var(--google-blue);
       text-decoration: underline;
@@ -388,7 +429,10 @@ async def serve_ui():
       <div class="messages-container" id="messages">
         <div class="message assistant">
           <div class="avatar">🤖</div>
-          <div class="bubble">Hello! I am your Enterprise HR & IT Assistant powered by Google Cloud Vertex AI and FastMCP. How may I assist you today with policy grounding, time-off balances, or support tickets?</div>
+          <div class="bubble">
+            <div class="agent-header"><span class="agent-badge-tag badge-orchestrator">👑 HR Supervisor</span></div>
+            <div class="bubble-text">Hello! I am your Enterprise HR & IT Assistant powered by Google Cloud Vertex AI and FastMCP. How may I assist you today with policy grounding, time-off balances, or support tickets?</div>
+          </div>
         </div>
       </div>
 
@@ -414,7 +458,10 @@ async def serve_ui():
     function switchPersona() {
       currentEmpId = document.getElementById("personaSelector").value;
       sessionId = "session-" + currentEmpId + "-" + Math.random().toString(36).substring(7);
-      appendMessage("assistant", "Switched active identity to " + currentEmpId + ". Session context re-initialized.");
+      appendMessage("assistant", "Switched active identity to " + currentEmpId + ". Session context re-initialized.", {
+        acting_agent: "orchestrator",
+        agent_badge: "👑 HR Supervisor"
+      });
     }
 
     function sendChip(text) {
@@ -422,7 +469,7 @@ async def serve_ui():
       sendMessage();
     }
 
-    function appendMessage(role, text) {
+    function appendMessage(role, text, agentData) {
       const container = document.getElementById("messages");
       const msgDiv = document.createElement("div");
       msgDiv.className = "message " + role;
@@ -433,10 +480,24 @@ async def serve_ui():
       
       const bubble = document.createElement("div");
       bubble.className = "bubble";
+
+      if (role === "assistant" && agentData && agentData.agent_badge) {
+        const agentHeader = document.createElement("div");
+        agentHeader.className = "agent-header";
+        const agentTag = document.createElement("span");
+        agentTag.className = "agent-badge-tag badge-" + (agentData.acting_agent || "orchestrator");
+        agentTag.innerText = agentData.agent_badge;
+        agentHeader.appendChild(agentTag);
+        bubble.appendChild(agentHeader);
+      }
+      
+      const textDiv = document.createElement("div");
+      textDiv.className = "bubble-text";
       
       // Auto linkify URLs
       const linkified = text.replace(/\[(.*?)\]\((https?:[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-      bubble.innerHTML = linkified;
+      textDiv.innerHTML = linkified;
+      bubble.appendChild(textDiv);
       
       msgDiv.appendChild(avatar);
       msgDiv.appendChild(bubble);
@@ -467,12 +528,22 @@ async def serve_ui():
         });
         const data = await resp.json();
         if (data.response) {
-          appendMessage("assistant", data.response);
+          appendMessage("assistant", data.response, {
+            acting_agent: data.acting_agent,
+            agent_name: data.agent_name,
+            agent_badge: data.agent_badge
+          });
         } else if (data.detail) {
-          appendMessage("assistant", "Error: " + data.detail);
+          appendMessage("assistant", "Error: " + data.detail, {
+            acting_agent: "orchestrator",
+            agent_badge: "👑 HR Supervisor"
+          });
         }
       } catch (err) {
-        appendMessage("assistant", "Network Error: " + err.message);
+        appendMessage("assistant", "Network Error: " + err.message, {
+          acting_agent: "orchestrator",
+          agent_badge: "👑 HR Supervisor"
+        });
       } finally {
         btn.disabled = false;
         btn.innerText = "Send";
@@ -489,9 +560,15 @@ async def serve_ui():
             session_id: sessionId
           })
         });
-        appendMessage("assistant", "Session context cleared.");
+        appendMessage("assistant", "Session context cleared.", {
+          acting_agent: "orchestrator",
+          agent_badge: "👑 HR Supervisor"
+        });
       } catch(err) {
-        appendMessage("assistant", "Reset Error: " + err.message);
+        appendMessage("assistant", "Reset Error: " + err.message, {
+          acting_agent: "orchestrator",
+          agent_badge: "👑 HR Supervisor"
+        });
       }
     }
   </script>
