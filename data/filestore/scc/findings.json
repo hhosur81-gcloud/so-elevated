@@ -1,0 +1,41 @@
+{
+  "scc-ee33fdbe": {
+    "finding_id": "scc-ee33fdbe",
+    "category": "PROMPT_INJECTION",
+    "severity": "CRITICAL",
+    "state": "ACTIVE",
+    "source_properties": {
+      "attacker_ip": "198.51.100.77",
+      "risk_score": 0.98,
+      "sanitized_action": "BLOCK",
+      "raw_prompt_hash": "-4726799079494762867"
+    },
+    "event_time": "2026-08-19T10:54:25.313768+00:00"
+  },
+  "scc-62a43b4e": {
+    "finding_id": "scc-62a43b4e",
+    "category": "PROMPT_INJECTION",
+    "severity": "CRITICAL",
+    "state": "ACTIVE",
+    "source_properties": {
+      "attacker_ip": "198.51.100.77",
+      "risk_score": 0.98,
+      "sanitized_action": "BLOCK",
+      "raw_prompt_hash": "7468486198316578963"
+    },
+    "event_time": "2026-08-19T10:58:08.268072+00:00"
+  },
+  "scc-79aecb72": {
+    "finding_id": "scc-79aecb72",
+    "category": "PROMPT_INJECTION",
+    "severity": "CRITICAL",
+    "state": "ACTIVE",
+    "source_properties": {
+      "attacker_ip": "198.51.100.77",
+      "risk_score": 0.98,
+      "sanitized_action": "BLOCK",
+      "raw_prompt_hash": "-1648086311122252690"
+    },
+    "event_time": "2026-08-19T11:51:48.047147+00:00"
+  }
+}

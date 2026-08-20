@@ -1,0 +1,56 @@
+{
+  "it-route-LOA-C776F4": {
+    "success": true,
+    "data": {
+      "ticket_id": "INC-B0F37",
+      "employee_id": "EMP-1001",
+      "category": "Access",
+      "priority": "P3",
+      "status": "OPEN",
+      "title": "Medical Leave IT Coverage & Out-of-Office Routing for EMP-1001",
+      "description": "Employee on approved medical leave (LOA-C776F4) from 2026-09-10 to 2026-09-24. Configure temporary delegation and security hold.",
+      "created_at": "2026-08-19T10:54:25.309735+00:00",
+      "updated_at": "2026-08-19T10:54:25.309735+00:00",
+      "assigned_to": "IT-Support-L1",
+      "comments": [],
+      "idempotency_key": "it-route-LOA-C776F4",
+      "downgraded_from_p1": false
+    }
+  },
+  "it-route-LOA-8FC21A": {
+    "success": true,
+    "data": {
+      "ticket_id": "INC-4BAA4",
+      "employee_id": "EMP-1001",
+      "category": "Access",
+      "priority": "P3",
+      "status": "OPEN",
+      "title": "Medical Leave IT Coverage & Out-of-Office Routing for EMP-1001",
+      "description": "Employee on approved medical leave (LOA-8FC21A) from 2026-09-10 to 2026-09-24. Configure temporary delegation and security hold.",
+      "created_at": "2026-08-19T10:58:08.263946+00:00",
+      "updated_at": "2026-08-19T10:58:08.263946+00:00",
+      "assigned_to": "IT-Support-L1",
+      "comments": [],
+      "idempotency_key": "it-route-LOA-8FC21A",
+      "downgraded_from_p1": false
+    }
+  },
+  "it-route-LOA-FD784B": {
+    "success": true,
+    "data": {
+      "ticket_id": "INC-49C6E",
+      "employee_id": "EMP-1001",
+      "category": "Access",
+      "priority": "P3",
+      "status": "OPEN",
+      "title": "Medical Leave IT Coverage & Out-of-Office Routing for EMP-1001",
+      "description": "Employee on approved medical leave (LOA-FD784B) from 2026-09-10 to 2026-09-24. Configure temporary delegation and security hold.",
+      "created_at": "2026-08-19T11:51:48.044990+00:00",
+      "updated_at": "2026-08-19T11:51:48.044990+00:00",
+      "assigned_to": "IT-Support-L1",
+      "comments": [],
+      "idempotency_key": "it-route-LOA-FD784B",
+      "downgraded_from_p1": false
+    }
+  }
+}

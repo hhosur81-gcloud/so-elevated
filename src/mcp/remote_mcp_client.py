@@ -165,6 +165,10 @@ class RemoteServiceImmediatelyClient(RemoteMCPClient):
             "assignment_group": assignment_group
         })
 
+    def get_ticket(self, ticket_id: str) -> Dict[str, Any]:
+        """Fetch details of a specific incident ticket."""
+        return self.call_tool("get_ticket", {"ticket_id": ticket_id})
+
     def add_ticket_comment(self, ticket_id: str, author: str, comment: str) -> Dict[str, Any]:
         """Append a comment/note to the activity log of a ticket."""
         return self.call_tool("add_ticket_comment", {
@@ -172,6 +176,10 @@ class RemoteServiceImmediatelyClient(RemoteMCPClient):
             "author": author,
             "comment": comment
         })
+
+    def add_comment(self, ticket_id: str, comment: str, author: str = "Employee") -> Dict[str, Any]:
+        """Alias for add_ticket_comment."""
+        return self.add_ticket_comment(ticket_id=ticket_id, author=author, comment=comment)
 
     def update_ticket_status(self, ticket_id: str, status: str, resolution_notes: str = "", updated_by: str = "System") -> Dict[str, Any]:
         """Update the lifecycle state of a ticket."""
@@ -181,3 +189,4 @@ class RemoteServiceImmediatelyClient(RemoteMCPClient):
             "resolution_notes": resolution_notes,
             "updated_by": updated_by
         })
+

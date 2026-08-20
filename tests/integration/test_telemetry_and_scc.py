@@ -72,7 +72,8 @@ class TestTelemetryAndSCC(unittest.TestCase):
         self.assertTrue(res["success"])
         self.assertEqual(res["scc_event_status"], "STREAMED_TO_SCC_PREMIUM")
         self.assertTrue(res["p1_ticket_id"].startswith("SEC-"))
-        self.assertEqual(res["assigned_to"], "CIRT-ONCALL")
+        self.assertEqual(res["assigned_to"], "Cyber Incident Response Team (CIRT)")
+
 
 
 if __name__ == "__main__":

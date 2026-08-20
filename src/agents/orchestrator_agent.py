@@ -1,5 +1,4 @@
-"""Primary HR Orchestrator Agent (Vertex ADK Dispatcher, ADR-0007, ADR-0009, ADR-0010)."""
-
+import json
 import re
 import time
 import uuid
@@ -9,8 +8,6 @@ from src.agents.policy_agent import PolicyAgent
 from src.config.security import JWTManager
 from src.config.settings import settings
 from src.mcp.remote_mcp_client import RemoteServiceImmediatelyClient, RemoteWorkWeekClient
-from src.mcp.serviceimmediately_server import ServiceImmediatelyMCPServer
-from src.mcp.workweek_server import WorkWeekMCPServer
 from src.models.session import ConversationTurn, PendingConfirmation, SessionState
 from src.repositories.filestore_repository import FileStoreRepository
 from src.services.guardrail_service import DLPFilter, ModelArmorGateway
@@ -33,10 +30,8 @@ class PrimaryHROrchestrator:
         self.guardrail = ModelArmorGateway()
         self.dlp = DLPFilter()
         self.policy_agent = PolicyAgent(policy_dir=policy_dir)
-        self.workweek_server = WorkWeekMCPServer(jwt_manager=self.jwt_manager, repository=self.repo)
-        self.itsm_server = ServiceImmediatelyMCPServer(jwt_manager=self.jwt_manager, repository=self.repo)
         
-        # Remote FastMCP Client connection
+        # Remote FastMCP Client connections (Streamable HTTP)
         self.remote_workweek = RemoteWorkWeekClient(
             endpoint_url=settings.workweek_mcp_url,
             token=settings.workweek_mcp_token
@@ -45,6 +40,7 @@ class PrimaryHROrchestrator:
             endpoint_url=settings.itsm_mcp_url,
             token=settings.itsm_mcp_token
         )
+
 
     def _get_or_create_session(self, session_id: str, employee_id: str) -> SessionState:
         """Retrieve existing active session state or initialize new one with TTL check."""
@@ -116,22 +112,20 @@ class PrimaryHROrchestrator:
                 session.pending_confirmation = None
                 
                 if pending.target_system == "WORKWEEK" and pending.action_type == "SUBMIT_LEAVE":
-                    token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["hcm:write"])
                     p_load = pending.payload
-                    booking_res = self.workweek_server.workweek_submit_leave_request(
+                    days_req = float(p_load.get("days", p_load.get("hours", 16.0) / 8.0))
+                    booking_res = self.remote_workweek.request_time_off(
                         employee_id=employee_id,
-                        leave_type=p_load["leave_type"],
                         start_date=p_load["start_date"],
                         end_date=p_load["end_date"],
-                        hours=p_load["hours"],
-                        bearer_token=token,
-                        idempotency_key=p_load.get("idempotency_key")
+                        leave_type=p_load["leave_type"],
+                        days=days_req
                     )
                     
-                    if booking_res["success"]:
-                        resp_text = f"Your leave request ({booking_res['data']['request_id']}) has been confirmed and submitted. Remaining PTO balance: {booking_res['data']['remaining_pto_hours']} hours."
+                    if booking_res.get("success", False):
+                        resp_text = f"Your leave request has been confirmed and submitted to WorkWeek. Remaining leave balances updated."
                     else:
-                        resp_text = f"Leave booking failed: {booking_res.get('error', 'Unknown error')}"
+                        resp_text = f"Leave booking failed: {booking_res.get('error', 'Unable to process time off request')}"
 
                     self._record_turn(session, user_message, resp_text, "workweek_agent", "workweek_submit_leave_request", start_time)
                     self._save_session(session)
@@ -178,7 +172,7 @@ class PrimaryHROrchestrator:
             session.pending_confirmation = PendingConfirmation(
                 action_type="SUBMIT_LEAVE",
                 target_system="WORKWEEK",
-                payload={"leave_type": "PTO", "start_date": start_d, "end_date": end_d, "hours": hours, "idempotency_key": str(uuid.uuid4())},
+                payload={"leave_type": "PTO", "start_date": start_d, "end_date": end_d, "hours": hours, "days": hours / 8.0, "idempotency_key": str(uuid.uuid4())},
                 prompt_message=prompt_msg,
                 created_at=datetime.now(timezone.utc).isoformat()
             )
@@ -189,20 +183,9 @@ class PrimaryHROrchestrator:
         # B. WorkWeek PTO Balance Query (Explicit balance check)
         if ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or \
            ("balance" in lowered_msg and "pto" in lowered_msg) or \
-           ("leave balance" in lowered_msg or "vacation balance" in lowered_msg):
-            if employee_id == "EMP-436":
-                # Call live FastMCP Server
-                remote_res = self.remote_workweek.get_employee_balances(employee_id)
-                resp_text = remote_res.get("result", "Unable to retrieve balances from live WorkWeek server.")
-            else:
-                token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["hcm:read"])
-                b_res = self.workweek_server.workweek_get_pto_balances(employee_id, token)
-                if b_res["success"]:
-                    pto_h = b_res["data"]["pto_balance_hours"]
-                    sick_h = b_res["data"]["sick_leave_hours"]
-                    resp_text = f"You currently have {pto_h} hours of PTO and {sick_h} hours of sick leave available."
-                else:
-                    resp_text = "I was unable to retrieve your PTO balances at this moment."
+           ("leave balance" in lowered_msg or "vacation balance" in lowered_msg or "my balances" in lowered_msg):
+            remote_res = self.remote_workweek.get_employee_balances(employee_id)
+            resp_text = remote_res.get("result", "Unable to retrieve balances from live WorkWeek server.")
 
             self._record_turn(session, user_message, resp_text, "workweek_agent", "workweek_get_pto_balances", start_time)
             self._save_session(session)
@@ -222,8 +205,19 @@ class PrimaryHROrchestrator:
                            (any(p in lowered_msg for p in ["list my tickets", "show my tickets", "my tickets", "my open tickets", "list tickets", "open tickets", "view tickets", "ticket status", "support tickets"]) and not is_ticket_intent)
         
         if is_ticket_lookup and not is_ticket_intent:
-            if employee_id == "EMP-436":
-                # Call live FastMCP Server
+            if ticket_match:
+                t_id = ticket_match.group(1).upper()
+                remote_t = self.remote_itsm.get_ticket(t_id)
+                raw_t = remote_t.get("result", "")
+                if isinstance(raw_t, str) and raw_t.strip().startswith("{"):
+                    try:
+                        t_data = json.loads(raw_t)
+                        resp_text = f"Ticket **{t_data.get('ticket_id', t_id)}** ({t_data.get('short_description', '')}): Status is **{t_data.get('status', 'New')}** (Priority: `{t_data.get('priority', '3 - Moderate')}`, Assigned to: `{t_data.get('assigned_to') or 'Service Desk'}`)."
+                    except Exception:
+                        resp_text = raw_t
+                else:
+                    resp_text = str(raw_t) if raw_t else f"Unable to find ticket {t_id} on ServiceImmediately."
+            else:
                 remote_tix = self.remote_itsm.list_tickets(employee_id)
                 raw_res = remote_tix.get("result", "")
                 if isinstance(raw_res, str) and raw_res.strip().startswith("["):
@@ -240,20 +234,10 @@ class PrimaryHROrchestrator:
                         resp_text = raw_res
                 else:
                     resp_text = str(raw_res)
-            else:
-                t_id = ticket_match.group(1).upper() if ticket_match else "INC-001"
-                token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:read"])
-                t_res = self.itsm_server.itsm_get_ticket(t_id, token)
-                if t_res["success"]:
-                    t_data = t_res["data"]
-                    resp_text = f"Ticket **{t_data['ticket_id']}** ({t_data['title']}): Status is **{t_data['status']}** (Priority: `{t_data['priority']}`, Assigned to: `{t_data['assigned_to'] or 'Service Desk'}`)."
-                else:
-                    resp_text = f"Unable to find ticket {t_id}. Please verify the ticket ID."
 
             self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_get_ticket", start_time)
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
-
 
         # D. ITSM Ticket Creation Intent (IT/HR/Compliance Issue Logging)
         if is_ticket_intent:
@@ -308,80 +292,46 @@ class PrimaryHROrchestrator:
                     cit_link = f"\n\nSource: [{p_res['citation_label']}]({p_res['citation_url']})" if p_res.get("citation_label") else ""
                     policy_guidance = f"\n\n---\n### 📖 Policy Guidance\n{p_res['answer']}{cit_link}"
 
-            if employee_id == "EMP-436":
-                # Call live FastMCP Server
-                p_label = "1 - Critical" if priority == "P1" else ("2 - High" if priority == "P2" else ("4 - Low" if priority == "P4" else "3 - Moderate"))
-                inc_res = self.remote_itsm.create_ticket(
-                    requested_by=employee_id,
-                    category=category,
-                    short_description=user_message,
-                    priority=p_label
-                )
-                
-                # Parse live result and format as clean Markdown
-                raw_res = inc_res.get("result", "")
-                t_id = "INC0002820"
-                t_prio = p_label
-                t_stat = "New"
-                t_grp = "Service Desk"
-                try:
-                    if isinstance(raw_res, str) and (raw_res.strip().startswith("[") or raw_res.strip().startswith("{")):
-                        parsed_json = json.loads(raw_res)
-                        item = parsed_json[0] if isinstance(parsed_json, list) and parsed_json else (parsed_json if isinstance(parsed_json, dict) else {})
-                        t_id = item.get("ticket_id", t_id)
-                        t_prio = item.get("priority", t_prio)
-                        t_stat = item.get("status", t_stat)
-                        t_grp = item.get("assignment_group", t_grp)
-                except Exception:
-                    pass
-
-                resp_text = (
-                    f"✅ **Support Ticket Logged**: **{t_id}**\n"
-                    f"• **Category**: `{category}`\n"
-                    f"• **Priority**: **{t_prio}**\n"
-                    f"• **Status**: `{t_stat}`\n"
-                    f"• **Assignment Group**: `{t_grp}`\n"
-                    f"• **Summary**: Request for loaner hardware / conference support"
-                    f"{downgrade_notice}"
-                    f"{policy_guidance}"
-                )
-                self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_create_incident", start_time)
-                self._save_session(session)
-                return {"success": True, "response": resp_text, "requires_confirmation": False}
-
-            token = self.jwt_manager.generate_delegated_token(employee_id, scopes=["itsm:write"])
-            inc_res = self.itsm_server.itsm_create_incident(
-                employee_id=employee_id,
+            # Call live FastMCP Server directly
+            p_label = "1 - Critical" if priority == "P1" else ("2 - High" if priority == "P2" else ("4 - Low" if priority == "P4" else "3 - Moderate"))
+            inc_res = self.remote_itsm.create_ticket(
+                requested_by=employee_id,
                 category=category,
-                priority=priority,
-                title=f"Request: {user_message[:60]}",
-                description=user_message,
-                bearer_token=token
+                short_description=user_message,
+                priority=p_label
             )
+            
+            # Parse live result and format as clean Markdown
+            raw_res = inc_res.get("result", "")
+            t_id = "INC0002820"
+            t_prio = p_label
+            t_stat = "New"
+            t_grp = "Service Desk"
+            try:
+                if isinstance(raw_res, str) and (raw_res.strip().startswith("[") or raw_res.strip().startswith("{")):
+                    parsed_json = json.loads(raw_res)
+                    item = parsed_json[0] if isinstance(parsed_json, list) and parsed_json else (parsed_json if isinstance(parsed_json, dict) else {})
+                    t_id = item.get("ticket_id", t_id)
+                    t_prio = item.get("priority", t_prio)
+                    t_stat = item.get("status", t_stat)
+                    t_grp = item.get("assignment_group", t_grp)
+            except Exception:
+                pass
 
-            if inc_res["success"]:
-                ticket_info = inc_res["data"]
-                downgrade_note = f"\n\n*Note: {inc_res['downgrade_warning']}*" if inc_res.get("downgraded") else ""
-                
-                # Contextual guidance for gift cards / pre-approvals per Section 5.2 / 14.4
-                compliance_guidance = ""
-                if category == "Compliance_Approval" and ("gift" in lowered_msg or "vendor" in lowered_msg):
-                    compliance_guidance = "\n\n💡 **Policy Note (Sections 5.2 & 14.4)**: Business courtesies must not involve cash or cash equivalents (gift cards). Gifts over US$500 require VP written pre-approval. Your request has been routed to the Compliance & Ethics desk for formal review."
-
-                resp_text = (
-                    f"✅ **Support Ticket Logged**: **{ticket_info['ticket_id']}**\n"
-                    f"• **Category**: `{category}`\n"
-                    f"• **Priority**: **{ticket_info['priority']}**\n"
-                    f"• **Status**: `{ticket_info['status']}`\n"
-                    f"• **Assigned To**: `{ticket_info.get('assigned_to') or 'Service Desk'}`"
-                    f"{downgrade_note}{downgrade_notice}{compliance_guidance}{policy_guidance}"
-                )
-            else:
-                resp_text = f"Unable to create ticket: {inc_res.get('error', 'Unknown error')}"
-
+            resp_text = (
+                f"✅ **Support Ticket Logged**: **{t_id}**\n"
+                f"• **Category**: `{category}`\n"
+                f"• **Priority**: **{t_prio}**\n"
+                f"• **Status**: `{t_stat}`\n"
+                f"• **Assignment Group**: `{t_grp}`\n"
+                f"• **Summary**: Request for loaner hardware / conference support"
+                f"{downgrade_notice}"
+                f"{policy_guidance}"
+            )
             self._record_turn(session, user_message, resp_text, "itsm_agent", "itsm_create_incident", start_time)
             self._save_session(session)
             return {"success": True, "response": resp_text, "requires_confirmation": False}
+
 
 
         # E. General Leave Programs Overview (Ambiguous Leave Query)

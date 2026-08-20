@@ -1,0 +1,41 @@
+steps:
+  # 1. Create Staging GCS Bucket if it doesn't exist
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    id: 'create-staging-bucket'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud storage buckets describe gs://$PROJECT_ID-agent-engine || \
+        gcloud storage buckets create gs://$PROJECT_ID-agent-engine --location=us-central1 --project=$PROJECT_ID
+
+  # 2. Install dependencies & deploy to Vertex AI Reasoning Engine
+  - name: 'python:3.11'
+    id: 'deploy-agent-engine'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install --no-cache-dir \
+          google-cloud-aiplatform>=1.44.0 \
+          google-genai>=0.1.1 \
+          pydantic>=2.6.0 \
+          cryptography>=42.0.0 \
+          pyjwt>=2.8.0 \
+          pyyaml>=6.0.1 \
+          requests>=2.31.0 \
+          cloudpickle>=3.0.0
+        
+        export GOOGLE_CLOUD_PROJECT=$PROJECT_ID
+        export GOOGLE_CLOUD_REGION=us-central1
+        export WORKWEEK_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/
+        export WORKWEEK_MCP_TOKEN=mcp_fZFYPQVV1fAkmOYz4Lal8OVc9ltyLmfHiO4BZGCm-Tw
+        export ITSM_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/
+        export ITSM_MCP_TOKEN=mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag
+        
+        python deploy_agent_engine.py
+
+timeout: '1200s'
+options:
+  logging: CLOUD_LOGGING_ONLY
+

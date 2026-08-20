@@ -73,9 +73,10 @@ class TestEndToEndBenchmarks(unittest.TestCase):
             prompt = q["prompt"]
             res = self.orchestrator.process_turn(
                 session_id=f"eval-golden-{q['id']}",
-                employee_id="EMP-1001",
+                employee_id="EMP-436",
                 user_message=prompt
             )
+
 
             self.assertTrue(res["success"], f"Golden query failed for {q['id']}")
             response_text = res["response"]

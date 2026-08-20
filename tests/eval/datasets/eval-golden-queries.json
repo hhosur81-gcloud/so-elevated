@@ -10,8 +10,9 @@
     "id": "GOLDEN-02",
     "domain": "WORKWEEK",
     "prompt": "How many hours of PTO do I have remaining?",
-    "expected_keywords": ["120", "hours"]
+    "expected_keywords": ["Vacation", "remaining"]
   },
+
   {
     "id": "GOLDEN-03",
     "domain": "WORKWEEK_CONFIRMATION",

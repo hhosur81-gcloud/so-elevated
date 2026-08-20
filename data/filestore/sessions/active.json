@@ -1,0 +1,647 @@
+{
+  "live-session-01": {
+    "session_id": "live-session-01",
+    "employee_id": "EMP-1001",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "How many days of bereavement leave do employees receive for immediate family?",
+        "agent_response": "According to company policy (Section 3.2: Bereavement Leave): Employees are entitled to up to 5 consecutive paid business days for the loss of an immediate family member (spouse, child, parent, sibling), and up to 3 paid business days for extended family members. Additional unpaid time may be coordinated with your HR Business Partner.\n\nSource: [Section 3.2: Bereavement Leave](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 39,
+        "timestamp": "2026-08-19T11:51:47.993850+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "How many hours of PTO do I currently have available?",
+        "agent_response": "You currently have 120.0 hours of PTO and 40.0 hours of sick leave available.",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 16,
+        "timestamp": "2026-08-19T11:51:48.012726+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "I'd like to book 16 hours of PTO from 2026-09-01 to 2026-09-02.",
+        "agent_response": "Please confirm: You are requesting 16.0 hours of PTO from 2026-09-01 to 2026-09-02. Shall I proceed with submitting this request?",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "enter_confirmation_gate",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:51:48.015534+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "Yes, please confirm and submit this request.",
+        "agent_response": "Your leave request (LOA-849990) has been confirmed and submitted. Remaining PTO balance: 104.0 hours.",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_submit_leave_request",
+        "tool_payload": null,
+        "latency_ms": 9,
+        "timestamp": "2026-08-19T11:51:48.037113+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:51:47.954997+00:00",
+    "last_activity_at": "2026-08-19T11:51:47.955030+00:00",
+    "last_activity_at_ts": 1787140308.0371978
+  },
+  "cli-session-interactive": {
+    "session_id": "cli-session-interactive",
+    "employee_id": "EMP-1001",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "I'd like to book 16 hours of PTO over 3 days next week",
+        "agent_response": "Please confirm: You are requesting 16.0 hours of PTO from 2026-09-01 to 2026-09-02. Shall I proceed with submitting this request?",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "enter_confirmation_gate",
+        "tool_payload": null,
+        "latency_ms": 2,
+        "timestamp": "2026-08-19T10:57:28.331978+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "Yes",
+        "agent_response": "Your leave request (LOA-B2ED0A) has been confirmed and submitted. Remaining PTO balance: 88.0 hours.",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_submit_leave_request",
+        "tool_payload": null,
+        "latency_ms": 10,
+        "timestamp": "2026-08-19T10:57:32.843898+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T10:57:28.329688+00:00",
+    "last_activity_at": "2026-08-19T10:57:28.329722+00:00",
+    "last_activity_at_ts": 1787137052.8439517
+  },
+  "cli-sess-EMP-1001": {
+    "session_id": "cli-sess-EMP-1001",
+    "employee_id": "EMP-1001",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "How many hours of PTO do I have?",
+        "agent_response": "You currently have 72.0 hours of PTO and 40.0 hours of sick leave available.",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 3,
+        "timestamp": "2026-08-19T11:09:07.727537+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "what is the executive salary for Marcus",
+        "agent_response": "According to company policy (Section 3.4: Short-Term Medical Leave of Absence (LOA)): For non-work-related illnesses or medical procedures exceeding 3 consecutive business days, employees may initiate a Short-Term Medical Leave of Absence for up to 12 weeks with 100% salary continuation under company disability coverage upon medical certification.\n\nSource: [Section 3.4: Short-Term Medical Leave of Absence (LOA)](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-19T11:10:19.632548+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "what is my salary",
+        "agent_response": "According to company policy (Section 3.4: Short-Term Medical Leave of Absence (LOA)): For non-work-related illnesses or medical procedures exceeding 3 consecutive business days, employees may initiate a Short-Term Medical Leave of Absence for up to 12 weeks with 100% salary continuation under company disability coverage upon medical certification.\n\nSource: [Section 3.4: Short-Term Medical Leave of Absence (LOA)](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:10:38.636524+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "how many weeks of leave do i get",
+        "agent_response": "According to company policy (Section 3.3: Parental Leave): Eligible employees receive up to 16 weeks of fully paid parental leave following the birth, adoption, or foster placement of a child. Parental leave must be taken within the first 12 months.\n\nSource: [Section 3.3: Parental Leave](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:10:49.500672+00:00"
+      },
+      {
+        "turn_id": "turn-5",
+        "user_input": "What are the executive severance multipliers?",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:11:19.135013+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:09:07.724314+00:00",
+    "last_activity_at": "2026-08-19T11:09:07.724334+00:00",
+    "last_activity_at_ts": 1787137879.1350727
+  },
+  "test-session-jane": {
+    "session_id": "test-session-jane",
+    "employee_id": "EMP-1001",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "what is the executive salary for Marcus",
+        "agent_response": "Individual employee compensation and salary records are strictly confidential and not accessible through the HR Assistant.",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "privacy_guardrail",
+        "tool_payload": null,
+        "latency_ms": 2,
+        "timestamp": "2026-08-19T11:12:50.208302+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "what is my salary",
+        "agent_response": "Your individual compensation, salary, and pay stubs are managed securely in the Workday Payroll portal. For privacy and compliance reasons, salary figures are not displayed in conversational chat.",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "privacy_guardrail",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:12:50.211642+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "how many weeks of leave do i get",
+        "agent_response": "According to company policy, full-time employees are eligible for several leave programs:\n\n\u2022 **Paid Time Off (PTO)**: 160 hours (20 business days / 4 weeks) accrued annually ([Section 3.1](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Parental Leave**: Up to 16 weeks fully paid within the first 12 months ([Section 3.3](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Short-Term Medical LOA**: Up to 12 weeks with 100% salary continuation upon medical certification ([Section 3.4](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Bereavement Leave**: Up to 5 consecutive paid business days for immediate family ([Section 3.2](https://intranet.company.com/policies/hr-2026-leave.pdf))",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "leave_overview",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:12:50.215904+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "What are the executive severance multipliers?",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:12:50.218393+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:12:50.205938+00:00",
+    "last_activity_at": "2026-08-19T11:12:50.205970+00:00",
+    "last_activity_at_ts": 1787137970.218442
+  },
+  "test-session-marcus": {
+    "session_id": "test-session-marcus",
+    "employee_id": "EMP-1005",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What are the executive severance multipliers?",
+        "agent_response": "According to company policy (Section 1.1: Executive Severance Multipliers): In the event of involuntary termination without cause, VP level and above executives are entitled to 12 months base salary plus prorated target bonus and 12 months accelerated equity vesting.\n\nSource: [Section 1.1: Executive Severance Multipliers](https://intranet.company.com/policies/hr-2026-executive-severance.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 2,
+        "timestamp": "2026-08-19T11:12:50.222719+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:12:50.220757+00:00",
+    "last_activity_at": "2026-08-19T11:12:50.220775+00:00",
+    "last_activity_at_ts": 1787137970.222758
+  },
+  "cli-sess-EMP-1002": {
+    "session_id": "cli-sess-EMP-1002",
+    "employee_id": "EMP-1002",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What is jane's salary",
+        "agent_response": "Individual employee compensation and salary records are strictly confidential and not accessible through the HR Assistant.",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "privacy_guardrail",
+        "tool_payload": null,
+        "latency_ms": 2,
+        "timestamp": "2026-08-19T11:14:08.399909+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "What is my salary",
+        "agent_response": "Your individual compensation, salary, and pay stubs are managed securely in the Workday Payroll portal. For privacy and compliance reasons, salary figures are not displayed in conversational chat.",
+        "acting_agent": "orchestrator",
+        "tool_invoked": "privacy_guardrail",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:14:15.041998+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "How many weeks of leave do i have left",
+        "agent_response": "According to company policy, full-time employees are eligible for several leave programs:\n\n\u2022 **Paid Time Off (PTO)**: 160 hours (20 business days / 4 weeks) accrued annually ([Section 3.1](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Parental Leave**: Up to 16 weeks fully paid within the first 12 months ([Section 3.3](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Short-Term Medical LOA**: Up to 12 weeks with 100% salary continuation upon medical certification ([Section 3.4](https://intranet.company.com/policies/hr-2026-leave.pdf))\n\u2022 **Bereavement Leave**: Up to 5 consecutive paid business days for immediate family ([Section 3.2](https://intranet.company.com/policies/hr-2026-leave.pdf))",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "leave_overview",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-19T11:14:28.444209+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:14:08.397573+00:00",
+    "last_activity_at": "2026-08-19T11:14:08.397602+00:00",
+    "last_activity_at_ts": 1787138068.4442563
+  },
+  "cli-sess-EMP-1004": {
+    "session_id": "cli-sess-EMP-1004",
+    "employee_id": "EMP-1004",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "How much can i gift to a customer",
+        "agent_response": "According to company policy (5.2 Commercial Gifts & Entertainment (Non-Government Recipients)): - Adult Entertainment & Gambling Prohibitions: Business courtesies must never involve gambling, adult entertainment (strip clubs, hostess bars, room salons), cash, or cash equivalents (gift cards or certificates).\n- Frequency Limit: You may not exchange business courtesies with the same customer or business partner more than twice in any 3-month period (excluding moderate, moderate-value entertainment events where both parties are in attendance).\n- Written Pre-Approval Thresholds (Non-Government):\n  - Under US $100 per person: No pre-approval required.\n- US $100 to US $250 per person: Written pre-approval from the employee's Manager .\n- US $250 to US $500 per person: Written pre-approval from the employee's Director (or country manager).\n- Over US $500 per person: Written pre-approval from the employee's VP .\n\nSource: [5.2 Commercial Gifts & Entertainment (Non-Government Recipients)](https://intranet.company.com/policies/5.2-commercial-gifts-entertainment-non-government-recipients.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 38,
+        "timestamp": "2026-08-19T11:22:22.107399+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "log a ticket to get approval for a $1000 gift card to a vendor.",
+        "agent_response": "According to company policy (5.2 Commercial Gifts & Entertainment (Non-Government Recipients)): - Adult Entertainment & Gambling Prohibitions: Business courtesies must never involve gambling, adult entertainment (strip clubs, hostess bars, room salons), cash, or cash equivalents (gift cards or certificates).\n- Frequency Limit: You may not exchange business courtesies with the same customer or business partner more than twice in any 3-month period (excluding moderate, moderate-value entertainment events where both parties are in attendance).\n- Written Pre-Approval Thresholds (Non-Government):\n  - Under US $100 per person: No pre-approval required.\n- US $100 to US $250 per person: Written pre-approval from the employee's Manager .\n- US $250 to US $500 per person: Written pre-approval from the employee's Director (or country manager).\n- Over US $500 per person: Written pre-approval from the employee's VP .\n\nSource: [5.2 Commercial Gifts & Entertainment (Non-Government Recipients)](https://intranet.company.com/policies/5.2-commercial-gifts-entertainment-non-government-recipients.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 33,
+        "timestamp": "2026-08-19T11:30:38.286180+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "I want to log a ticket",
+        "agent_response": "According to company policy (Change Log): # Change Log\n\n\nSource: [Change Log](https://intranet.company.com/policies/log.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 35,
+        "timestamp": "2026-08-19T11:31:09.399492+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "Log a request to get pre-approval",
+        "agent_response": "According to company policy (14.4 Pre-Approval Requirements): Pre-Approval Requirements Business courtesies of more than US$100 per person in value require written pre-approval because they may create an appearance of impropriety.\n- Under US$100: No pre-approval is required.\n- Over US 250: Requires written pre-approval from the employee's manager. 100 \ud835\udc62\ud835\udc5d\ud835\udc61\ud835\udc5c \ud835\udc48\ud835\udc46\n- Over US 500: Requires written pre-approval from the employee's director 250 \ud835\udc62\ud835\udc5d\ud835\udc61\ud835\udc5c \ud835\udc48\ud835\udc46(or country manager if there is no director in-country).\n- Over US$500: Requires written pre-approval from the employee's VP.\n\nSource: [14.4 Pre-Approval Requirements](https://intranet.company.com/policies/14.4-pre-approval-requirements.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 32,
+        "timestamp": "2026-08-19T11:31:39.494827+00:00"
+      },
+      {
+        "turn_id": "turn-5",
+        "user_input": "exir",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 31,
+        "timestamp": "2026-08-19T11:32:29.999052+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:22:22.069540+00:00",
+    "last_activity_at": "2026-08-19T11:22:22.069570+00:00",
+    "last_activity_at_ts": 1787139149.9991276
+  },
+  "test-ticket-session": {
+    "session_id": "test-ticket-session",
+    "employee_id": "EMP-1001",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "Please log a ticket: my laptop monitor is flickering and won't turn on",
+        "agent_response": "I've logged IT Support ticket **INC-9A03C** for you with priority **P3**.\n\nOur service team will review it shortly. You can track this ticket by asking for status on **INC-9A03C**.",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 15,
+        "timestamp": "2026-08-19T11:33:08.438776+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "What is the current status of ticket INC-9A03C?",
+        "agent_response": "Ticket INC-9A03C (Support Request: Please log a ticket: my laptop monitor is flickering and won): Status is **OPEN** (Priority: P3, Assigned to: IT-Support-L1).",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 2,
+        "timestamp": "2026-08-19T11:33:08.446053+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "Log a critical P1 urgent ticket: my mouse is missing a scroll wheel",
+        "agent_response": "I've logged IT Support ticket **INC-338B7** for you with priority **P3**.\n\nOur service team will review it shortly. You can track this ticket by asking for status on **INC-338B7**.",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 5,
+        "timestamp": "2026-08-19T11:33:08.454326+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:33:08.423404+00:00",
+    "last_activity_at": "2026-08-19T11:33:08.423433+00:00",
+    "last_activity_at_ts": 1787139188.4544046
+  },
+  "test-maria-session": {
+    "session_id": "test-maria-session",
+    "employee_id": "EMP-1004",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "log a ticket to get approval for a $1000 gift card to a vendor.",
+        "agent_response": "I've logged Support Ticket **INC-439FF** (Category: `Compliance_Approval`) with priority **P3**.\n\n\ud83d\udca1 **Policy Note (Sections 5.2 & 14.4)**: Business courtesies must not involve cash or cash equivalents (gift cards). Gifts over US$500 require VP written pre-approval. Your request has been routed to the Compliance & Ethics desk for formal review.\n\nYou can track this ticket by asking for status on **INC-439FF**.",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 12,
+        "timestamp": "2026-08-19T11:34:25.993866+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "I want to log a ticket",
+        "agent_response": "Certainly! What issue, hardware request, or approval would you like to log a ticket for? (e.g., *'Laptop screen flickering'*, *'Request approval for $500 vendor gift'*, *'VPN access issue'*)",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "prompt_ticket_details",
+        "tool_payload": null,
+        "latency_ms": 0,
+        "timestamp": "2026-08-19T11:34:25.996478+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "Log a request to get pre-approval for vendor entertainment dinner",
+        "agent_response": "I've logged Support Ticket **INC-BA46B** (Category: `Compliance_Approval`) with priority **P3**.\n\n\ud83d\udca1 **Policy Note (Sections 5.2 & 14.4)**: Business courtesies must not involve cash or cash equivalents (gift cards). Gifts over US$500 require VP written pre-approval. Your request has been routed to the Compliance & Ethics desk for formal review.\n\nYou can track this ticket by asking for status on **INC-BA46B**.",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 8,
+        "timestamp": "2026-08-19T11:34:26.007219+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T11:34:25.982132+00:00",
+    "last_activity_at": "2026-08-19T11:34:25.982156+00:00",
+    "last_activity_at_ts": 1787139266.0073104
+  },
+  "session-live-1": {
+    "session_id": "session-live-1",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What are my current leave balances?",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 319,
+        "timestamp": "2026-08-19T12:02:57.638196+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "List my open support tickets",
+        "agent_response": "According to company policy (35.1 Open Door Policy): - Altostrat encourages open and honest communication. If you experience a workplace conflict, misunderstanding, or operational dispute, we encourage resolving it as close to the source as possible.\n\nSource: [35.1 Open Door Policy](https://intranet.company.com/policies/35.1-open-door-policy.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 36,
+        "timestamp": "2026-08-19T12:02:57.677618+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "What is the policy for bereavement leave in Singapore?",
+        "agent_response": "According to company policy (3.1 Bereavement Leave (Global)): Bereavement Leave (Global) Paid bereavement leave is provided to support employees during times of grief.\n- Allowance: Employees can take up to 4 weeks (20 work days for a standard 5-day schedule) of paid leave per event . This applies to the loss of a close loved one, including pregnancy loss (miscarriage or stillbirth).\n- Timeline: Bereavement leave must be taken within 12 months of the death .\n- Pet Loss: Paid bereavement leave does not apply to pet loss. Vacation, unpaid time off, or flexible schedules should be arranged with managers in those instances.\n\nSource: [3.1 Bereavement Leave (Global)](https://intranet.company.com/policies/3.1-bereavement-leave-global.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 33,
+        "timestamp": "2026-08-19T12:02:57.713933+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "What are my current leave balances?",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 506,
+        "timestamp": "2026-08-19T12:03:32.251925+00:00"
+      },
+      {
+        "turn_id": "turn-5",
+        "user_input": "What are my current leave balances?",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 293,
+        "timestamp": "2026-08-19T12:03:50.696608+00:00"
+      },
+      {
+        "turn_id": "turn-6",
+        "user_input": "List my open support tickets",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 273,
+        "timestamp": "2026-08-19T12:03:50.972618+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-19T12:02:57.319319+00:00",
+    "last_activity_at": "2026-08-19T12:02:57.319347+00:00",
+    "last_activity_at_ts": 1787141030.9726965
+  },
+  "agent-engine-sess-EMP-436": {
+    "session_id": "agent-engine-sess-EMP-436",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What are my current leave balances?",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 329,
+        "timestamp": "2026-08-20T03:37:17.842472+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "What is the policy for bereavement leave in Singapore?",
+        "agent_response": "According to company policy (3.1 Bereavement Leave (Global)): Bereavement Leave (Global) Paid bereavement leave is provided to support employees during times of grief.\n- Allowance: Employees can take up to 4 weeks (20 work days for a standard 5-day schedule) of paid leave per event . This applies to the loss of a close loved one, including pregnancy loss (miscarriage or stillbirth).\n- Timeline: Bereavement leave must be taken within 12 months of the death .\n- Pet Loss: Paid bereavement leave does not apply to pet loss. Vacation, unpaid time off, or flexible schedules should be arranged with managers in those instances.\n\nSource: [3.1 Bereavement Leave (Global)](https://intranet.company.com/policies/3.1-bereavement-leave-global.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 35,
+        "timestamp": "2026-08-20T03:37:17.881307+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T03:37:17.513592+00:00",
+    "last_activity_at": "2026-08-20T03:37:17.513603+00:00",
+    "last_activity_at_ts": 1787197037.8813732
+  },
+  "cli-sess-EMP-436": {
+    "session_id": "cli-sess-EMP-436",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "create a ticket for me to order a keyboard from the hardware team",
+        "agent_response": "{\n  \"ticket_id\": \"INC0002817\",\n  \"requested_by\": \"EMP-436\",\n  \"category\": \"Hardware\",\n  \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n  \"status\": \"New\",\n  \"priority\": \"3 - Moderate\",\n  \"assignment_group\": \"Service Desk\",\n  \"assigned_to\": \"\",\n  \"created_at\": \"2026-08-20T03:40:49.090855\",\n  \"updated_at\": \"2026-08-20T03:40:49.090855\",\n  \"updated_by\": \"admin\"\n}",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 281,
+        "timestamp": "2026-08-20T03:40:49.203457+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "list incidents",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 33,
+        "timestamp": "2026-08-20T03:41:30.961356+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "where are my tickets",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002817\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 280,
+        "timestamp": "2026-08-20T03:41:36.690116+00:00"
+      },
+      {
+        "turn_id": "turn-4",
+        "user_input": "create one more for a leave for mental health issues for 3 days",
+        "agent_response": "According to company policy (19.3 Hospitalization Leave): Hospitalization Leave Employees can use an additional 46 work days of hospitalization leave. To use this leave, you must contact support and meet one of the following criteria: 1. You are warded in a hospital as an inpatient or for day surgery. 2. You are under quarantine (whether or not in a hospital) under any written law. 3. You are ill enough to require hospitalization during the leave period (must be certified by a medical practitioner). 4. You need rest or further medical treatment during the leave period after discharging from a hospital (must be certified by a medical practitioner).\n- Certification Requirements: You must provide a sick certificate indicating the hospitalization leave period, issued by a registered medical practitioner who can admit patients into hospitals. For reasons (3) and (4) above, the certifying medical practitioner must be employed by a hospital approved by the Minister for Manpower; otherwise, the company reserves the right to request more information before approving the leave.\n- Discretionary Approval: Paid hospitalization leave is not an automatic extension of paid outpatient sick leave. It is discretionary, based on business approval, and granted on a case-by-case basis.\n\nSource: [19.3 Hospitalization Leave](https://intranet.company.com/policies/19.3-hospitalization-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 33,
+        "timestamp": "2026-08-20T03:41:52.505605+00:00"
+      },
+      {
+        "turn_id": "turn-5",
+        "user_input": "list my tickets",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002818\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request to order a new keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002817\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 307,
+        "timestamp": "2026-08-20T03:42:24.195628+00:00"
+      },
+      {
+        "turn_id": "turn-6",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop?",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002818\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request to order a new keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002817\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 322,
+        "timestamp": "2026-08-20T03:44:15.037530+00:00"
+      },
+      {
+        "turn_id": "turn-7",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop?",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002820\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request for loaner Mac Pro / MacBook Pro for upcoming conference travel next week\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:44:30.082051\",\n    \"updated_at\": \"2026-08-20T03:44:30.082051\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002818\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request to order a new keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002817\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 301,
+        "timestamp": "2026-08-20T03:44:40.495673+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T03:40:48.922750+00:00",
+    "last_activity_at": "2026-08-20T03:40:48.922781+00:00",
+    "last_activity_at_ts": 1787197480.4957912
+  },
+  "test-session-compound": {
+    "session_id": "test-session-compound",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop?",
+        "agent_response": "[\n  {\n    \"ticket_id\": \"INC0002820\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request for loaner Mac Pro / MacBook Pro for upcoming conference travel next week\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:44:30.082051\",\n    \"updated_at\": \"2026-08-20T03:44:30.082051\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002818\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"Request to order a new keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_at\": \"2026-08-20T03:41:50.787566\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002817\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Hardware\",\n    \"short_description\": \"create a ticket for me to order a keyboard from the hardware team\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"\",\n    \"created_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_at\": \"2026-08-20T03:40:49.090855\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  },\n  {\n    \"ticket_id\": \"INC0002728\",\n    \"requested_by\": \"EMP-436\",\n    \"category\": \"Inquiry / Help\",\n    \"short_description\": \"Onboarding setup and badges configuration\",\n    \"status\": \"New\",\n    \"priority\": \"3 - Moderate\",\n    \"assignment_group\": \"Service Desk\",\n    \"assigned_to\": \"ITIL User\",\n    \"created_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_at\": \"2026-08-19T11:40:53.765646\",\n    \"updated_by\": \"admin\",\n    \"caller_name\": \"Skhadkikar Employee\"\n  }\n]",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 940,
+        "timestamp": "2026-08-20T03:50:36.452476+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T03:50:35.512618+00:00",
+    "last_activity_at": "2026-08-20T03:50:35.512648+00:00",
+    "last_activity_at_ts": 1787197836.4525356
+  },
+  "test-session-compound-2": {
+    "session_id": "test-session-compound-2",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop?",
+        "agent_response": "\u2705 **Support Ticket Logged**: **INC0002820**\n\u2022 **Category**: `Hardware`\n\u2022 **Priority**: **3 - Moderate**\n\u2022 **Status**: `New`\n\u2022 **Assignment Group**: `Service Desk`\n\u2022 **Summary**: Request for loaner hardware / conference support\n\n\u26a0\ufe0f **Priority Notice (ADR-0010)**: Priority was adjusted from **1 - Critical** to **3 - Moderate**. Critical priority is reserved strictly for active, high-impact enterprise outages affecting business continuity.\n\n---\n### \ud83d\udcd6 Policy Guidance\nAccording to company policy (5.4 Remote Work, Telework, & Data Security): - Public Settings Restriction: Do not work on Altostrat confidential or proprietary projects in public settings (such as coffee shops or public libraries).\n- Privacy Guardrails: When working away from the office, you must use a privacy screen, wear headphones during virtual meetings, and keep sensitive documents physically secured.\n- Hybrid and Remote Work Arrangements\n- Hybrid Structure: The hybrid work week is designed to offer flexibility in assigned office locations. Employees may work approximately three days a week in the office and two days away from the office (or nearby), or they may work fully remote. These arrangements may be considered telework in your location of employment.\n- Local Compliance: Hybrid work is an option globally, but local mandatory requirements that apply in certain locations will override the global policy content.\n- Working Time and Availability\n- Regular Hours: While working away from the office, employees should generally remain available during their regular work hours. If you plan to adjust your schedule, you must inform your manager or open a case in ITSM.\n- Statutory Limits: Any applicable statutory work hour limits and minimum break requirements for your assigned office location remain the exact same during remote work\n- Data Protection and Privacy\n- Information Security: Employees are expected to protect confidential and proprietary company and customer information in accordance with information security policies.\n- Public Settings: Employees must not work on confidential projects in public settings, such as coffee shops or public libraries.\n- Privacy Measures: To maintain privacy when working on sensitive information away from the office, you must use a privacy screen, wear headphones during GVC meetings, and keep sensitive documents secured.\n- Corporate Monitoring: The electronic monitoring and corporate systems policy applies equally whether you are working from the office, away from the office, or fully remote.\n- Internet Reimbursement: Employees may be eligible for home internet reimbursement, subject to manager approval. Some countries may have additional statutory requirements for telework reimbursements.\n- Equipment: Hardware (monitors, security keys,...) must open a case in ITSM (ServiceImmediately case) and get manager approval.\n- Home Office Equipment Allowance: Employees with an approved 'Remote' or 'Hybrid' location status are eligible for a $500 USD allowance for home office equipment, including monitors. All remote equipment orders must be submitted via a 'Facilities' category ticket and shipped directly to the employee's verified remote shipping address.\n- Risk Reporting: Employees must inform their managers of any health and safety risks that may exist at their flexible working location. Employees and managers should discuss whether home working arrangements need to be changed to address these risks.\n\nSource: [5.4 Remote Work, Telework, & Data Security](https://intranet.company.com/policies/5.4-remote-work-telework-data-security.pdf)",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 363,
+        "timestamp": "2026-08-20T03:50:52.646864+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T03:50:52.283397+00:00",
+    "last_activity_at": "2026-08-20T03:50:52.283425+00:00",
+    "last_activity_at_ts": 1787197852.646925
+  },
+  "test-session-compound-3": {
+    "session_id": "test-session-compound-3",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop?",
+        "agent_response": "\u2705 **Support Ticket Logged**: **INC0002820**\n\u2022 **Category**: `Hardware`\n\u2022 **Priority**: **3 - Moderate**\n\u2022 **Status**: `New`\n\u2022 **Assignment Group**: `Service Desk`\n\u2022 **Summary**: Request for loaner hardware / conference support\n\n\u26a0\ufe0f **Priority Notice (ADR-0010)**: Priority was adjusted from **1 - Critical** to **3 - Moderate**. Critical priority is reserved strictly for active, high-impact enterprise outages affecting business continuity.\n\n---\n### \ud83d\udcd6 Policy Guidance\nAccording to company policy (5.4 Remote Work, Telework, & Data Security):\n- Public Settings Restriction: Do not work on Altostrat confidential or proprietary projects in public settings (such as coffee shops or public libraries).\n- Privacy Guardrails: When working away from the office, you must use a privacy screen, wear headphones during virtual meetings, and keep sensitive documents physically secured.\n- Hybrid and Remote Work Arrangements\n- Hybrid Structure: The hybrid work week is designed to offer flexibility in assigned office locations. Employees may work approximately three days a week in the office and two days away from the office (or nearby), or they may work fully remote. These arrangements may be considered telework in your location of employment.\n- Local Compliance: Hybrid work is an option globally, but local mandatory requirements that apply in certain locations will override the global policy content.\n- Working Time and Availability\n- Regular Hours: While working away from the office, employees should generally remain available during their regular work hours. If you plan to adjust your schedule, you must inform your manager or open a case in ITSM.\n- Statutory Limits: Any applicable statutory work hour limits and minimum break requirements for your assigned office location remain the exact same during remote work\n- Data Protection and Privacy\n- Information Security: Employees are expected to protect confidential and proprietary company and customer information in accordance with information security policies.\n- Public Settings: Employees must not work on confidential projects in public settings, such as coffee shops or public libraries.\n- Privacy Measures: To maintain privacy when working on sensitive information away from the office, you must use a privacy screen, wear headphones during GVC meetings, and keep sensitive documents secured.\n- Corporate Monitoring: The electronic monitoring and corporate systems policy applies equally whether you are working from the office, away from the office, or fully remote.\n- Internet Reimbursement: Employees may be eligible for home internet reimbursement, subject to manager approval. Some countries may have additional statutory requirements for telework reimbursements.\n- Equipment: Hardware (monitors, security keys,...) must open a case in ITSM (ServiceImmediately case) and get manager approval.\n- Home Office Equipment Allowance: Employees with an approved 'Remote' or 'Hybrid' location status are eligible for a $500 USD allowance for home office equipment, including monitors. All remote equipment orders must be submitted via a 'Facilities' category ticket and shipped directly to the employee's verified remote shipping address.\n- Risk Reporting: Employees must inform their managers of any health and safety risks that may exist at their flexible working location. Employees and managers should discuss whether home working arrangements need to be changed to address these risks.\n\nSource: [5.4 Remote Work, Telework, & Data Security](https://intranet.company.com/policies/5.4-remote-work-telework-data-security.pdf)",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 355,
+        "timestamp": "2026-08-20T03:51:32.002519+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T03:51:31.647624+00:00",
+    "last_activity_at": "2026-08-20T03:51:31.647652+00:00",
+    "last_activity_at_ts": 1787197892.002582
+  }
+}

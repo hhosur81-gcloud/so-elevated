@@ -1,134 +1,92 @@
-"""Integration tests for WorkWeek HCM MCP Server (ADR-0001, ADR-0006, ENG-0001, ENG-0002)."""
+"""Integration tests for WorkWeek HCM FastMCP Client (ADR-0001, ADR-0006, ENG-0001)."""
 
-import os
-import shutil
-import tempfile
+import json
 import unittest
-from src.config.security import JWTManager
-from src.repositories.filestore_repository import FileStoreRepository
+from unittest.mock import MagicMock, patch
+from src.mcp.remote_mcp_client import RemoteWorkWeekClient
 
 
-class TestWorkWeekMCPServer(unittest.TestCase):
-    """Test suite verifying WorkWeek MCP tools, JWT verification, and FileStore mutations."""
+class TestWorkWeekMCPClient(unittest.TestCase):
+    """Test suite verifying WorkWeek FastMCP Client communication, parameters, and responses."""
 
     def setUp(self):
-        self.temp_dir = tempfile.mkdtemp()
-        self.jwt_manager = JWTManager()
-        self.repo = FileStoreRepository(base_path=self.temp_dir)
+        self.client = RemoteWorkWeekClient(
+            endpoint_url="https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/",
+            token="mcp_test_token_123"
+        )
 
-        # Seed employee EMP-1001
-        self.repo.save_record("workweek/employees.json", "EMP-1001", {
-            "employee_id": "EMP-1001",
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "email": "jane.doe@enterprise.com",
-            "department": "Engineering",
-            "role": "Senior Cloud Engineer",
-            "pto_balance_hours": 120.0,
-            "sick_leave_hours": 40.0,
-            "leave_requests": []
-        })
+    @patch("urllib.request.urlopen")
+    def test_get_employee_balances(self, mock_urlopen):
+        """Verify PTO balance query formats JSON-RPC correctly."""
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "jsonrpc": "2.0",
+            "id": 3,
+            "result": {
+                "content": [{"type": "text", "text": "Vacation: 15.0 days\nSick: 10.0 days"}],
+                "isError": False
+            }
+        }).encode("utf-8")
+        mock_urlopen.return_value.__enter__.return_value = mock_response
 
-        from src.mcp.workweek_server import WorkWeekMCPServer
-        self.server = WorkWeekMCPServer(jwt_manager=self.jwt_manager, repository=self.repo)
-
-    def tearDown(self):
-        shutil.rmtree(self.temp_dir, ignore_errors=True)
-
-    def test_get_profile_with_valid_jwt(self):
-        """Verify profile lookup succeeds with valid signed JWT."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1001", scopes=["hcm:read"])
-        res = self.server.workweek_get_profile("EMP-1001", token)
-
+        res = self.client.get_employee_balances("EMP-436")
         self.assertTrue(res["success"])
-        self.assertEqual(res["data"]["first_name"], "Jane")
-        self.assertEqual(res["data"]["department"], "Engineering")
+        self.assertIn("15.0 days", res["result"])
 
-    def test_get_profile_rejects_unauthorized_token(self):
-        """Verify profile lookup rejects token belonging to a different employee."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1002", scopes=["hcm:read"])
-        res = self.server.workweek_get_profile("EMP-1001", token)
+    @patch("urllib.request.urlopen")
+    def test_get_personal_info(self, mock_urlopen):
+        """Verify personal info query retrieves employee contact data."""
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "jsonrpc": "2.0",
+            "id": 3,
+            "result": {
+                "content": [{"type": "text", "text": "Skhadkikar Employee | Singapore"}],
+                "isError": False
+            }
+        }).encode("utf-8")
+        mock_urlopen.return_value.__enter__.return_value = mock_response
 
-        self.assertFalse(res["success"])
-        self.assertEqual(res["error_code"], "FORBIDDEN")
-
-    def test_get_pto_balances(self):
-        """Verify PTO balance query returns accrued hours."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1001", scopes=["hcm:read"])
-        res = self.server.workweek_get_pto_balances("EMP-1001", token)
-
+        res = self.client.get_personal_info("EMP-436")
         self.assertTrue(res["success"])
-        self.assertEqual(res["data"]["pto_balance_hours"], 120.0)
-        self.assertEqual(res["data"]["sick_leave_hours"], 40.0)
+        self.assertIn("Singapore", res["result"])
 
-    def test_submit_leave_request_deducts_balance(self):
-        """Verify leave booking updates balance and adds leave record."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1001", scopes=["hcm:write"])
-        res = self.server.workweek_submit_leave_request(
-            employee_id="EMP-1001",
-            leave_type="PTO",
-            start_date="2026-09-01",
-            end_date="2026-09-03",
-            hours=24.0,
-            bearer_token=token,
-            idempotency_key="req-12345"
-        )
+    @patch("urllib.request.urlopen")
+    def test_request_time_off(self, mock_urlopen):
+        """Verify request_time_off formats RPC tool call and parameters."""
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "jsonrpc": "2.0",
+            "id": 3,
+            "result": {
+                "content": [{"type": "text", "text": "Leave requested successfully for EMP-436"}],
+                "isError": False
+            }
+        }).encode("utf-8")
+        mock_urlopen.return_value.__enter__.return_value = mock_response
 
+        res = self.client.request_time_off("EMP-436", "2026-09-01", "2026-09-02", "Vacation", 2.0)
         self.assertTrue(res["success"])
-        self.assertEqual(res["data"]["status"], "CONFIRMED")
-        self.assertEqual(res["data"]["remaining_pto_hours"], 96.0)
+        self.assertIn("Leave requested successfully", res["result"])
 
-        # Verify in FileStore
-        profile = self.repo.load_record("workweek/employees.json", "EMP-1001")
-        self.assertEqual(profile["pto_balance_hours"], 96.0)
-        self.assertEqual(len(profile["leave_requests"]), 1)
+    @patch("urllib.request.urlopen")
+    def test_initialize_protocol(self, mock_urlopen):
+        """Verify MCP initialize handshake handshake."""
+        mock_response = MagicMock()
+        mock_response.read.return_value = json.dumps({
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": {
+                "protocolVersion": "2024-11-05",
+                "serverInfo": {"name": "WorkWeek", "version": "1.0.0"}
+            }
+        }).encode("utf-8")
+        mock_urlopen.return_value.__enter__.return_value = mock_response
 
-    def test_submit_leave_rejects_insufficient_balance(self):
-        """Verify leave booking fails if requested hours exceed accrued balance."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1001", scopes=["hcm:write"])
-        res = self.server.workweek_submit_leave_request(
-            employee_id="EMP-1001",
-            leave_type="PTO",
-            start_date="2026-09-01",
-            end_date="2026-09-30",
-            hours=200.0,  # Only 120 available
-            bearer_token=token
-        )
-
-        self.assertFalse(res["success"])
-        self.assertEqual(res["error_code"], "INSUFFICIENT_BALANCE")
-
-    def test_submit_leave_idempotency_deduplication(self):
-        """Verify duplicate leave submissions with identical Idempotency-Key return cached response."""
-        token = self.jwt_manager.generate_delegated_token("EMP-1001", scopes=["hcm:write"])
-        res1 = self.server.workweek_submit_leave_request(
-            employee_id="EMP-1001",
-            leave_type="PTO",
-            start_date="2026-09-01",
-            end_date="2026-09-02",
-            hours=16.0,
-            bearer_token=token,
-            idempotency_key="idemp-key-999"
-        )
-        self.assertTrue(res1["success"])
-        self.assertEqual(res1["data"]["remaining_pto_hours"], 104.0)
-
-        # Resend duplicate request
-        res2 = self.server.workweek_submit_leave_request(
-            employee_id="EMP-1001",
-            leave_type="PTO",
-            start_date="2026-09-01",
-            end_date="2026-09-02",
-            hours=16.0,
-            bearer_token=token,
-            idempotency_key="idemp-key-999"
-        )
-        self.assertTrue(res2["success"])
-        self.assertEqual(res2["data"]["remaining_pto_hours"], 104.0)  # NOT deducted twice!
-
-        profile = self.repo.load_record("workweek/employees.json", "EMP-1001")
-        self.assertEqual(profile["pto_balance_hours"], 104.0)
+        res = self.client.initialize()
+        self.assertTrue(self.client._initialized)
 
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -62,7 +62,7 @@ The architecture supports both **Live Cloud SaaS Streamable HTTP (FastMCP)** and
 flowchart LR
     Orchestrator["Primary HR Orchestrator (ADK)"]
     
-    subgraph LiveMode["1. Live Cloud SaaS (Streamable HTTP)"]
+    subgraph LiveMode["Live Cloud SaaS (Streamable HTTP)"]
         RemoteClient["RemoteMCPClient (src/mcp/remote_mcp_client.py)"]
         WW_Cloud["WorkWeek FastMCP Server<br>https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/"]
         SI_Cloud["ServiceImmediately FastMCP Server<br>https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/"]
@@ -71,23 +71,12 @@ flowchart LR
         RemoteClient -->|"X-MCP-Token (JSON-RPC 2.0 / SSE)"| SI_Cloud
     end
 
-    subgraph LocalMode["2. Hermetic Local Mocks (FileStore)"]
-        LocalWW["WorkWeekMCPServer (src/mcp/workweek_server.py)"]
-        LocalSI["ServiceImmediatelyMCPServer (src/mcp/serviceimmediately_server.py)"]
-        FileStore[("data/filestore/<br>Atomic JSON with fcntl.flock")]
-        
-        LocalWW --> FileStore
-        LocalSI --> FileStore
-    end
-
-    Orchestrator -->|Live Session: EMP-436| RemoteClient
-    Orchestrator -->|Local Personas: EMP-1001..1005| LocalWW
-    Orchestrator -->|Local Personas: EMP-1001..1005| LocalSI
+    Orchestrator -->|All Sessions / FastMCP Integration| RemoteClient
 ```
 
 ### Supported Live FastMCP Tools:
 * **WorkWeek**: `get_employee_balances`, `get_personal_info`, `update_personal_info`, `request_time_off`, `get_leave_requests`, `cancel_leave_request`, `get_current_employee_id`.
-* **ServiceImmediately**: `list_tickets`, `create_ticket` (with outage check), `add_ticket_comment`, `update_ticket_status` (FSM transitions).
+* **ServiceImmediately**: `list_tickets`, `create_ticket` (with outage check), `get_ticket`, `add_ticket_comment`, `update_ticket_status` (FSM transitions).
 
 ---
 
@@ -98,8 +87,9 @@ flowchart LR
 | **Layer 0: Security Sentinel Gateway** | Managed AI security gateway intercepting prompt injections, jailbreaks & redacting SPII (<20ms) | Model Armor Client, Cloud DLP Templates, Presidio Fallback | Model Armor Template ID / SCC Integration |
 | **Agent 1: Primary HR Orchestrator** | Multi-turn session manager (15m TTL), intent router, cross-system workflow coordinator, confirmation gate | ADK Sub-Agent Dispatcher, Confirmation Interceptor, Forward Recovery Logger | Signed Root JWT (`sub: <emp_id>`) |
 | **Agent 2: Policy Q&A Specialist** | Semantic policy retrieval over 161 OKF sections (`knowledge/`) with clickable citations & role ACL | Stemmed Search Retriever, Citation Formatter, Redis Semantic Cache (<50ms) | Read-only Repository OKF Policy Bundle (`knowledge/`) |
-| **Agent 3: WorkWeek HCM Specialist** | Live profile queries, PTO balances, and guarded leave of absence bookings | FastMCP Streamable HTTP / Local Mock (`workweek_server.py`) | Signed JWT (`scopes: hcm:read, hcm:write`) |
-| **Agent 4: ServiceImmediately Specialist** | Support incident creation, timeline comments, lifecycle transition guards, Priority Downgrade Guardrail | FastMCP Streamable HTTP / Local Mock (`serviceimmediately_server.py`) | Signed JWT (`scopes: itsm:read, itsm:write`) |
+| **Agent 3: WorkWeek HCM Specialist** | Live profile queries, PTO balances, and guarded leave of absence bookings | FastMCP Streamable HTTP (`remote_mcp_client.py`) | `X-MCP-Token` / Signed JWT (`scopes: hcm:read, hcm:write`) |
+| **Agent 4: ServiceImmediately Specialist** | Support incident creation, timeline comments, lifecycle transition guards, Priority Downgrade Guardrail | FastMCP Streamable HTTP (`remote_mcp_client.py`) | `X-MCP-Token` / Signed JWT (`scopes: itsm:read, itsm:write`) |
+
 
 ---
 

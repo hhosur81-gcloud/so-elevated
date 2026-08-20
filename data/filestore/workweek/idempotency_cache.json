@@ -1,0 +1,86 @@
+{
+  "692a540b-3085-40aa-aa66-ed495c9185ff": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-ABFBE3",
+      "employee_id": "EMP-1001",
+      "leave_type": "PTO",
+      "hours_deducted": 16.0,
+      "remaining_pto_hours": 104.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "loa-EMP-1001-aa08e4": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-C776F4",
+      "employee_id": "EMP-1001",
+      "leave_type": "MEDICAL",
+      "hours_deducted": 80.0,
+      "remaining_pto_hours": 104.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "4598a1dc-ed61-42bd-a550-abce188b318d": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-B2ED0A",
+      "employee_id": "EMP-1001",
+      "leave_type": "PTO",
+      "hours_deducted": 16.0,
+      "remaining_pto_hours": 88.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "b2aeb466-0dea-46d9-bed6-883bebf3be96": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-D3D3A7",
+      "employee_id": "EMP-1001",
+      "leave_type": "PTO",
+      "hours_deducted": 16.0,
+      "remaining_pto_hours": 72.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "loa-EMP-1001-4b84e9": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-8FC21A",
+      "employee_id": "EMP-1001",
+      "leave_type": "MEDICAL",
+      "hours_deducted": 80.0,
+      "remaining_pto_hours": 72.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "2907d292-ee89-4085-b8a1-f9afbb4038a3": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-849990",
+      "employee_id": "EMP-1001",
+      "leave_type": "PTO",
+      "hours_deducted": 16.0,
+      "remaining_pto_hours": 104.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  },
+  "loa-EMP-1001-76f6f1": {
+    "success": true,
+    "data": {
+      "request_id": "LOA-FD784B",
+      "employee_id": "EMP-1001",
+      "leave_type": "MEDICAL",
+      "hours_deducted": 80.0,
+      "remaining_pto_hours": 104.0,
+      "remaining_sick_hours": 40.0,
+      "status": "CONFIRMED"
+    }
+  }
+}
