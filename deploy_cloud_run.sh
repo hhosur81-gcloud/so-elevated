@@ -42,7 +42,7 @@ gcloud run deploy "${SERVICE_NAME}" \
   --cpu 2 \
   --timeout 300 \
   --concurrency 80 \
-  --set-env-vars "GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GEMINI_MODEL=gemini-3.7-flash,GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_LOCATION=${REGION},GOOGLE_CLOUD_REGION=${REGION},WORKWEEK_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/,WORKWEEK_MCP_TOKEN=mcp_fZFYPQVV1fAkmOYz4Lal8OVc9ltyLmfHiO4BZGCm-Tw,WORKWEEK_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ,ITSM_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/,ITSM_MCP_TOKEN=mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag,ITSM_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ"
+  --set-env-vars "GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GEMINI_MODEL=gemini-3.7-flash,GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_LOCATION=${REGION},GOOGLE_CLOUD_REGION=${REGION},ADK_ORCHESTRATOR_RESOURCE=projects/136598345275/locations/us-central1/reasoningEngines/7730773457276764160,WORKWEEK_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/,WORKWEEK_MCP_TOKEN=mcp_fZFYPQVV1fAkmOYz4Lal8OVc9ltyLmfHiO4BZGCm-Tw,WORKWEEK_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ,ITSM_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/,ITSM_MCP_TOKEN=mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag,ITSM_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ"
 
 # 4. Verify deployment and fetch live URL
 echo "[4/4] Verifying deployment..."
