@@ -89,13 +89,27 @@ async def process_chat(req: ChatRequest):
             "requires_confirmation": False
         }, acting_agent="security_sentinel")
 
-    # 2. Check if currently inside a pending confirmation gate
+    # 2. Check if currently inside a pending confirmation gate or multi-turn PTO booking flow
     session = orchestrator._get_or_create_session(session_id, req.employee_id)
-    if session.pending_confirmation:
+    lowered = req.message.lower().strip()
+    
+    was_awaiting_pto = False
+    if session.turns:
+        last_tool = getattr(session.turns[-1], "tool_invoked", "")
+        if last_tool in ["prompt_pto_details", "enter_confirmation_gate"]:
+            was_awaiting_pto = True
+
+    is_pto_booking_intent = (
+        was_awaiting_pto
+        or bool(session.pending_confirmation)
+        or bool(re.search(r"\b(request|book|take|apply\s+for|schedule)\s+(?:an?\s+)?(?:[\w\-]+\s+)?\b(pto|vacation|time\s*off|leave)\b", lowered))
+        or (bool(re.search(r"\b(pto|vacation|time\s*off|annual\s+leave)\b", lowered)) and any(w in lowered for w in ["request", "book", "take", "apply", "schedule", "submit", "want", "need"]))
+    )
+
+    if is_pto_booking_intent and not ("balance" in lowered or "policy" in lowered or "rules" in lowered or "can i" in lowered):
         return orchestrator.process_turn(session_id=session_id, employee_id=req.employee_id, user_message=req.message)
 
     # 3. Check for greeting / capabilities intent
-    lowered = req.message.lower().strip()
     is_greeting = bool(re.search(r"\b(hello|hi|hey|good\s*(morning|afternoon|evening)|howdy|greetings|help|help\s*me|who\s*are\s*you|what\s*(else\s*)?can\s*you\s*(do|help\s*with)|what\s*(else\s*)?do\s*you\s*do|what\s*are\s*your\s*capabilities|what\s*services\s*do\s*you\s*offer|what\s*can\s*i\s*ask|capabilities|features|menu)\b", lowered))
     if is_greeting:
         return orchestrator.process_turn(session_id=session_id, employee_id=req.employee_id, user_message=req.message)

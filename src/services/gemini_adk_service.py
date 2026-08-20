@@ -91,30 +91,13 @@ class GeminiADKService:
                 span.set_attribute("response.success", str(res.get("success", True)))
                 return res
 
-        def submit_leave_request(leave_type: str, start_date: str, end_date: str, hours: float) -> Dict[str, Any]:
-            """Submit a formal vacation, sick, or medical time-off request for the employee."""
-            with self.tracer.start_as_current_span("fastmcp.workweek.submit_leave") as span:
-                span.set_attribute("employee.id", employee_id)
-                span.set_attribute("mcp.tool", "submit_leave_request")
-                span.set_attribute("leave.type", leave_type)
-                span.set_attribute("leave.hours", str(hours))
-                tools_called.append("workweek_submit_leave")
-                payload = {
-                    "leave_type": leave_type,
-                    "start_date": start_date,
-                    "end_date": end_date,
-                    "hours": hours,
-                }
-                res = self.workweek_agent.execute_confirmed_leave(employee_id, payload)
-                return res
-
         def get_open_tickets() -> Dict[str, Any]:
             """Look up open IT support and facilities incidents/tickets for the employee."""
             with self.tracer.start_as_current_span("fastmcp.itsm.get_tickets") as span:
                 span.set_attribute("employee.id", employee_id)
                 span.set_attribute("mcp.tool", "get_tickets")
                 tools_called.append("itsm_get_tickets")
-                res = self.itsm_agent.get_tickets(employee_id)
+                res = self.itsm_agent.lookup_tickets(user_message="", employee_id=employee_id)
                 return res
 
         def create_support_ticket(category: str, priority: str, short_description: str, details: str = "") -> Dict[str, Any]:
@@ -126,11 +109,8 @@ class GeminiADKService:
                 span.set_attribute("ticket.priority", priority)
                 tools_called.append("itsm_create_ticket")
                 res = self.itsm_agent.create_ticket(
-                    employee_id=employee_id,
-                    category=category,
-                    priority=priority,
-                    short_description=short_description,
-                    details=details
+                    user_message=short_description,
+                    employee_id=employee_id
                 )
                 return res
 
@@ -145,7 +125,6 @@ class GeminiADKService:
 
         tools = [
             get_leave_balances,
-            submit_leave_request,
             get_open_tickets,
             create_support_ticket,
             search_company_policies,
@@ -156,10 +135,11 @@ class GeminiADKService:
 Operational Rules:
 1. Always invoke available FastMCP tools to fetch ground-truth information (leave balances, support tickets, company policies).
 2. For leave balance questions, call `get_leave_balances()`.
-3. For hardware, laptop, keyboard, mouse, or IT requests, call `create_support_ticket()`.
-4. For policy inquiries (bereavement, travel, allowances, expenses), call `search_company_policies()`.
-5. When citing company policies, preserve policy names and citation links.
-6. Be concise, professional, and helpful."""
+3. For open support tickets inquiries (e.g. 'list my tickets', 'open tickets'), call `get_open_tickets()`.
+4. For hardware, laptop, keyboard, mouse, or IT requests, call `create_support_ticket()`.
+5. For policy inquiries (bereavement, travel, allowances, expenses), call `search_company_policies()`.
+6. When citing company policies, preserve policy names and citation links.
+7. Be concise, professional, and helpful."""
 
         # Start Root Cloud Trace Span
         with self.tracer.start_as_current_span("gemini.adk.chat_turn") as root_span:

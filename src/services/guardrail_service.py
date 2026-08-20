@@ -27,9 +27,11 @@ class ModelArmorGateway:
         # Cross-employee data exfiltration and unauthorized inspection
         re.compile(r"\b(what\s+(?:is|are)|show|get|list|display|check|output|tell\s+me|find|view)\s+(?:about\s+)?(?:[a-z]+'s|another\s+employee's|other\s+employees'|someone\s+else's|their)\s+(?:current\s+)?(leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\b", re.IGNORECASE),
         re.compile(r"\b[a-z]+'s\s+(?:current\s+)?(leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\b", re.IGNORECASE),
-        re.compile(r"\b(?:the\s+)?(?:leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\s+(?:of|for)\s+(?!me\b|my\b|myself\b|my\s+team\b|this\b|a\b|an\b|the\b|hardware\b|new\b|damaged\b|broken\b|travel\b|access\b|replacement\b)[a-z0-9\-_]+\b", re.IGNORECASE),
+        re.compile(r"\b(?:the\s+)?(?:leave\s+balances?|pto\s+balances?|vacation\s+balances?|sick\s+leave\s+balances?|balances?|salary|compensation)\s+(?:of|for)\s+(?:employee\s+)?(EMP-[0-9]+|[a-z]{3,})\b", re.IGNORECASE),
         re.compile(r"\bwhat\s+are\s+(?!my\b|our\b)[a-z0-9\-_]+(?:'s)?\s+(?:current\s+)?(?:leave\s+)?balances?\b", re.IGNORECASE),
     ]
+
+    DURATION_DATE_EXCLUSION = re.compile(r"\b(for\s+\d+\s*(?:days?|hours?|hrs?|weeks?)|for\s+(?:next\s+week|tomorrow|today|sep|oct|nov|dec|jan|feb|mar|apr|may|jun|jul|aug))\b", re.IGNORECASE)
 
     def __init__(self, template_id: Optional[str] = None):
         self.template_id = template_id or "hr-security-gateway-v1"
@@ -38,8 +40,13 @@ class ModelArmorGateway:
         """Inspect inbound prompt for malicious injections, jailbreaks, or policy violations."""
         start = time.perf_counter()
 
+        # If it's a routine leave booking with duration/date ('vacation for 1 day'), allow safe passage
+        is_duration_request = bool(self.DURATION_DATE_EXCLUSION.search(prompt))
+
         for pattern in self.INJECTION_PATTERNS:
             if pattern.search(prompt):
+                if is_duration_request and ("vacation" in prompt.lower() or "pto" in prompt.lower() or "leave" in prompt.lower()) and not ("ignore" in prompt.lower() or "dan" in prompt.lower()):
+                    continue
                 elapsed_ms = (time.perf_counter() - start) * 1000.0
                 return InspectionResult(
                     is_valid=False,
