@@ -481,8 +481,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_demo_live_mcp",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "demo_live_mcp.py"
     },
     {
@@ -492,8 +492,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "scripts_demo_live_mcp_print_header",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "print_header()"
     },
     {
@@ -503,8 +503,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "scripts_demo_live_mcp_run_demo",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "run_demo()"
     },
     {
@@ -514,8 +514,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_interactive_cli",
-      "community": 324,
-      "community_name": "interactive_cli.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "interactive_cli.py"
     },
     {
@@ -525,8 +525,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "scripts_interactive_cli_print_banner",
-      "community": 324,
-      "community_name": "interactive_cli.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "print_banner()"
     },
     {
@@ -536,8 +536,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "scripts_interactive_cli_select_persona",
-      "community": 324,
-      "community_name": "interactive_cli.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "select_persona()"
     },
     {
@@ -547,8 +547,8 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "scripts_interactive_cli_main",
-      "community": 324,
-      "community_name": "interactive_cli.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "main()"
     },
     {
@@ -558,8 +558,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_interactive_cli_rationale_1",
-      "community": 324,
-      "community_name": "interactive_cli.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "interactive terminal chat with multi-user authentication & persona switcher."
     },
     {
@@ -723,8 +723,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "get",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "get"
     },
     {
@@ -734,8 +734,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "server_health_check",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "health_check()"
     },
     {
@@ -778,8 +778,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "server_get_system_status",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "get_system_status()"
     },
     {
@@ -789,8 +789,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "server_serve_ui",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "serve_ui()"
     },
     {
@@ -811,8 +811,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "server_rationale_51",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "deep liveness & dual-region readiness probe for cloud load balancer."
     },
     {
@@ -844,8 +844,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "server_rationale_95",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "return subsystem architecture and fastmcp connectivity status."
     },
     {
@@ -855,8 +855,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "server_rationale_111",
-      "community": 322,
-      "community_name": "get",
+      "community": 8,
+      "community_name": "PrimaryHROrchestrator",
       "norm_label": "serve google material responsive web chat ui."
     },
     {
@@ -888,8 +888,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agent_engine",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "agent_engine.py"
     },
     {
@@ -976,8 +976,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agent_engine_rationale_1",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "vertex ai agent engine / reasoning engine module for so-elevated hr assistant."
     },
     {
@@ -1075,8 +1075,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": "primaryhrorchestrator"
     },
     {
@@ -1097,8 +1097,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_init",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": ".__init__()"
     },
     {
@@ -1149,7 +1149,7 @@
       "label": "._record_turn()",
       "file_type": "code",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L513",
+      "source_location": "L536",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
       "community": 50,
@@ -1163,8 +1163,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_agents_orchestrator_agent_rationale_17",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": "root multi-agent supervisor and conversational orchestrator."
     },
     {
@@ -1215,9 +1215,9 @@
       "label": "Record turn history with DLP masking for audit safety.",
       "file_type": "rationale",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L522",
+      "source_location": "L545",
       "_origin": "ast",
-      "id": "src_agents_orchestrator_agent_rationale_522",
+      "id": "src_agents_orchestrator_agent_rationale_545",
       "community": 50,
       "community_name": "TestSyntheticCanary",
       "norm_label": "record turn history with dlp masking for audit safety."
@@ -1229,8 +1229,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_agents_policy_agent",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "policy_agent.py"
     },
     {
@@ -1240,8 +1240,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_agents_policy_agent_policyagent",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "policyagent"
     },
     {
@@ -1262,8 +1262,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_agents_policy_agent_policyagent_answer_policy_query",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": ".answer_policy_query()"
     },
     {
@@ -1273,8 +1273,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_agents_policy_agent_py_any",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "any"
     },
     {
@@ -1284,8 +1284,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_agents_policy_agent_rationale_10",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "specialist sub-agent resolving enterprise policy queries with strict grounding a"
     },
     {
@@ -1295,8 +1295,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_agents_policy_agent_rationale_17",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "process user policy question with cache lookup, search retrieval, and citation s"
     },
     {
@@ -1339,8 +1339,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_config_security_jwtmanager",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "jwtmanager"
     },
     {
@@ -1350,8 +1350,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_config_security_jwtmanager_init",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": ".__init__()"
     },
     {
@@ -1361,8 +1361,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "ellipticcurveprivatekey",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "ellipticcurveprivatekey"
     },
     {
@@ -1372,8 +1372,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_config_security_jwtmanager_kid",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": ".kid()"
     },
     {
@@ -1449,8 +1449,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_config_security_rationale_20",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "manages asymmetric cryptographic signing, claim validation, and jwks discovery."
     },
     {
@@ -1460,8 +1460,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_config_security_rationale_23",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": "initialize jwtmanager with an ecdsa p-256 key pair."
     },
     {
@@ -1581,8 +1581,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "remote_mcp_client.py"
     },
     {
@@ -1592,8 +1592,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remotemcpclient",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "remotemcpclient"
     },
     {
@@ -1603,8 +1603,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remotemcpclient_init",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": ".__init__()"
     },
     {
@@ -1614,8 +1614,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remotemcpclient_send_rpc",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "._send_rpc()"
     },
     {
@@ -1636,8 +1636,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remotemcpclient_initialize",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": ".initialize()"
     },
     {
@@ -1647,8 +1647,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remotemcpclient_list_tools",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": ".list_tools()"
     },
     {
@@ -1669,8 +1669,8 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remoteworkweekclient",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "remoteworkweekclient"
     },
     {
@@ -1680,8 +1680,8 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remoteworkweekclient_get_current_employee_id",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".get_current_employee_id()"
     },
     {
@@ -1757,8 +1757,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remoteserviceimmediatelyclient",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "remoteserviceimmediatelyclient"
     },
     {
@@ -1801,8 +1801,8 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remoteserviceimmediatelyclient_add_ticket_comment",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": ".add_ticket_comment()"
     },
     {
@@ -1812,8 +1812,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_remoteserviceimmediatelyclient_add_comment",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": ".add_comment()"
     },
     {
@@ -1834,8 +1834,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_1",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "remote model context protocol (mcp) streamable http client.  connects to live fa"
     },
     {
@@ -1845,8 +1845,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_14",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "client for streamable http fastmcp server endpoints."
     },
     {
@@ -1856,8 +1856,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_23",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "send json-rpc 2.0 payload to fastmcp endpoint."
     },
     {
@@ -1867,8 +1867,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_60",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "initialize mcp protocol session."
     },
     {
@@ -1878,8 +1878,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_72",
-      "community": 15,
-      "community_name": "Any",
+      "community": 324,
+      "community_name": "interactive_cli.py",
       "norm_label": "discover available mcp tools."
     },
     {
@@ -1900,8 +1900,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_102",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "specialized client for live workweek hcm fastmcp server."
     },
     {
@@ -1911,8 +1911,8 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_105",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "fetch the employee id associated with this session token."
     },
     {
@@ -1988,8 +1988,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_145",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "specialized client for live serviceimmediately itsm fastmcp server."
     },
     {
@@ -2032,8 +2032,8 @@
       "source_location": "L173",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_173",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "append a comment/note to the activity log of a ticket."
     },
     {
@@ -2043,8 +2043,8 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "src_mcp_remote_mcp_client_rationale_181",
-      "community": 15,
-      "community_name": "Any",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "alias for add_ticket_comment."
     },
     {
@@ -2098,8 +2098,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_models_common_enterprisebasemodel",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "enterprisebasemodel"
     },
     {
@@ -2175,8 +2175,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_models_common_rationale_12",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "base class for all enterprise domain models.          implements the tolerant re"
     },
     {
@@ -2296,8 +2296,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_models_employee_ptobalance",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "ptobalance"
     },
     {
@@ -2373,8 +2373,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_models_employee_rationale_52",
-      "community": 84,
-      "community_name": "EnterpriseBaseModel",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "employee pto and sick leave hour balance."
     },
     {
@@ -2395,8 +2395,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_guardrail",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "guardrail.py"
     },
     {
@@ -2417,8 +2417,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_guardrail_rationale_1",
-      "community": 13,
-      "community_name": "ModelArmorGateway",
+      "community": 320,
+      "community_name": "ConversationTurn",
       "norm_label": "guardrail and security sentinel models (adr-0012, sec-0005)."
     },
     {
@@ -2450,8 +2450,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_models_session_conversationturn",
-      "community": 320,
-      "community_name": "ConversationTurn",
+      "community": 50,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "conversationturn"
     },
     {
@@ -2505,8 +2505,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_models_session_rationale_10",
-      "community": 320,
-      "community_name": "ConversationTurn",
+      "community": 50,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "a single turn in the multi-agent conversational dialog."
     },
     {
@@ -2714,8 +2714,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_filestorerepository",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": "filestorerepository"
     },
     {
@@ -2725,8 +2725,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_filestorerepository_init",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": ".__init__()"
     },
     {
@@ -2813,8 +2813,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_repositories_filestore_repository_rationale_12",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": "atomic, thread-safe, and process-safe filestore data persistence."
     },
     {
@@ -3077,8 +3077,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_canary_service",
-      "community": 8,
-      "community_name": "PrimaryHROrchestrator",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "canary_service.py"
     },
     {
@@ -3088,8 +3088,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_services_canary_service_continuoussyntheticcanary",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "continuoussyntheticcanary"
     },
     {
@@ -3099,8 +3099,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_services_canary_service_continuoussyntheticcanary_init",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": ".__init__()"
     },
     {
@@ -3154,8 +3154,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_services_canary_service_rationale_14",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "automated probe worker executing synthetic transactions every 5 minutes against"
     },
     {
@@ -3198,7 +3198,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_guardrail_service",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": "guardrail_service.py"
     },
@@ -3209,7 +3209,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_services_guardrail_service_modelarmorgateway",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": "modelarmorgateway"
     },
@@ -3220,7 +3220,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_services_guardrail_service_modelarmorgateway_init",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": ".__init__()"
     },
@@ -3231,7 +3231,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_services_guardrail_service_modelarmorgateway_inspect_inbound_prompt",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": ".inspect_inbound_prompt()"
     },
@@ -3264,7 +3264,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_guardrail_service_rationale_1",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": "google cloud model armor security gateway & tiered cloud dlp spii redaction (adr"
     },
@@ -3275,7 +3275,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_services_guardrail_service_rationale_11",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": "layer 0 security sentinel inspecting inbound prompts and outbound completions."
     },
@@ -3286,7 +3286,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_services_guardrail_service_rationale_33",
-      "community": 13,
+      "community": 325,
       "community_name": "ModelArmorGateway",
       "norm_label": "inspect inbound prompt for malicious injections, jailbreaks, or policy violation"
     },
@@ -3506,8 +3506,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_services_task_queue_service_taskqueuemanager_enqueue_task",
-      "community": 44,
-      "community_name": "TestEndToEndBenchmarks",
+      "community": 26,
+      "community_name": "TaskQueueManager",
       "norm_label": ".enqueue_task()"
     },
     {
@@ -3517,8 +3517,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_services_task_queue_service_py_any",
-      "community": 44,
-      "community_name": "TestEndToEndBenchmarks",
+      "community": 26,
+      "community_name": "TaskQueueManager",
       "norm_label": "any"
     },
     {
@@ -3528,8 +3528,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_services_task_queue_service_taskqueuemanager_process_task",
-      "community": 44,
-      "community_name": "TestEndToEndBenchmarks",
+      "community": 26,
+      "community_name": "TaskQueueManager",
       "norm_label": ".process_task()"
     },
     {
@@ -3561,8 +3561,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_services_task_queue_service_rationale_28",
-      "community": 44,
-      "community_name": "TestEndToEndBenchmarks",
+      "community": 26,
+      "community_name": "TaskQueueManager",
       "norm_label": "enqueue a background task with unique id and idempotency-key."
     },
     {
@@ -3572,8 +3572,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_services_task_queue_service_rationale_47",
-      "community": 44,
-      "community_name": "TestEndToEndBenchmarks",
+      "community": 26,
+      "community_name": "TaskQueueManager",
       "norm_label": "worker execution loop with exponential retry handling and dlq escalation."
     },
     {
@@ -3814,8 +3814,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_threat_automation_service",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "threat_automation_service.py"
     },
     {
@@ -3836,8 +3836,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_sccthreatautomationservice_init",
-      "community": 21,
-      "community_name": "run_live_simulation.py",
+      "community": 321,
+      "community_name": "Any",
       "norm_label": ".__init__()"
     },
     {
@@ -3869,8 +3869,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_threat_automation_service_rationale_1",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 21,
+      "community_name": "run_live_simulation.py",
       "norm_label": "security command center (scc) premium streaming & automated p1 alert handler (se"
     },
     {
@@ -3902,8 +3902,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_workflow_service",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "workflow_service.py"
     },
     {
@@ -3979,8 +3979,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_workflow_service_rationale_1",
-      "community": 12,
-      "community_name": "FileStoreRepository",
+      "community": 22,
+      "community_name": "RemoteWorkWeekClient",
       "norm_label": "cross-system workflow coordinator with forward recovery (adr-0004, uc-2.1, uc-2."
     },
     {
@@ -4386,8 +4386,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_integration_test_orchestrator_agent_testorchestratoragent_setup",
-      "community": 30,
-      "community_name": "TestOrchestratorAgent",
+      "community": 5,
+      "community_name": "JWTManager",
       "norm_label": ".setup()"
     },
     {
@@ -4477,6 +4477,17 @@
       "community": 30,
       "community_name": "TestOrchestratorAgent",
       "norm_label": ".test_natural_language_dates_pto_dialog()"
+    },
+    {
+      "label": ".test_weeks_duration_and_revision_dialog()",
+      "file_type": "code",
+      "source_file": "tests/integration/test_orchestrator_agent.py",
+      "source_location": "L201",
+      "_origin": "ast",
+      "id": "tests_integration_test_orchestrator_agent_testorchestratoragent_test_weeks_duration_and_revision_dialog",
+      "community": 30,
+      "community_name": "TestOrchestratorAgent",
+      "norm_label": ".test_weeks_duration_and_revision_dialog()"
     },
     {
       "label": "Integration tests for Primary HR Orchestrator Agent (Vertex ADK, ADR-0007, ADR-0",
@@ -4576,6 +4587,17 @@
       "community": 30,
       "community_name": "TestOrchestratorAgent",
       "norm_label": "verify natural language date parsing (e.g., '2 days from 16 sep')."
+    },
+    {
+      "label": "Verify 2 weeks duration parsing and revision during confirmation.",
+      "file_type": "rationale",
+      "source_file": "tests/integration/test_orchestrator_agent.py",
+      "source_location": "L202",
+      "_origin": "ast",
+      "id": "tests_integration_test_orchestrator_agent_rationale_202",
+      "community": 30,
+      "community_name": "TestOrchestratorAgent",
+      "norm_label": "verify 2 weeks duration parsing and revision during confirmation."
     },
     {
       "label": "test_policy_agent.py",
@@ -4727,8 +4749,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_serviceimmediately_mcp",
-      "community": 45,
-      "community_name": "TestServiceImmediatelyMCPClient",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "test_serviceimmediately_mcp.py"
     },
     {
@@ -4815,8 +4837,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_serviceimmediately_mcp_rationale_1",
-      "community": 45,
-      "community_name": "TestServiceImmediatelyMCPClient",
+      "community": 322,
+      "community_name": "get",
       "norm_label": "integration tests for serviceimmediately itsm fastmcp client (adr-0001, adr-0010"
     },
     {
@@ -4881,8 +4903,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "test_synthetic_canary.py"
     },
     {
@@ -4892,8 +4914,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "testsyntheticcanary"
     },
     {
@@ -4903,8 +4925,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_setup",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": ".setup()"
     },
     {
@@ -4914,8 +4936,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_teardown",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": ".teardown()"
     },
     {
@@ -4925,8 +4947,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_test_deep_health_check_endpoint",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": ".test_deep_health_check_endpoint()"
     },
     {
@@ -4936,8 +4958,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_testsyntheticcanary_test_synthetic_canary_probe_execution",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": ".test_synthetic_canary_probe_execution()"
     },
     {
@@ -4947,8 +4969,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_1",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "integration tests for continuous synthetic canary & dual-region health probes (s"
     },
     {
@@ -4958,8 +4980,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_12",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "test suite verifying 24/7 continuous canaries on emp-canary-01 and /healthz endp"
     },
     {
@@ -4969,8 +4991,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_43",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "verify /healthz returns deep subsystem readiness for global load balancer (sec-0"
     },
     {
@@ -4980,8 +5002,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_integration_test_synthetic_canary_rationale_55",
-      "community": 26,
-      "community_name": "TaskQueueManager",
+      "community": 323,
+      "community_name": "sdd-so-elevated.md",
       "norm_label": "verify synthetic probe executes full 3-step transaction and exports sla metrics"
     },
     {
@@ -5123,8 +5145,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_workflow_coordinator",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "test_workflow_coordinator.py"
     },
     {
@@ -5200,8 +5222,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_workflow_coordinator_rationale_1",
-      "community": 22,
-      "community_name": "RemoteWorkWeekClient",
+      "community": 12,
+      "community_name": "FileStoreRepository",
       "norm_label": "integration tests for cross-system workflow coordination & forward recovery (adr"
     },
     {
@@ -5255,8 +5277,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "test_workweek_mcp.py"
     },
     {
@@ -5266,8 +5288,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "testworkweekmcpclient"
     },
     {
@@ -5277,8 +5299,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient_setup",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".setup()"
     },
     {
@@ -5288,8 +5310,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_py_patch",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "patch"
     },
     {
@@ -5299,8 +5321,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient_test_get_employee_balances",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".test_get_employee_balances()"
     },
     {
@@ -5310,8 +5332,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient_test_get_personal_info",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".test_get_personal_info()"
     },
     {
@@ -5321,8 +5343,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient_test_request_time_off",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".test_request_time_off()"
     },
     {
@@ -5332,8 +5354,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_testworkweekmcpclient_test_initialize_protocol",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": ".test_initialize_protocol()"
     },
     {
@@ -5343,8 +5365,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_1",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "integration tests for workweek hcm fastmcp client (adr-0001, adr-0006, eng-0001)"
     },
     {
@@ -5354,8 +5376,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_10",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "test suite verifying workweek fastmcp client communication, parameters, and resp"
     },
     {
@@ -5365,8 +5387,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_20",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "verify pto balance query formats json-rpc correctly."
     },
     {
@@ -5376,8 +5398,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_38",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "verify personal info query retrieves employee contact data."
     },
     {
@@ -5387,8 +5409,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_56",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "verify request_time_off formats rpc tool call and parameters."
     },
     {
@@ -5398,8 +5420,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "tests_integration_test_workweek_mcp_rationale_74",
-      "community": 15,
-      "community_name": "Any",
+      "community": 44,
+      "community_name": "TestEndToEndBenchmarks",
       "norm_label": "verify mcp initialize handshake handshake."
     },
     {
@@ -5486,8 +5508,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_testdomainmodels_test_session_state_and_turn_history",
-      "community": 320,
-      "community_name": "ConversationTurn",
+      "community": 50,
+      "community_name": "TestSyntheticCanary",
       "norm_label": ".test_session_state_and_turn_history()"
     },
     {
@@ -5552,8 +5574,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tests_unit_test_domain_models_rationale_83",
-      "community": 320,
-      "community_name": "ConversationTurn",
+      "community": 50,
+      "community_name": "TestSyntheticCanary",
       "norm_label": "verify sessionstate and turnhistory models for multi-turn dialogues."
     },
     {
@@ -17058,7 +17080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "requirements_hr_agentic_brd",
-      "community": 323,
+      "community": 49,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "hr-agentic-brd.md"
     },
@@ -17300,7 +17322,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "sdd_so_elevated",
-      "community": 323,
+      "community": 49,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "sdd-so-elevated.md"
     },
@@ -18301,7 +18323,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_readme",
-      "community": 323,
+      "community": 49,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "technical_design/readme.md"
     },
@@ -18796,7 +18818,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_capabilities_mapping_matrix",
-      "community": 323,
+      "community": 49,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "capabilities_mapping_matrix.md"
     },
@@ -19049,7 +19071,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "technical_design_technical_design_document",
-      "community": 323,
+      "community": 49,
       "community_name": "sdd-so-elevated.md",
       "norm_label": "technical_design_document.md"
     },
@@ -21641,7 +21663,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L513",
+      "source_location": "L536",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator",
@@ -21890,7 +21912,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L246",
+      "source_location": "L167",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -22079,7 +22101,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L187",
+      "source_location": "L196",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -22104,7 +22126,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L322",
+      "source_location": "L345",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_process_turn",
@@ -22127,7 +22149,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L527",
+      "source_location": "L550",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
@@ -22138,7 +22160,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L513",
+      "source_location": "L536",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
@@ -22149,10 +22171,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/orchestrator_agent.py",
-      "source_location": "L522",
+      "source_location": "L545",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_agents_orchestrator_agent_rationale_522",
+      "source": "src_agents_orchestrator_agent_rationale_545",
       "target": "src_agents_orchestrator_agent_primaryhrorchestrator_record_turn",
       "confidence_score": 1.0
     },
@@ -28373,6 +28395,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/integration/test_orchestrator_agent.py",
+      "source_location": "L201",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_integration_test_orchestrator_agent_testorchestratoragent",
+      "target": "tests_integration_test_orchestrator_agent_testorchestratoragent_test_weeks_duration_and_revision_dialog",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "tests/integration/test_orchestrator_agent.py",
@@ -28447,6 +28480,17 @@
       "_origin": "ast",
       "source": "tests_integration_test_orchestrator_agent_rationale_170",
       "target": "tests_integration_test_orchestrator_agent_testorchestratoragent_test_natural_language_dates_pto_dialog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/integration/test_orchestrator_agent.py",
+      "source_location": "L202",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_integration_test_orchestrator_agent_rationale_202",
+      "target": "tests_integration_test_orchestrator_agent_testorchestratoragent_test_weeks_duration_and_revision_dialog",
       "confidence_score": 1.0
     },
     {
@@ -40878,5 +40922,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "fc0bd80155611572a089a59a923538366c97a66b"
+  "built_at_commit": "541f07a263f4a27c72505358a32016df7ccc426f"
 }

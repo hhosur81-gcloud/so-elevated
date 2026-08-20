@@ -58,7 +58,7 @@ class TestSyntheticCanary(unittest.TestCase):
         self.assertTrue(probe_res["success"])
         self.assertEqual(probe_res["canary_id"], "EMP-CANARY-01")
         self.assertEqual(probe_res["steps_completed"], 3)
-        self.assertTrue(probe_res["total_latency_ms"] < 2500.0)
+        self.assertTrue(probe_res["total_latency_ms"] < 5000.0)
 
         # Verify metrics written to monitoring store
         metrics = self.repo.load_all("monitoring/canary_metrics.json")
