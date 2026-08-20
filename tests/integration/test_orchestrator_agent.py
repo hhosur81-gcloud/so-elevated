@@ -198,7 +198,50 @@ class TestOrchestratorAgent(unittest.TestCase):
         self.assertIn("confirmed", turn3["response"].lower())
 
 
+    def test_weeks_duration_and_revision_dialog(self):
+        """Verify 2 weeks duration parsing and revision during confirmation."""
+        session_id = "sess-weeks-1"
+
+        # Turn 1: Request PTO
+        turn1 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="I want to request PTO"
+        )
+        self.assertIn("How many hours or days", turn1["response"])
+
+        # Turn 2: "2 weeks from 16 sep 2026"
+        turn2 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="2 weeks from 16 sep 2026"
+        )
+        self.assertTrue(turn2["requires_confirmation"])
+        self.assertIn("80.0 hours", turn2["response"])
+        self.assertIn("2026-09-16 to 2026-09-29", turn2["response"])
+
+        # Turn 3: Revision "no 2 weeks from 16 Sep"
+        turn3 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="no 2 weeks from 16 Sep"
+        )
+        self.assertTrue(turn3["requires_confirmation"])
+        self.assertIn("80.0 hours", turn3["response"])
+        self.assertIn("2026-09-16 to 2026-09-29", turn3["response"])
+
+        # Turn 4: Confirm
+        turn4 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="yes"
+        )
+        self.assertTrue(turn4["success"])
+        self.assertIn("confirmed", turn4["response"].lower())
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
 

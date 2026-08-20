@@ -164,6 +164,15 @@ class PrimaryHROrchestrator:
 
         # 4. Confirmation Gate Check (ADR-0007, Q4)
         if session.pending_confirmation:
+            dates = self._parse_natural_dates(user_message)
+            has_dates = len(dates) > 0
+            has_duration = bool(re.search(r"\d+(?:\.\d+)?\s*(?:hours|hrs|hr|h|days|day|d|weeks|week|wks|wk)\b", lowered_msg))
+            is_revision_attempt = (
+                has_dates
+                or has_duration
+                or any(w in lowered_msg for w in ["revise", "change", "instead", "make it", "update to", "mean", "meant", "actually", "prefer"])
+            )
+
             if re.search(r"\b(yes|confirm|proceed|submit|ok|sure|approve)\b", lowered_msg) and not re.search(r"\b(no|cancel|abort|revise|change|instead|don't)\b", lowered_msg):
                 pending = session.pending_confirmation
                 session.pending_confirmation = None
@@ -188,11 +197,11 @@ class PrimaryHROrchestrator:
                     self._save_session(session)
                     return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-            elif any(w in lowered_msg for w in ["revise", "change", "instead", "make it", "update to"]) or (re.search(r"\b(no|cancel|abort|don't)\b", lowered_msg) and (re.search(r"\d{4}-\d{2}-\d{2}", user_message) or re.search(r"\d+\s*(?:hours|hrs|days|d)", lowered_msg))):
+            elif is_revision_attempt:
                 session.pending_confirmation = None
-                # Intentionally fall through so revised parameters are processed
+                # Intentionally fall through so revised parameters are processed below
 
-            elif re.search(r"\b(no|cancel|abort|stop|don't|nevermind)\b", lowered_msg):
+            elif re.search(r"\b(no|cancel|abort|stop|don't|dont|nevermind|nope|nah)\b", lowered_msg):
                 session.pending_confirmation = None
                 resp_text = "The pending action has been cancelled. Let me know if you need anything else."
                 self._record_turn(session, user_message, resp_text, "orchestrator", None, start_time)
@@ -245,7 +254,7 @@ class PrimaryHROrchestrator:
 
         dates = self._parse_natural_dates(user_message)
         has_dates = len(dates) > 0
-        has_duration = bool(re.search(r"\d+(?:\.\d+)?\s*(?:hours|hrs|hr|h|days|day|d)\b", lowered_msg))
+        has_duration = bool(re.search(r"\d+(?:\.\d+)?\s*(?:hours|hrs|hr|h|days|day|d|weeks|week|wks|wk)\b", lowered_msg))
 
         is_pto_booking = (
             (
@@ -261,19 +270,34 @@ class PrimaryHROrchestrator:
         )
 
         if is_pto_booking and not is_pto_balance_query:
-            # Extract hours / days
+            # Extract hours / days / weeks
             hours = None
+            calendar_span_days = None
+
             hrs_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours|hrs|hr|h)\b", lowered_msg)
             days_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:days|day|d)\b", lowered_msg)
-            booking_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours|hrs|days|d)?\s*of\s*(pto|sick|leave|medical|vacation|time\s*off)", lowered_msg)
+            weeks_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:weeks|week|wks|wk)\b", lowered_msg)
+            booking_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours|hrs|days|d|weeks|week|wks|wk)?\s*of\s*(pto|sick|leave|medical|vacation|time\s*off)", lowered_msg)
 
             if hrs_match:
                 hours = float(hrs_match.group(1))
+                calendar_span_days = max(1, int(round(hours / 8.0)))
             elif days_match:
-                hours = float(days_match.group(1)) * 8.0
+                d = float(days_match.group(1))
+                hours = d * 8.0
+                calendar_span_days = max(1, int(round(d)))
+            elif weeks_match:
+                w = float(weeks_match.group(1))
+                hours = w * 40.0
+                calendar_span_days = max(1, int(round(w * 7)))
             elif booking_match:
                 val = float(booking_match.group(1))
-                hours = val if val > 10 else val * 8.0
+                if val > 10:
+                    hours = val
+                    calendar_span_days = max(1, int(round(hours / 8.0)))
+                else:
+                    hours = val * 8.0
+                    calendar_span_days = max(1, int(round(val)))
 
             dates = self._parse_natural_dates(user_message)
 
@@ -306,11 +330,10 @@ class PrimaryHROrchestrator:
                             hours = 16.0
                 else:
                     start_d = dates[0]
-                    if hours is not None:
-                        num_days = max(1, int(round(hours / 8.0)))
+                    if hours is not None and calendar_span_days is not None:
                         try:
                             s_dt = datetime.strptime(start_d, "%Y-%m-%d")
-                            e_dt = s_dt + timedelta(days=num_days - 1)
+                            e_dt = s_dt + timedelta(days=calendar_span_days - 1)
                             end_d = e_dt.strftime("%Y-%m-%d")
                         except Exception:
                             end_d = start_d

@@ -53,6 +53,7 @@
   "51": "Steps",
   "52": "Scaffold Exercises",
   "53": "to-spec/SKILL.md",
+  "54": "TestPolicyAgent",
   "55": "HR Agentic Solution (MVP 1) — Evaluation Report & Benchmark Plan",
   "56": "Process",
   "57": "<Questionnaire title>",
@@ -82,6 +83,7 @@
   "81": "SEC-0004: Dual-Region Active-Passive High Availability & Disaster Recovery (HA/DR)",
   "82": "SEC-0005: Real-Time SCC Threat Streaming & Automated Security Incident Response",
   "83": "SEC-0006: OpenTelemetry (OTel) Distributed Tracing & Token Profiling",
+  "84": "EnterpriseBaseModel",
   "85": "11.4. Data Protection: Vector Embedding Purge Lifecycle & Conversational Consent Controls (GDPR / DPO Compliance)",
   "86": "1. Executive Summary & Business Context",
   "87": "Capabilities Mapping Matrix: Gemini Enterprise Agent Platform & Google Cloud to SDD Requirements",
@@ -316,5 +318,10 @@
   "316": "research/SKILL.md",
   "317": "resolving-merge-conflicts/SKILL.md",
   "318": "dependency-cruiser.config.cjs",
-  "319": "wait-what/SKILL.md"
+  "319": "wait-what/SKILL.md",
+  "320": "ConversationTurn",
+  "321": "Any",
+  "322": "get",
+  "323": "sdd-so-elevated.md",
+  "324": "interactive_cli.py"
 }
