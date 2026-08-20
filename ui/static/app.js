@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
 
   // State
-  let currentEmployee = null;
-  let employees = [];
+  const userId = "EMP-436"; // Hardcoded Swapna (Engineering Lead)
   let currentSessionId = null;
   let isGenerating = false;
   let allPolicies = [];
@@ -20,26 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("sendBtn");
   const sendIcon = document.getElementById("sendIcon");
   const clearChatBtn = document.getElementById("clearChatBtn");
+  const headerNewSessionBtn = document.getElementById("headerNewSessionBtn");
+  const sidebarNewSessionBtn = document.getElementById("sidebarNewSessionBtn");
   const sessionLabel = document.getElementById("sessionLabel");
   const themeToggle = document.getElementById("themeToggle");
   const themeIcon = document.getElementById("themeIcon");
-
-  // User Dropdown Elements
-  const userTrigger = document.getElementById("userTrigger");
-  const userMenu = document.getElementById("userMenu");
-  const userAvatar = document.getElementById("userAvatar");
-  const currentUserName = document.getElementById("currentUserName");
-  const currentUserId = document.getElementById("currentUserId");
-  const employeeList = document.getElementById("employeeList");
-
-  // Employee Card Elements
-  const cardEmployeeName = document.getElementById("cardEmployeeName");
-  const cardEmployeeRole = document.getElementById("cardEmployeeRole");
-  const cardEmployeeDept = document.getElementById("cardEmployeeDept");
-  const cardEmployeeLoc = document.getElementById("cardEmployeeLoc");
-  const cardPtoRemaining = document.getElementById("cardPtoRemaining");
-  const cardPtoAccrued = document.getElementById("cardPtoAccrued");
-  const cardSickRemaining = document.getElementById("cardSickRemaining");
 
   // Policy Explorer & Drawer Elements
   const policyTree = document.getElementById("policyTree");
@@ -53,67 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const telemLatency = document.getElementById("telemLatency");
 
   // --------------------------------------------------------------------------
-  // 1. Employee Personas Management
+  // 1. Session Lifecycle Management
   // --------------------------------------------------------------------------
-  async function loadEmployees() {
-    try {
-      const res = await fetch("/api/employees");
-      employees = await res.json();
-      renderEmployeeList();
-      if (employees.length > 0) {
-        selectEmployee(employees[0]);
-      }
-    } catch (err) {
-      console.error("Failed to load employees:", err);
+  function createNewSession() {
+    currentSessionId = null;
+    messagesStream.innerHTML = "";
+    if (welcomeHero) {
+      welcomeHero.style.display = "flex";
+      messagesStream.appendChild(welcomeHero);
     }
-  }
-
-  function renderEmployeeList() {
-    employeeList.innerHTML = "";
-    employees.forEach(emp => {
-      const opt = document.createElement("div");
-      opt.className = `employee-option ${currentEmployee && currentEmployee.id === emp.id ? "selected" : ""}`;
-      opt.innerHTML = `
-        <img src="${emp.avatar}" alt="${emp.name}" class="emp-opt-avatar">
-        <div class="emp-opt-info">
-          <span class="emp-opt-name">${emp.name} (${emp.id})</span>
-          <span class="emp-opt-role">${emp.role}</span>
-        </div>
-      `;
-      opt.addEventListener("click", () => {
-        selectEmployee(emp);
-        userMenu.classList.remove("active");
-      });
-      employeeList.appendChild(opt);
-    });
-  }
-
-  function selectEmployee(emp) {
-    currentEmployee = emp;
-    userAvatar.src = emp.avatar;
-    currentUserName.textContent = emp.name;
-    currentUserId.textContent = emp.id;
-
-    cardEmployeeName.textContent = emp.name;
-    cardEmployeeRole.textContent = emp.role;
-    cardEmployeeDept.innerHTML = `<i data-lucide="building" class="detail-icon"></i> ${emp.dept}`;
-    cardEmployeeLoc.innerHTML = `<i data-lucide="map-pin" class="detail-icon"></i> ${emp.location}`;
-    cardPtoRemaining.innerHTML = `${emp.pto_remaining} <small>days</small>`;
-    cardPtoAccrued.textContent = emp.pto_accrued;
-    cardSickRemaining.innerHTML = `${emp.sick_remaining} <small>days</small>`;
-
-    renderEmployeeList();
+    sessionLabel.innerHTML = `Session: <span class="id-mono">New (Auto)</span>`;
+    telemLatency.textContent = "-";
+    messageInput.value = "";
+    adjustTextareaHeight();
+    messageInput.focus();
     lucide.createIcons();
   }
 
-  userTrigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    userMenu.classList.toggle("active");
-  });
-
-  document.addEventListener("click", () => {
-    userMenu.classList.remove("active");
-  });
+  headerNewSessionBtn.addEventListener("click", createNewSession);
+  sidebarNewSessionBtn.addEventListener("click", createNewSession);
+  clearChatBtn.addEventListener("click", createNewSession);
 
   // --------------------------------------------------------------------------
   // 2. Policy Explorer & Slide-Over Drawer
@@ -210,12 +153,12 @@ document.addEventListener("DOMContentLoaded", () => {
   policyDrawerBackdrop.addEventListener("click", closePolicyDrawer);
 
   // --------------------------------------------------------------------------
-  // 3. Conversational Messaging & SSE Streaming Client
+  // 3. Conversational Messaging & Robust SSE Streaming Client
   // --------------------------------------------------------------------------
   async function sendMessage(text) {
     if (!text || !text.trim() || isGenerating) return;
 
-    if (welcomeHero) {
+    if (welcomeHero && welcomeHero.parentNode) {
       welcomeHero.style.display = "none";
     }
 
@@ -225,22 +168,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. Render User Message Row
     appendUserMessage(userText);
+    scrollStreamToBottom();
 
     // 2. Prepare Agent Message Row
     const { agentRow, bubble, toolsContainer, contentContainer } = createAgentMessagePlaceholder();
     messagesStream.appendChild(agentRow);
-    scrollToBottom();
+    scrollStreamToBottom();
 
     isGenerating = true;
     updateSendButtonState();
 
     const startTime = performance.now();
     let accumulatedMarkdown = "";
+    let accumulatedToolOutputs = [];
 
     try {
       const payload = {
         message: userText,
-        user_id: currentEmployee ? currentEmployee.id : "EMP1001",
+        user_id: userId,
       };
       if (currentSessionId) {
         payload.session_id = currentSessionId;
@@ -281,14 +226,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 appendMarkdown: (chunk) => {
                   accumulatedMarkdown += chunk;
                   renderMarkdown(contentContainer, accumulatedMarkdown);
-                  scrollToBottom();
+                  scrollStreamToBottom();
+                },
+                recordToolOutput: (textOut) => {
+                  if (textOut) accumulatedToolOutputs.push(textOut);
                 }
               });
             } catch (jsonErr) {
-              console.error("JSON parse error on SSE event:", jsonErr, dataStr);
+              console.error("JSON parse error on SSE event:", jsonErr);
             }
           }
         }
+      }
+
+      // If no text chunk was streamed but tools returned output, display the tool output directly
+      if (!accumulatedMarkdown.trim() && accumulatedToolOutputs.length > 0) {
+        const fallbackText = accumulatedToolOutputs.join("\n\n");
+        renderMarkdown(contentContainer, fallbackText);
+      } else if (!accumulatedMarkdown.trim()) {
+        contentContainer.innerHTML = `<span style="color:var(--text-muted);">Request completed.</span>`;
       }
 
       const durationSec = ((performance.now() - startTime) / 1000).toFixed(2);
@@ -296,41 +252,93 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       contentContainer.innerHTML += `<div style="color:var(--accent-error);margin-top:8px;">[Connection Error: ${err.message}]</div>`;
+      scrollStreamToBottom();
     } finally {
+      markAllToolsCompleted(toolsContainer);
       isGenerating = false;
       updateSendButtonState();
       attachCitationListeners(contentContainer);
+      scrollStreamToBottom();
     }
   }
 
-  function handleStreamEvent(event, { toolsContainer, contentContainer, appendMarkdown }) {
+  function handleStreamEvent(event, { toolsContainer, contentContainer, appendMarkdown, recordToolOutput }) {
     if (event.type === "tool_call") {
+      markAllToolsCompleted(toolsContainer);
+
       const pill = document.createElement("div");
       pill.className = "tool-invocation-pill active";
-      pill.id = `tool_${event.id || Math.random().toString(36).substr(2, 5)}`;
+      const pillId = event.id ? `tool_${event.id}` : `tool_${event.tool}_${Date.now()}`;
+      pill.id = pillId;
+      pill.setAttribute("data-tool-name", event.tool);
       pill.innerHTML = `
         <i data-lucide="wrench" class="inline-icon" style="color:var(--accent-primary);"></i>
         <span>Calling <span class="tool-name-tag">${event.tool}</span></span>
-        <span class="tool-badge-done"><i data-lucide="loader-2" class="spin-icon" style="width:12px;height:12px;"></i> running</span>
+        <span class="tool-badge-status status-running"><i data-lucide="loader-2" class="spin-icon" style="width:12px;height:12px;"></i> Running...</span>
       `;
       toolsContainer.appendChild(pill);
       lucide.createIcons();
+      scrollStreamToBottom();
     } 
     else if (event.type === "tool_result") {
-      const existing = toolsContainer.querySelector(`[id^="tool_"]`);
-      if (existing) {
-        existing.classList.remove("active");
-        const badge = existing.querySelector(".tool-badge-done");
-        if (badge) {
-          badge.innerHTML = `<i data-lucide="check" style="width:12px;height:12px;"></i> executed`;
+      let targetPill = null;
+      if (event.id) {
+        targetPill = toolsContainer.querySelector(`#tool_${event.id}`);
+      }
+      if (!targetPill && event.tool) {
+        targetPill = toolsContainer.querySelector(`.tool-invocation-pill.active[data-tool-name="${event.tool}"]`);
+      }
+      if (!targetPill) {
+        targetPill = toolsContainer.querySelector(`.tool-invocation-pill.active`);
+      }
+      if (targetPill) {
+        markPillCompleted(targetPill);
+      } else {
+        markAllToolsCompleted(toolsContainer);
+      }
+
+      // Extract result text if available
+      let resultText = "";
+      if (event.result) {
+        if (typeof event.result === "string") {
+          resultText = event.result;
+        } else if (event.result.content && Array.isArray(event.result.content)) {
+          resultText = event.result.content.map(c => c.text || "").filter(Boolean).join("\n");
+        } else if (event.result.result) {
+          resultText = typeof event.result.result === "string" ? event.result.result : JSON.stringify(event.result.result, null, 2);
         }
       }
+      if (resultText && recordToolOutput) {
+        recordToolOutput(resultText);
+      }
+
       lucide.createIcons();
+      scrollStreamToBottom();
+    }
+    else if (event.type === "security_violation") {
+      markAllToolsCompleted(toolsContainer);
+      contentContainer.innerHTML = `
+        <div style="background-color:var(--accent-error-subtle);border:1px solid var(--accent-error);border-radius:var(--radius-md);padding:12px 16px;color:var(--accent-error);font-size:0.88rem;line-height:1.5;">
+          <strong>🛡️ Model Armor Security Sentinel Blocked Request:</strong><br>
+          ${escapeHtml(event.message)}
+        </div>
+      `;
+      scrollStreamToBottom();
+    }
+    else if (event.type === "security_notice") {
+      const notice = document.createElement("div");
+      notice.style.cssText = "background-color:var(--accent-warning-subtle);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-sm);padding:6px 10px;font-size:0.75rem;color:var(--accent-warning);margin-bottom:8px;";
+      notice.innerHTML = `<i data-lucide="shield-alert" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> ${escapeHtml(event.message)}`;
+      toolsContainer.appendChild(notice);
+      lucide.createIcons();
+      scrollStreamToBottom();
     }
     else if (event.type === "text_chunk") {
+      markAllToolsCompleted(toolsContainer);
       appendMarkdown(event.text);
     }
     else if (event.type === "done") {
+      markAllToolsCompleted(toolsContainer);
       if (event.duration_ms) {
         telemLatency.textContent = `${(event.duration_ms / 1000).toFixed(2)}s`;
       }
@@ -341,15 +349,35 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     else if (event.type === "error") {
+      markAllToolsCompleted(toolsContainer);
       contentContainer.innerHTML = `<div style="color:var(--accent-error);">⚠️ ${event.message}</div>`;
+      scrollStreamToBottom();
     }
+  }
+
+  function markPillCompleted(pill) {
+    if (!pill) return;
+    pill.classList.remove("active");
+    pill.classList.add("completed");
+    const badge = pill.querySelector(".tool-badge-status");
+    if (badge) {
+      badge.className = "tool-badge-status status-complete";
+      badge.innerHTML = `<i data-lucide="check-circle-2" style="width:12px;height:12px;"></i> Executed`;
+    }
+  }
+
+  function markAllToolsCompleted(toolsContainer) {
+    if (!toolsContainer) return;
+    const activePills = toolsContainer.querySelectorAll(".tool-invocation-pill.active, .tool-invocation-pill:not(.completed)");
+    activePills.forEach(pill => markPillCompleted(pill));
+    lucide.createIcons();
   }
 
   function appendUserMessage(text) {
     const row = document.createElement("div");
     row.className = "message-row user-row";
     row.innerHTML = `
-      <div class="avatar-circle avatar-user">${currentEmployee ? currentEmployee.name.charAt(0) : "U"}</div>
+      <div class="avatar-circle avatar-user">S</div>
       <div class="message-bubble">${escapeHtml(text)}</div>
     `;
     messagesStream.appendChild(row);
@@ -404,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function scrollToBottom() {
+  function scrollStreamToBottom() {
     messagesStream.scrollTop = messagesStream.scrollHeight;
   }
 
@@ -447,18 +475,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function adjustTextareaHeight() {
     messageInput.style.height = "auto";
-    messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + "px";
+    messageInput.style.height = Math.min(messageInput.scrollHeight, 130) + "px";
   }
-
-  clearChatBtn.addEventListener("click", () => {
-    messagesStream.innerHTML = "";
-    if (welcomeHero) {
-      welcomeHero.style.display = "flex";
-      messagesStream.appendChild(welcomeHero);
-    }
-    currentSessionId = null;
-    sessionLabel.innerHTML = `Session: <span class="id-mono">auto</span>`;
-  });
 
   // --------------------------------------------------------------------------
   // 5. Theme Toggle (Light / Dark)
@@ -478,6 +496,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initial Load
-  loadEmployees();
   loadPolicies();
 });

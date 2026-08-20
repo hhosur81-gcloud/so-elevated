@@ -38,7 +38,7 @@ def read_concept(concept_path: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 2. Live FastMCP Toolsets
+# 2. Live FastMCP Toolsets (Swapna Key)
 # ---------------------------------------------------------------------------
 workweek_mcp = McpToolset(
     connection_params=StreamableHTTPConnectionParams(
@@ -89,7 +89,7 @@ def get_session_service():
 # ---------------------------------------------------------------------------
 async def run_query(
     user_query: str,
-    user_id: str = "EMP1001",
+    user_id: str = "EMP-436",
     session_id: str = "default_session",
     runner: Optional[Runner] = None,
 ):
@@ -131,12 +131,12 @@ async def run_query(
         print(f"\n[Execution error: {e}]")
 
 
-async def interactive_loop(user_id: str = "EMP1001", session_id: str = "interactive_session"):
+async def interactive_loop(user_id: str = "EMP-436", session_id: str = "interactive_session"):
     """Start an interactive chat session with persistent state."""
     session_service = get_session_service()
     print("=" * 75)
     print(" Altostrat HR & IT Agentic Assistant (Google ADK)")
-    print(f" User: {user_id} | Session: {session_id}")
+    print(f" User: Swapna ({user_id}) | Session: {session_id}")
     print(" Type 'exit' or 'quit' to end session.")
     print("=" * 75)
 

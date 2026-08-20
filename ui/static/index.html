@@ -3,153 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Altostrat — Enterprise HR & IT Autonomous Agent</title>
+  <title>Altostrat — Enterprise HR & IT Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Marked.js for Markdown parsing -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- DOMPurify for security sanitization -->
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
-  <!-- Highlight.js for code formatting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="app-layout">
-    <!-- Top Navigation Bar -->
+    <!-- Header -->
     <header class="app-header">
       <div class="header-left">
         <div class="brand-badge">
           <div class="brand-logo">
-            <i data-lucide="layers" class="logo-icon"></i>
+            <i data-lucide="sparkles" class="logo-icon"></i>
           </div>
           <div class="brand-text">
             <span class="brand-title">Altostrat</span>
-            <span class="brand-subtitle">Autonomous HR & ITSM Orchestrator</span>
+            <span class="brand-subtitle">HR & IT Autonomous Assistant</span>
           </div>
         </div>
-        <div class="system-status-pills">
-          <span class="status-pill connected" title="Vertex AI Agent Engine (asia-south1)">
-            <span class="pulse-dot"></span> Vertex AI Runtime
-          </span>
-          <span class="status-pill connected" title="WorkWeek FastMCP">
-            <i data-lucide="calendar" class="pill-icon"></i> WorkWeek HCM
-          </span>
-          <span class="status-pill connected" title="ServiceImmediately FastMCP">
-            <i data-lucide="life-buoy" class="pill-icon"></i> ServiceImmediately
-          </span>
-          <span class="status-pill connected" title="Open Knowledge Format Policy Base">
-            <i data-lucide="book-open" class="pill-icon"></i> OKF Grounding
-          </span>
+        <div class="status-indicator-badge">
+          <span class="pulse-dot"></span>
+          <span>Vertex AI Runtime (asia-south1)</span>
         </div>
       </div>
 
       <div class="header-right">
-        <!-- Employee Profile Switcher -->
-        <div class="user-selector-container">
-          <div class="user-dropdown-trigger" id="userTrigger">
-            <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar" class="user-avatar-img">
-            <div class="user-info-text">
-              <span class="user-name" id="currentUserName">Alex Mercer</span>
-              <span class="user-id-badge" id="currentUserId">EMP1001</span>
-            </div>
-            <i data-lucide="chevron-down" class="dropdown-chevron"></i>
-          </div>
+        <button class="btn-new-session" id="headerNewSessionBtn" title="Start a fresh conversational session">
+          <i data-lucide="plus"></i>
+          <span>New Session</span>
+        </button>
 
-          <div class="user-dropdown-menu" id="userMenu">
-            <div class="dropdown-header">Switch Test Persona</div>
-            <div id="employeeList" class="employee-options"></div>
-          </div>
-        </div>
-
-        <button class="icon-button" id="themeToggle" title="Toggle Theme">
+        <button class="icon-button" id="themeToggle" title="Toggle Light/Dark Theme">
           <i data-lucide="moon" id="themeIcon"></i>
         </button>
       </div>
     </header>
 
-    <!-- Main Content Workspace -->
+    <!-- Main Workspace -->
     <div class="workspace-grid">
-      <!-- Left Panel: Profile & Quick Scenarios -->
+      <!-- Left Sidebar: Scenarios & Actions -->
       <aside class="sidebar-left">
-        <!-- Active Persona Card -->
-        <div class="card employee-card">
-          <div class="card-header-compact">
-            <span class="card-title-text"><i data-lucide="user-check" class="inline-icon"></i> Verified Employee</span>
-            <span class="tag-status">Active</span>
-          </div>
-          <div class="employee-details">
-            <h3 id="cardEmployeeName" class="emp-name">Alex Mercer</h3>
-            <p id="cardEmployeeRole" class="emp-role">Senior Cloud Infrastructure Engineer</p>
-            <p id="cardEmployeeDept" class="emp-dept"><i data-lucide="building" class="detail-icon"></i> Cloud Platform Engineering</p>
-            <p id="cardEmployeeLoc" class="emp-loc"><i data-lucide="map-pin" class="detail-icon"></i> San Francisco, CA (Remote)</p>
-          </div>
+        <button class="sidebar-new-chat-btn" id="sidebarNewSessionBtn">
+          <i data-lucide="plus-circle"></i>
+          <span>Start New Session</span>
+        </button>
 
-          <div class="balance-grid">
-            <div class="balance-item">
-              <span class="balance-label">Vacation Balance</span>
-              <span class="balance-val" id="cardPtoRemaining">16.5 <small>days</small></span>
-              <span class="balance-sub">Accrued: <span id="cardPtoAccrued">22.5</span>d</span>
-            </div>
-            <div class="balance-item">
-              <span class="balance-label">Sick Leave</span>
-              <span class="balance-val" id="cardSickRemaining">10.0 <small>days</small></span>
-              <span class="balance-sub">Used: 0.0d</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Use Case Starters -->
         <div class="card scenarios-card">
           <div class="card-header-compact">
-            <span class="card-title-text"><i data-lucide="sparkles" class="inline-icon"></i> Enterprise Scenarios</span>
-            <span class="badge-accent">MVP 1</span>
+            <span class="card-title-text"><i data-lucide="compass" class="inline-icon"></i> Quick Prompts</span>
           </div>
           <div class="scenario-buttons">
             <button class="scenario-btn" data-prompt="What is the bereavement leave policy for immediate family at Altostrat?">
               <i data-lucide="heart-handshake" class="btn-icon"></i>
               <div class="btn-text">
                 <strong>Bereavement Leave Policy</strong>
-                <span>UC-1.1 Policy Q&A Grounding</span>
+                <span>OKF Grounding</span>
               </div>
             </button>
             <button class="scenario-btn" data-prompt="How many hours of PTO and sick leave do I have remaining in WorkWeek?">
               <i data-lucide="clock" class="btn-icon"></i>
               <div class="btn-text">
                 <strong>Check PTO & Leave Balances</strong>
-                <span>UC-1.2 WorkWeek HCM Live Query</span>
+                <span>WorkWeek HCM</span>
               </div>
             </button>
             <button class="scenario-btn" data-prompt="What is the status of IT incident ticket INC123456?">
               <i data-lucide="ticket" class="btn-icon"></i>
               <div class="btn-text">
                 <strong>Check IT Incident Status</strong>
-                <span>UC-1.3 ServiceImmediately ITSM</span>
+                <span>ServiceImmediately</span>
               </div>
             </button>
             <button class="scenario-btn" data-prompt="I read the remote work policy and saw I'm eligible for a home office monitor. Can you verify my remote status and order one for me?">
               <i data-lucide="monitor" class="btn-icon"></i>
               <div class="btn-text">
                 <strong>Home Office Equipment</strong>
-                <span>UC-2.1 Cross-System Procurement</span>
+                <span>Cross-System Workflow</span>
               </div>
             </button>
             <button class="scenario-btn" data-prompt="I need to take short-term medical leave starting next Monday. What is the process, and can you set it up for me?">
               <i data-lucide="activity" class="btn-icon"></i>
               <div class="btn-text">
                 <strong>Medical Leave of Absence</strong>
-                <span>UC-2.2 Cross-System Routing</span>
-              </div>
-            </button>
-            <button class="scenario-btn" data-prompt="I am planning to transfer to the London office next month. What is the relocation allowance and how do I sort my badge?">
-              <i data-lucide="plane" class="btn-icon"></i>
-              <div class="btn-text">
-                <strong>Relocation & Facilities Badge</strong>
-                <span>UC-2.3 Policy & Facilities Orchestration</span>
+                <span>Cross-System Routing</span>
               </div>
             </button>
           </div>
@@ -160,17 +104,17 @@
       <main class="chat-viewport">
         <!-- Messages Scroll Container -->
         <div class="messages-stream" id="messagesStream">
-          <!-- Welcome Hero (Visible on empty chat) -->
+          <!-- Welcome Hero -->
           <div class="welcome-hero" id="welcomeHero">
             <div class="hero-icon-container">
               <i data-lucide="bot" class="hero-icon"></i>
             </div>
-            <h2>Altostrat Enterprise HR & IT Assistant</h2>
-            <p>I am your autonomous corporate assistant directly connected to <strong>Vertex AI Agent Engine</strong> in Mumbai, live <strong>WorkWeek HCM</strong>, <strong>ServiceImmediately ITSM</strong>, and <strong>Open Knowledge Format</strong> policy grounding.</p>
+            <h2>Altostrat Enterprise Assistant</h2>
+            <p>Directly connected to <strong>Vertex AI Agent Engine</strong>, live <strong>WorkWeek HCM</strong>, <strong>ServiceImmediately ITSM</strong>, and <strong>Open Knowledge Format</strong> policy grounding.</p>
             <div class="hero-tags">
-              <span><i data-lucide="shield-check"></i> Zero-Trust RBAC</span>
-              <span><i data-lucide="repeat"></i> Deterministic Idempotency</span>
-              <span><i data-lucide="external-link"></i> Verifiable Policy Citations</span>
+              <span><i data-lucide="shield-check"></i> Model Armor Active</span>
+              <span><i data-lucide="repeat"></i> Idempotent Mutations</span>
+              <span><i data-lucide="file-check"></i> Verifiable Policy Links</span>
             </div>
           </div>
         </div>
@@ -180,72 +124,64 @@
           <div class="input-card">
             <textarea 
               id="messageInput" 
-              placeholder="Ask about policies, check PTO balances, manage IT tickets, or trigger cross-system workflows..." 
+              placeholder="Ask a policy question, check balances, create tickets, or trigger workflows..." 
               rows="1"
             ></textarea>
             <div class="input-actions">
               <div class="left-actions">
-                <button class="pill-action-btn" id="clearChatBtn" title="Clear conversation history">
-                  <i data-lucide="trash-2"></i> Clear
-                </button>
-                <span class="session-indicator" id="sessionLabel">Session: <span class="id-mono">auto</span></span>
-              </div>
-              <div class="right-actions">
-                <button class="send-btn" id="sendBtn" title="Send message (Enter)">
-                  <i data-lucide="arrow-up" id="sendIcon"></i>
+                <button class="pill-action-btn" id="clearChatBtn" title="Reset chat view">
+                  <i data-lucide="rotate-ccw"></i> Reset
                 </button>
               </div>
+              <button class="btn-send" id="sendBtn" title="Send message (Enter)">
+                <i data-lucide="arrow-up" id="sendIcon"></i>
+              </button>
             </div>
           </div>
-          <div class="input-footnote">
-            Grounding enforced strictly with Open Knowledge Format policies. All mutating transactions carry deterministic SHA-256 idempotency locks.
+          <div class="input-disclaimer">
+            <span>Powered by <strong>Google Cloud Vertex AI & Model Armor</strong>. Actions execute securely against corporate SaaS platforms.</span>
           </div>
         </div>
       </main>
 
-      <!-- Right Panel: Policy Knowledge Explorer & Live Telemetry -->
+      <!-- Right Sidebar: Knowledge Browser & Policy Index -->
       <aside class="sidebar-right">
-        <!-- Policy Explorer -->
-        <div class="card policy-explorer-card">
+        <div class="card policy-browser-card">
           <div class="card-header-compact">
-            <span class="card-title-text"><i data-lucide="book" class="inline-icon"></i> Policy Explorer</span>
-            <span class="badge-count" id="policyCountBadge">OKF</span>
+            <span class="card-title-text"><i data-lucide="book-open" class="inline-icon"></i> Policy Index</span>
+            <span class="badge-count" id="policyCountBadge">187 docs</span>
           </div>
-          <div class="search-box">
+          
+          <div class="policy-search-container">
             <i data-lucide="search" class="search-icon"></i>
-            <input type="text" id="policySearchInput" placeholder="Filter policies (e.g. bereavement, remote)...">
+            <input type="text" id="policySearchInput" placeholder="Filter policies (e.g., bereavement, sick leave)..." />
           </div>
-          <div class="policy-tree-container" id="policyTree">
-            <div class="loading-state"><i data-lucide="loader-2" class="spin-icon"></i> Loading policy index...</div>
+
+          <div class="policy-tree" id="policyTree">
+            <div class="loading-state">
+              <i data-lucide="loader-2" class="spin-icon"></i>
+              <span>Loading policy chapters...</span>
+            </div>
           </div>
         </div>
 
-        <!-- Live Telemetry & Audit -->
+        <!-- Telemetry Card -->
         <div class="card telemetry-card">
           <div class="card-header-compact">
-            <span class="card-title-text"><i data-lucide="cpu" class="inline-icon"></i> Live Telemetry</span>
-            <span class="status-indicator-live">ONLINE</span>
+            <span class="card-title-text"><i data-lucide="activity" class="inline-icon"></i> Runtime Status</span>
           </div>
-          <div class="telemetry-items">
-            <div class="telemetry-row">
-              <span class="telemetry-label">Reasoning Engine</span>
-              <span class="telemetry-value mono" id="telemEngineId">1246520730456162304</span>
+          <div class="telemetry-grid">
+            <div class="telem-item">
+              <span class="telem-label">Security</span>
+              <span class="telem-val" style="color:var(--accent-success);font-weight:600;">Model Armor</span>
             </div>
-            <div class="telemetry-row">
-              <span class="telemetry-label">Cloud Location</span>
-              <span class="telemetry-value">asia-south1 (Mumbai)</span>
+            <div class="telem-item">
+              <span class="telem-label">Last Latency</span>
+              <span class="telem-val" id="telemLatency">-</span>
             </div>
-            <div class="telemetry-row">
-              <span class="telemetry-label">Active Model</span>
-              <span class="telemetry-value badge-model">gemini-2.5-flash</span>
-            </div>
-            <div class="telemetry-row">
-              <span class="telemetry-label">Last Turn Latency</span>
-              <span class="telemetry-value" id="telemLatency">-</span>
-            </div>
-            <div class="telemetry-row">
-              <span class="telemetry-label">Idempotency Mode</span>
-              <span class="telemetry-value badge-safe">SHA-256 In-Turn Lock</span>
+            <div class="telem-item">
+              <span class="telem-label">Session ID</span>
+              <span class="telem-val id-mono" id="sessionLabel">New (Auto)</span>
             </div>
           </div>
         </div>
@@ -253,25 +189,26 @@
     </div>
   </div>
 
-  <!-- Policy Preview Slide-Over Drawer -->
+  <!-- Policy Slide-Over Drawer -->
   <div class="drawer-backdrop" id="policyDrawerBackdrop"></div>
   <div class="policy-drawer" id="policyDrawer">
     <div class="drawer-header">
       <div class="drawer-title-group">
-        <span class="drawer-meta-badge" id="drawerStatusBadge">Active Policy</span>
         <h3 id="drawerPolicyTitle">Policy Viewer</h3>
-        <span class="drawer-file-path" id="drawerPolicyPath">/knowledge/...</span>
+        <span class="drawer-path-tag" id="drawerPolicyPath">/knowledge/</span>
       </div>
-      <button class="drawer-close-btn" id="closeDrawerBtn">
+      <button class="drawer-close-btn" id="closeDrawerBtn" title="Close Policy Drawer">
         <i data-lucide="x"></i>
       </button>
     </div>
-    <div class="drawer-content" id="drawerPolicyContent">
-      <!-- Rendered Markdown Body -->
+    <div class="drawer-body" id="drawerPolicyContent">
+      <div class="loading-state">
+        <i data-lucide="loader-2" class="spin-icon"></i>
+        <span>Loading document...</span>
+      </div>
     </div>
   </div>
 
-  <!-- Application Logic -->
   <script src="/static/app.js"></script>
 </body>
 </html>
