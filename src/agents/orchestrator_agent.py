@@ -2,8 +2,8 @@ import json
 import re
 import time
 import uuid
-from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from datetime import datetime, timezone, timedelta
+from typing import Any, Dict, List, Optional
 from src.agents.policy_agent import PolicyAgent
 from src.config.security import JWTManager
 from src.config.settings import settings
@@ -18,6 +18,63 @@ class PrimaryHROrchestrator:
 
     SESSION_STORE = "sessions/active.json"
     TTL_SECONDS = 900  # 15 minutes (ADR-0009)
+
+    MONTHS_MAP = {
+        "jan": 1, "january": 1,
+        "feb": 2, "february": 2,
+        "mar": 3, "march": 3,
+        "apr": 4, "april": 4,
+        "may": 5,
+        "jun": 6, "june": 6,
+        "jul": 7, "july": 7,
+        "aug": 8, "august": 8,
+        "sep": 9, "sept": 9, "september": 9,
+        "oct": 10, "october": 10,
+        "nov": 11, "november": 11,
+        "dec": 12, "december": 12
+    }
+
+    def _parse_natural_dates(self, text: str, default_year: int = 2026) -> List[str]:
+        """Extract ISO, slash, and natural language dates (e.g. '16 sep', 'sep 16', '2026-09-01')."""
+        # 1. ISO format: YYYY-MM-DD
+        iso_dates = re.findall(r"\b(\d{4}-\d{2}-\d{2})\b", text)
+        if iso_dates:
+            return iso_dates
+
+        # 2. Slash format: MM/DD/YYYY or MM/DD
+        slash_dates = re.findall(r"\b(\d{1,2})/(\d{1,2})(?:/(\d{2,4}))?\b", text)
+        if slash_dates:
+            res = []
+            for m, d, y in slash_dates:
+                yr = int(y) if y else default_year
+                if yr < 100:
+                    yr += 2000
+                res.append(f"{yr:04d}-{int(m):02d}-{int(d):02d}")
+            return res
+
+        # 3. Natural language formats
+        month_keys = "|".join(self.MONTHS_MAP.keys())
+        pattern_a = re.compile(rf"\b(\d{{1,2}})(?:st|nd|rd|th)?\s+({month_keys})(?:\s+(\d{{4}}))?\b", re.IGNORECASE)
+        pattern_b = re.compile(rf"\b({month_keys})\s+(\d{{1,2}})(?:st|nd|rd|th)?(?:,?\s+(\d{{4}}))?\b", re.IGNORECASE)
+
+        extracted = []
+        for m in pattern_a.finditer(text):
+            day = int(m.group(1))
+            month = self.MONTHS_MAP[m.group(2).lower()]
+            yr = int(m.group(3)) if m.group(3) else default_year
+            extracted.append((m.start(), f"{yr:04d}-{month:02d}-{day:02d}"))
+
+        for m in pattern_b.finditer(text):
+            month = self.MONTHS_MAP[m.group(1).lower()]
+            day = int(m.group(2))
+            yr = int(m.group(3)) if m.group(3) else default_year
+            extracted.append((m.start(), f"{yr:04d}-{month:02d}-{day:02d}"))
+
+        if extracted:
+            extracted.sort(key=lambda x: x[0])
+            return [d for _, d in extracted]
+
+        return []
 
     def __init__(
         self,
@@ -107,7 +164,7 @@ class PrimaryHROrchestrator:
 
         # 4. Confirmation Gate Check (ADR-0007, Q4)
         if session.pending_confirmation:
-            if re.search(r"\b(yes|confirm|proceed|submit|ok|sure|approve)\b", lowered_msg):
+            if re.search(r"\b(yes|confirm|proceed|submit|ok|sure|approve)\b", lowered_msg) and not re.search(r"\b(no|cancel|abort|revise|change|instead|don't)\b", lowered_msg):
                 pending = session.pending_confirmation
                 session.pending_confirmation = None
                 
@@ -131,7 +188,11 @@ class PrimaryHROrchestrator:
                     self._save_session(session)
                     return {"success": True, "response": resp_text, "requires_confirmation": False}
 
-            elif re.search(r"\b(no|cancel|abort|stop|don't)\b", lowered_msg):
+            elif any(w in lowered_msg for w in ["revise", "change", "instead", "make it", "update to"]) or (re.search(r"\b(no|cancel|abort|don't)\b", lowered_msg) and (re.search(r"\d{4}-\d{2}-\d{2}", user_message) or re.search(r"\d+\s*(?:hours|hrs|days|d)", lowered_msg))):
+                session.pending_confirmation = None
+                # Intentionally fall through so revised parameters are processed
+
+            elif re.search(r"\b(no|cancel|abort|stop|don't|nevermind)\b", lowered_msg):
                 session.pending_confirmation = None
                 resp_text = "The pending action has been cancelled. Let me know if you need anything else."
                 self._record_turn(session, user_message, resp_text, "orchestrator", None, start_time)
@@ -157,28 +218,117 @@ class PrimaryHROrchestrator:
 
         # 6. Intent Classification & Routing
 
-        # A. WorkWeek PTO Leave Booking Request (Enters Confirmation Gate)
-        booking_match = re.search(r"(\d+)\s*(?:hours|hrs|days|d)?\s*of\s*(pto|sick|leave|medical)", lowered_msg)
-        if "pto" in lowered_msg and ("take" in lowered_msg or "request" in lowered_msg or "book" in lowered_msg):
-            hours = 16.0
-            if booking_match:
-                hours = float(booking_match.group(1))
+        # Intent detection flags
+        is_pto_balance_query = (
+            ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or
+            ("balance" in lowered_msg and "pto" in lowered_msg) or
+            ("leave balance" in lowered_msg or "vacation balance" in lowered_msg or "my balances" in lowered_msg)
+        )
 
-            dates = re.findall(r"\d{4}-\d{2}-\d{2}", user_message)
-            start_d = dates[0] if len(dates) > 0 else "2026-09-01"
-            end_d = dates[1] if len(dates) > 1 else "2026-09-02"
+        ticket_create_patterns = [
+            r"\b(open|create|log|file|submit|raise)\s+(an?\s+)?([\w\-]+\s+)?(ticket|incident|case|request)\b",
+            r"\b(want|need)\s+to\s+(open|create|log|file|submit|raise)\s+(an?\s+)?([\w\-]+\s+)?(ticket|incident|case|request)\b",
+            r"\b(order|request)\s+(a\s+)?(new\s+)?(loaner|laptop|keyboard|mouse|monitor|hardware|equipment|mac\s*pro|macbook)\b"
+        ]
+        is_ticket_intent = any(re.search(p, lowered_msg) for p in ticket_create_patterns)
 
-            prompt_msg = f"Please confirm: You are requesting {hours} hours of PTO from {start_d} to {end_d}. Shall I proceed with submitting this request?"
-            session.pending_confirmation = PendingConfirmation(
-                action_type="SUBMIT_LEAVE",
-                target_system="WORKWEEK",
-                payload={"leave_type": "PTO", "start_date": start_d, "end_date": end_d, "hours": hours, "days": hours / 8.0, "idempotency_key": str(uuid.uuid4())},
-                prompt_message=prompt_msg,
-                created_at=datetime.now(timezone.utc).isoformat()
+        # A. WorkWeek PTO Leave Booking Request (Enters Confirmation Gate or Prompts for Missing Parameters)
+        was_awaiting_pto = False
+        was_confirming_leave = False
+        if session.turns:
+            last_turn = session.turns[-1]
+            last_tool = getattr(last_turn, "tool_invoked", "")
+            if last_tool == "prompt_pto_details":
+                was_awaiting_pto = True
+            elif last_tool == "enter_confirmation_gate":
+                was_confirming_leave = True
+
+        dates = self._parse_natural_dates(user_message)
+        has_dates = len(dates) > 0
+        has_duration = bool(re.search(r"\d+(?:\.\d+)?\s*(?:hours|hrs|hr|h|days|day|d)\b", lowered_msg))
+
+        is_pto_booking = (
+            (
+                ("pto" in lowered_msg or "vacation" in lowered_msg or "time off" in lowered_msg or "time-off" in lowered_msg or "leave" in lowered_msg)
+                and any(w in lowered_msg for w in ["request", "book", "take", "apply", "schedule", "submit", "want", "need", "revise", "change"])
+                and not is_pto_balance_query
+                and not ("policy" in lowered_msg or "rules" in lowered_msg)
             )
-            self._record_turn(session, user_message, prompt_msg, "orchestrator", "enter_confirmation_gate", start_time)
-            self._save_session(session)
-            return {"success": True, "response": prompt_msg, "requires_confirmation": True}
+            or bool(re.search(r"\b(request|book|take|apply\s+for)\s+(pto|vacation|time\s*off|leave)\b", lowered_msg))
+            or (was_awaiting_pto and (has_dates or has_duration))
+            or (was_confirming_leave and (has_dates or has_duration))
+            or (has_dates and has_duration and not is_pto_balance_query and not is_ticket_intent and not ("policy" in lowered_msg or "rules" in lowered_msg))
+        )
+
+        if is_pto_booking and not is_pto_balance_query:
+            # Extract hours / days
+            hours = None
+            hrs_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours|hrs|hr|h)\b", lowered_msg)
+            days_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:days|day|d)\b", lowered_msg)
+            booking_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours|hrs|days|d)?\s*of\s*(pto|sick|leave|medical|vacation|time\s*off)", lowered_msg)
+
+            if hrs_match:
+                hours = float(hrs_match.group(1))
+            elif days_match:
+                hours = float(days_match.group(1)) * 8.0
+            elif booking_match:
+                val = float(booking_match.group(1))
+                hours = val if val > 10 else val * 8.0
+
+            dates = self._parse_natural_dates(user_message)
+
+            # If both missing:
+            if hours is None and not dates:
+                resp_text = "I can help you submit a PTO request. How many hours or days would you like to take, and what are the start and end dates? (e.g., *'16 hours from 2026-09-01 to 2026-09-02'* or *'2 days from 2026-09-01 to 2026-09-02'*)"
+                self._record_turn(session, user_message, resp_text, "orchestrator", "prompt_pto_details", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+            # If only hours provided and no dates:
+            elif hours is not None and not dates:
+                resp_text = f"You'd like to request {hours:.1f} hours of PTO. What are the start and end dates for your time off? (e.g., *'from 2026-09-01 to 2026-09-02'* or *'starting 16 sep'*)"
+                self._record_turn(session, user_message, resp_text, "orchestrator", "prompt_pto_details", start_time)
+                self._save_session(session)
+                return {"success": True, "response": resp_text, "requires_confirmation": False}
+
+            # If dates provided (with or without hours):
+            else:
+                if len(dates) >= 2:
+                    start_d = dates[0]
+                    end_d = dates[1]
+                    if hours is None:
+                        try:
+                            s_dt = datetime.strptime(start_d, "%Y-%m-%d")
+                            e_dt = datetime.strptime(end_d, "%Y-%m-%d")
+                            days_count = max(1, (e_dt - s_dt).days + 1)
+                            hours = float(days_count * 8.0)
+                        except Exception:
+                            hours = 16.0
+                else:
+                    start_d = dates[0]
+                    if hours is not None:
+                        num_days = max(1, int(round(hours / 8.0)))
+                        try:
+                            s_dt = datetime.strptime(start_d, "%Y-%m-%d")
+                            e_dt = s_dt + timedelta(days=num_days - 1)
+                            end_d = e_dt.strftime("%Y-%m-%d")
+                        except Exception:
+                            end_d = start_d
+                    else:
+                        hours = 8.0
+                        end_d = start_d
+
+                prompt_msg = f"Please confirm: You are requesting {hours:.1f} hours of PTO from {start_d} to {end_d}. Shall I proceed with submitting this request?"
+                session.pending_confirmation = PendingConfirmation(
+                    action_type="SUBMIT_LEAVE",
+                    target_system="WORKWEEK",
+                    payload={"leave_type": "PTO", "start_date": start_d, "end_date": end_d, "hours": hours, "days": hours / 8.0, "idempotency_key": str(uuid.uuid4())},
+                    prompt_message=prompt_msg,
+                    created_at=datetime.now(timezone.utc).isoformat()
+                )
+                self._record_turn(session, user_message, prompt_msg, "orchestrator", "enter_confirmation_gate", start_time)
+                self._save_session(session)
+                return {"success": True, "response": prompt_msg, "requires_confirmation": True}
 
         # B. WorkWeek PTO Balance Query (Explicit balance check)
         if ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or \

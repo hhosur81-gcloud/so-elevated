@@ -46,7 +46,11 @@ remote_engine = reasoning_engines.ReasoningEngine.create(
         "cryptography>=42.0.0",
         "pyjwt>=2.8.0",
         "pyyaml>=6.0.1",
-        "requests>=2.31.0"
+        "requests>=2.31.0",
+        "opentelemetry-api>=1.24.0",
+        "opentelemetry-sdk>=1.24.0",
+        "opentelemetry-exporter-gcp-trace>=1.7.0",
+        "google-cloud-logging>=3.8.0"
     ],
     extra_packages=["src", "knowledge"],
     display_name="so-elevated-hr-agent-engine",

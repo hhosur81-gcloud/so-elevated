@@ -1,0 +1,2102 @@
+{
+  ".agents/skills/diagnosing-bugs/scripts/hitl-loop.template.sh": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "99fa5a1e543d6aae5eeb5916851e3639",
+    "semantic_hash": ""
+  },
+  ".agents/skills/git-guardrails-claude-code/scripts/block-dangerous-git.sh": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "67b92a7f8c5f1106e9872a06c0b40a16",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-ts-deep-modules/dependency-cruiser.config.cjs": {
+    "mtime": 1786966861.3466284,
+    "ast_hash": "d1892eacf68f889dac0d6a1c4f3acf67",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wizard/template.sh": {
+    "mtime": 1786966861.3386276,
+    "ast_hash": "569599a954cad9e8a52cfaef230a19bf",
+    "semantic_hash": ""
+  },
+  "data/filestore/scc/findings.json": {
+    "mtime": 1787140308.0477867,
+    "ast_hash": "fa710d7aff63c47b8538bfc7ae656dd5",
+    "semantic_hash": ""
+  },
+  "data/filestore/serviceimmediately/idempotency_cache.json": {
+    "mtime": 1787140308.0466137,
+    "ast_hash": "0637bd061b85635a2241b9c50f171655",
+    "semantic_hash": ""
+  },
+  "data/filestore/serviceimmediately/tickets.json": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "2fad33d0ed3f5d5c03c0008ce7907815",
+    "semantic_hash": ""
+  },
+  "data/filestore/sessions/active.json": {
+    "mtime": 1787199883.6721296,
+    "ast_hash": "dff31062af6045f6c809655e89f36326",
+    "semantic_hash": ""
+  },
+  "data/filestore/workweek/employees.json": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "ab039182ba9075265bc1a80046aff9c0",
+    "semantic_hash": ""
+  },
+  "data/filestore/workweek/idempotency_cache.json": {
+    "mtime": 1787140308.0435143,
+    "ast_hash": "9d20d5082cd1410c6eef429dad6a5934",
+    "semantic_hash": ""
+  },
+  "deploy_agent_engine.py": {
+    "mtime": 1787200932.6391313,
+    "ast_hash": "83be8715b405cdae9bb3567df8975c7d",
+    "semantic_hash": ""
+  },
+  "deploy_cloud_run.sh": {
+    "mtime": 1787196676.5820987,
+    "ast_hash": "38b58ced7bf68342e0764331b604bd76",
+    "semantic_hash": ""
+  },
+  "fixtures/seed_serviceimmediately.json": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "2fad33d0ed3f5d5c03c0008ce7907815",
+    "semantic_hash": ""
+  },
+  "fixtures/seed_workweek.json": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "ab039182ba9075265bc1a80046aff9c0",
+    "semantic_hash": ""
+  },
+  "knowledge/check_okf.py": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "d59611c9ac758ff7f8425e1b3170a58e",
+    "semantic_hash": ""
+  },
+  "requirements/openapi.json": {
+    "mtime": 1787140748.1351051,
+    "ast_hash": "559d328147e7cdb7d71e8fab22c4329d",
+    "semantic_hash": ""
+  },
+  "scripts/demo_live_mcp.py": {
+    "mtime": 1787141853.0881977,
+    "ast_hash": "70f43ffa316a97261e3bbc9d18a00d2b",
+    "semantic_hash": ""
+  },
+  "scripts/interactive_cli.py": {
+    "mtime": 1787140969.2305303,
+    "ast_hash": "c71c7966ea64da8185d7951bb0e0aeed",
+    "semantic_hash": ""
+  },
+  "scripts/query_agent_engine.py": {
+    "mtime": 1787197713.0190728,
+    "ast_hash": "bc2087e98424036ff165dc25f53774d1",
+    "semantic_hash": ""
+  },
+  "scripts/run_live_simulation.py": {
+    "mtime": 1787140749.573217,
+    "ast_hash": "d1dac19fd632f72d1f1c90dadc8fce7e",
+    "semantic_hash": ""
+  },
+  "server.py": {
+    "mtime": 1787201440.4477317,
+    "ast_hash": "5323d7ac423a38be8f419df6eaf7e61e",
+    "semantic_hash": ""
+  },
+  "src/__init__.py": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "ae89eb8fcb72798c92978a6951b1b453",
+    "semantic_hash": ""
+  },
+  "src/agent_engine.py": {
+    "mtime": 1787197035.3887973,
+    "ast_hash": "dd8d06f4aa04dccb871baf503cf5528d",
+    "semantic_hash": ""
+  },
+  "src/agents/__init__.py": {
+    "mtime": 1787140748.6391494,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/agents/orchestrator_agent.py": {
+    "mtime": 1787201862.2247772,
+    "ast_hash": "a4277b5414ac97cdb14dfffccc03e0d0",
+    "semantic_hash": ""
+  },
+  "src/agents/policy_agent.py": {
+    "mtime": 1787197874.1144853,
+    "ast_hash": "aba2d90436668e69301a839452fc6f63",
+    "semantic_hash": ""
+  },
+  "src/config/__init__.py": {
+    "mtime": 1787140748.6391494,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/config/security.py": {
+    "mtime": 1787140748.6391494,
+    "ast_hash": "db385d48f6d23f9712309b3f49355631",
+    "semantic_hash": ""
+  },
+  "src/config/settings.py": {
+    "mtime": 1787140930.8751602,
+    "ast_hash": "25865772214b34ceab77c075f107104e",
+    "semantic_hash": ""
+  },
+  "src/mcp/__init__.py": {
+    "mtime": 1787140748.6391494,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/mcp/remote_mcp_client.py": {
+    "mtime": 1787199351.320253,
+    "ast_hash": "292ef5be446aea3a94b04ef83969567c",
+    "semantic_hash": ""
+  },
+  "src/models/__init__.py": {
+    "mtime": 1787140748.6391494,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/models/common.py": {
+    "mtime": 1787140748.6414077,
+    "ast_hash": "4779ec56aef8b2b0b31d216833a533d5",
+    "semantic_hash": ""
+  },
+  "src/models/employee.py": {
+    "mtime": 1787140748.6415987,
+    "ast_hash": "f1c256454635e1b554e89be80b8c6219",
+    "semantic_hash": ""
+  },
+  "src/models/guardrail.py": {
+    "mtime": 1787140748.7205448,
+    "ast_hash": "6c1dd28bc14bfbcb76487ad14fd19f30",
+    "semantic_hash": ""
+  },
+  "src/models/session.py": {
+    "mtime": 1787140748.6415987,
+    "ast_hash": "1b4b30431e002197159350039f7c6a02",
+    "semantic_hash": ""
+  },
+  "src/models/ticket.py": {
+    "mtime": 1787140748.6419392,
+    "ast_hash": "d685ef453b99e1aa531949cd26d51420",
+    "semantic_hash": ""
+  },
+  "src/repositories/__init__.py": {
+    "mtime": 1787140748.642111,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/repositories/filestore_repository.py": {
+    "mtime": 1787140748.642111,
+    "ast_hash": "b13346903983d30eb5f1154efaf4593b",
+    "semantic_hash": ""
+  },
+  "src/repositories/search_repository.py": {
+    "mtime": 1787197884.9314356,
+    "ast_hash": "9da68a0ccdd79d0f67579b1abd170f5e",
+    "semantic_hash": ""
+  },
+  "src/services/__init__.py": {
+    "mtime": 1787140748.642111,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "src/services/canary_service.py": {
+    "mtime": 1787199357.3807852,
+    "ast_hash": "0b43b3caf4f36dc49c4ec80285d08d6d",
+    "semantic_hash": ""
+  },
+  "src/services/guardrail_service.py": {
+    "mtime": 1787140749.256051,
+    "ast_hash": "46177236e675f27a168589f9707ebd70",
+    "semantic_hash": ""
+  },
+  "src/services/semantic_cache_service.py": {
+    "mtime": 1787140748.9584742,
+    "ast_hash": "129c4a5925225c2f8c929a1cbcd1c090",
+    "semantic_hash": ""
+  },
+  "src/services/task_queue_service.py": {
+    "mtime": 1787140749.335533,
+    "ast_hash": "095cfdb0beeca779ddeb61059b49eaa8",
+    "semantic_hash": ""
+  },
+  "src/services/telemetry_service.py": {
+    "mtime": 1787140749.4138973,
+    "ast_hash": "2e1cf1a1c8de1b5c3d77ab902d635e37",
+    "semantic_hash": ""
+  },
+  "src/services/threat_automation_service.py": {
+    "mtime": 1787199301.8999116,
+    "ast_hash": "02baa2277e097cef1b1d13b7e4d28064",
+    "semantic_hash": ""
+  },
+  "src/services/workflow_service.py": {
+    "mtime": 1787199286.6345706,
+    "ast_hash": "0ce060b90354f1d879e7fa30d365daac",
+    "semantic_hash": ""
+  },
+  "tests/__init__.py": {
+    "mtime": 1787140748.642111,
+    "ast_hash": "ae89eb8fcb72798c92978a6951b1b453",
+    "semantic_hash": ""
+  },
+  "tests/e2e/__init__.py": {
+    "mtime": 1787140748.6431348,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "tests/e2e/test_end_to_end_benchmarks.py": {
+    "mtime": 1787199381.238881,
+    "ast_hash": "89c2c4721a46c7eda708a2126a67a686",
+    "semantic_hash": ""
+  },
+  "tests/eval/__init__.py": {
+    "mtime": 1787140748.6433392,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "tests/eval/datasets/eval-data.json": {
+    "mtime": 1787140286.1945097,
+    "ast_hash": "ab59fe5fe68862600c6a4ea7bed86cf0",
+    "semantic_hash": ""
+  },
+  "tests/eval/datasets/eval-golden-queries.json": {
+    "mtime": 1787199375.9584172,
+    "ast_hash": "2adb0ecb04d8d4e57d4b45ee5c027b41",
+    "semantic_hash": ""
+  },
+  "tests/eval/datasets/eval-multi-turn.json": {
+    "mtime": 1787050857.7209158,
+    "ast_hash": "72fec77924cb818fe27dc64263e36963",
+    "semantic_hash": ""
+  },
+  "tests/eval/datasets/eval-safety.json": {
+    "mtime": 1787140749.2572107,
+    "ast_hash": "b7ea51d7ba5e2ad2f13a26eb518f52c7",
+    "semantic_hash": ""
+  },
+  "tests/integration/__init__.py": {
+    "mtime": 1787140748.6433392,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_cloud_tasks_dlq.py": {
+    "mtime": 1787140749.335533,
+    "ast_hash": "89bec988a1282ee47d79c76504517e48",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_orchestrator_agent.py": {
+    "mtime": 1787201876.0459912,
+    "ast_hash": "19f16b99d0ba6cf6ee833ce828a99d71",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_policy_agent.py": {
+    "mtime": 1787140748.958682,
+    "ast_hash": "db58827ea0dd31a150397a2d3b3b1711",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_serviceimmediately_mcp.py": {
+    "mtime": 1787199338.9871695,
+    "ast_hash": "0dd2b5b75f9b8b5456f890169ca3b4db",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_synthetic_canary.py": {
+    "mtime": 1787140749.4916983,
+    "ast_hash": "6dbdfb0caebfdf19462312e1d2049dff",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_telemetry_and_scc.py": {
+    "mtime": 1787199401.364649,
+    "ast_hash": "3a1cab85df4c595f9a77abd3e3aaba77",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_workflow_coordinator.py": {
+    "mtime": 1787199395.9161704,
+    "ast_hash": "b440d64b048e57f7ddc5011988ab490d",
+    "semantic_hash": ""
+  },
+  "tests/integration/test_workweek_mcp.py": {
+    "mtime": 1787199328.7182674,
+    "ast_hash": "37313c95eb47bcfdc26e8ef0f61e229e",
+    "semantic_hash": ""
+  },
+  "tests/unit/__init__.py": {
+    "mtime": 1787140748.6436162,
+    "ast_hash": "9846c1cbf6f78327945e7e1dddd8a880",
+    "semantic_hash": ""
+  },
+  "tests/unit/test_domain_models.py": {
+    "mtime": 1787140748.6442237,
+    "ast_hash": "cdbfe96ff2c3220ebd7f6e4cfc810a6a",
+    "semantic_hash": ""
+  },
+  "tests/unit/test_filestore_repository.py": {
+    "mtime": 1787140748.6446419,
+    "ast_hash": "07e853b64825645be348da3438c56519",
+    "semantic_hash": ""
+  },
+  "tests/unit/test_guardrail_service.py": {
+    "mtime": 1787140748.7205448,
+    "ast_hash": "9f1f4893665cfb2166924a1bcb74e57d",
+    "semantic_hash": ""
+  },
+  "tests/unit/test_security_jwt.py": {
+    "mtime": 1787140748.6448064,
+    "ast_hash": "eadb8aa971b91590755ed79cb746a769",
+    "semantic_hash": ""
+  },
+  ".agents/skills/ask-matt/PHASE-BOUNDARIES.md": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "961f49496c0ff3bfc1013b01edd2aaf3",
+    "semantic_hash": ""
+  },
+  ".agents/skills/ask-matt/SKILL.md": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "030108f8791c34d6e3ee6e8b65392ef9",
+    "semantic_hash": ""
+  },
+  ".agents/skills/ask-matt/agents/openai.yaml": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "d3bb94e3fa14e921edcc984fcc8ddbe7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/claude-handoff/SKILL.md": {
+    "mtime": 1786966861.3386276,
+    "ast_hash": "4aa7c7966566d14fc038934da4d7931d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/claude-handoff/agents/openai.yaml": {
+    "mtime": 1786966861.342628,
+    "ast_hash": "287633bcd295c8e9b54a5b4871168004",
+    "semantic_hash": ""
+  },
+  ".agents/skills/code-review/SKILL.md": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "496fcfa9c3391a99d6d508c2f654b7b9",
+    "semantic_hash": ""
+  },
+  ".agents/skills/code-review/agents/openai.yaml": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "41726fb93a74bbeab2f643a27d6452d2",
+    "semantic_hash": ""
+  },
+  ".agents/skills/codebase-design/DEEPENING.md": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "2e14795cf50abe04a6cb1d6cbb57d5f0",
+    "semantic_hash": ""
+  },
+  ".agents/skills/codebase-design/DESIGN-IT-TWICE.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "bbb290e6c86c07a8aa1d7be2768be5a4",
+    "semantic_hash": ""
+  },
+  ".agents/skills/codebase-design/SKILL.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "bba82452bae25a9187c8ce076406d752",
+    "semantic_hash": ""
+  },
+  ".agents/skills/codebase-design/agents/openai.yaml": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "c27ba4232198f8b0318014a8c715cc01",
+    "semantic_hash": ""
+  },
+  ".agents/skills/diagnosing-bugs/SKILL.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "4cd7ef78dd52429a5c262d7e310875dc",
+    "semantic_hash": ""
+  },
+  ".agents/skills/diagnosing-bugs/agents/openai.yaml": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "52e474f87cddee193c6d9f0bca1fcdb4",
+    "semantic_hash": ""
+  },
+  ".agents/skills/domain-modeling/ADR-FORMAT.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "bb327bab674f400796f64b6e2ef5850c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/domain-modeling/CONTEXT-FORMAT.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "c2f41ffc931955b2b8d01322273d75fa",
+    "semantic_hash": ""
+  },
+  ".agents/skills/domain-modeling/SKILL.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "008331937643822523fbde89efa1fea7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/domain-modeling/agents/openai.yaml": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "e68374ca79182d08c013ce592a4b429c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/git-guardrails-claude-code/SKILL.md": {
+    "mtime": 1786966861.3506286,
+    "ast_hash": "9b8fd5e95be8e49e70193116760062e5",
+    "semantic_hash": ""
+  },
+  ".agents/skills/git-guardrails-claude-code/agents/openai.yaml": {
+    "mtime": 1786966861.3506286,
+    "ast_hash": "a7fc2f6f9796f5a1b9d94f048c311257",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-me/SKILL.md": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "51ba9306293963bb76680d5e41525aea",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-me/agents/openai.yaml": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "aff7b6f7b10220e3b4537c42a2d08917",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-with-docs/SKILL.md": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "2e333f0b42a23dbb1ae531e62c555c66",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-with-docs/agents/openai.yaml": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "d50e6a6a53801a48192dde963945affc",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grilling/SKILL.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "b1cf8a26600bdd7273e508aa6e67d01b",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grilling/agents/openai.yaml": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "d419e97c73f1073f678e284cfdd904dc",
+    "semantic_hash": ""
+  },
+  ".agents/skills/handoff/SKILL.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "0c85c9d91321c7499c5c935e0d0c7a81",
+    "semantic_hash": ""
+  },
+  ".agents/skills/handoff/agents/openai.yaml": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "4be8ae2848843907cb2c73c3abed107c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/implement/SKILL.md": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "7cc3e48c97c3a5f287601f87015d02b2",
+    "semantic_hash": ""
+  },
+  ".agents/skills/implement/agents/openai.yaml": {
+    "mtime": 1786966861.374631,
+    "ast_hash": "67981219ee02544ca054221195e85d41",
+    "semantic_hash": ""
+  },
+  ".agents/skills/improve-codebase-architecture/HTML-REPORT.md": {
+    "mtime": 1786966861.374631,
+    "ast_hash": "751df2fdf436e9539123d6ebc70c1e86",
+    "semantic_hash": ""
+  },
+  ".agents/skills/improve-codebase-architecture/SKILL.md": {
+    "mtime": 1786966861.374631,
+    "ast_hash": "eb943e543c8362029083940a80aa2c41",
+    "semantic_hash": ""
+  },
+  ".agents/skills/improve-codebase-architecture/agents/openai.yaml": {
+    "mtime": 1786966861.3106253,
+    "ast_hash": "e73ee28ebe885ee90bec6f34554efdd1",
+    "semantic_hash": ""
+  },
+  ".agents/skills/loop-me/SKILL.md": {
+    "mtime": 1786966861.342628,
+    "ast_hash": "adc5d94142eb5b034281f800125d37b9",
+    "semantic_hash": ""
+  },
+  ".agents/skills/loop-me/agents/openai.yaml": {
+    "mtime": 1786966861.342628,
+    "ast_hash": "852863bce3a1e2d8331983b404c857f7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/migrate-to-shoehorn/SKILL.md": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "ac04b3f451057f981305c8218115c9c3",
+    "semantic_hash": ""
+  },
+  ".agents/skills/migrate-to-shoehorn/agents/openai.yaml": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "2b885422c47000b5c1a209aa3bb89544",
+    "semantic_hash": ""
+  },
+  ".agents/skills/prototype/LOGIC.md": {
+    "mtime": 1786966861.3106253,
+    "ast_hash": "5a29fb2cdc2dfe75c2400a20a5777a89",
+    "semantic_hash": ""
+  },
+  ".agents/skills/prototype/SKILL.md": {
+    "mtime": 1786966861.3106253,
+    "ast_hash": "f59e7362aa284dc8c6cf9cf7637da74c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/prototype/UI.md": {
+    "mtime": 1786966861.3106253,
+    "ast_hash": "0531f4c5365f312b7faad44b88adcf38",
+    "semantic_hash": ""
+  },
+  ".agents/skills/prototype/agents/openai.yaml": {
+    "mtime": 1786966861.3146255,
+    "ast_hash": "f52e5df8465a544537396ffa1d2a11a4",
+    "semantic_hash": ""
+  },
+  ".agents/skills/research/SKILL.md": {
+    "mtime": 1786966861.3146255,
+    "ast_hash": "506b3477669c57820d944af5766105cc",
+    "semantic_hash": ""
+  },
+  ".agents/skills/research/agents/openai.yaml": {
+    "mtime": 1786966861.3146255,
+    "ast_hash": "ea8c2769bf46410cc6b302b291bb7b9d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/resolving-merge-conflicts/SKILL.md": {
+    "mtime": 1786966861.3146255,
+    "ast_hash": "bcd188abf71621828777e86be87a1738",
+    "semantic_hash": ""
+  },
+  ".agents/skills/resolving-merge-conflicts/agents/openai.yaml": {
+    "mtime": 1786966861.3146255,
+    "ast_hash": "befb39ecdbcc54c6718b91c84d7f0f26",
+    "semantic_hash": ""
+  },
+  ".agents/skills/scaffold-exercises/SKILL.md": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "59066789c6c4eff5e83d87d8a0b11ac2",
+    "semantic_hash": ""
+  },
+  ".agents/skills/scaffold-exercises/agents/openai.yaml": {
+    "mtime": 1786966861.354629,
+    "ast_hash": "c9bdf8bb8bcc44e35148b3827afd5aac",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/SKILL.md": {
+    "mtime": 1786966861.318626,
+    "ast_hash": "a02e4473306cafa51411da7fea1cfa26",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/agents/openai.yaml": {
+    "mtime": 1786966861.318626,
+    "ast_hash": "a9d2c63bccc70831e36cc011557a6b38",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/domain.md": {
+    "mtime": 1786966861.318626,
+    "ast_hash": "35089ed6a70a657c91fd100ade31b642",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/issue-tracker-github.md": {
+    "mtime": 1786966861.318626,
+    "ast_hash": "bcc55d5bcb9418d73ca3cefc2af059d7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "d0e61d524f7958689a8d6d7206c882b4",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/issue-tracker-local.md": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "8eef3dfb0cab4bf7e9e122ccad837f63",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-matt-pocock-skills/triage-labels.md": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "22add54cb98451c55b20e6b7992d4a85",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-pre-commit/SKILL.md": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "239e57175174cef4a919f9f9595616ce",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-pre-commit/agents/openai.yaml": {
+    "mtime": 1786966861.3586295,
+    "ast_hash": "20d3dfede41582542f25aa0e1b62ffdb",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-ts-deep-modules/SKILL.md": {
+    "mtime": 1786966861.342628,
+    "ast_hash": "32dc25bfe4333e3762779a405b10ecbd",
+    "semantic_hash": ""
+  },
+  ".agents/skills/setup-ts-deep-modules/agents/openai.yaml": {
+    "mtime": 1786966861.342628,
+    "ast_hash": "0f37a796bee2d2fe5c1393b20096c330",
+    "semantic_hash": ""
+  },
+  ".agents/skills/tdd/SKILL.md": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "52596e9b049c1ee8afd033bac1d1e3f9",
+    "semantic_hash": ""
+  },
+  ".agents/skills/tdd/agents/openai.yaml": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "e37e499fa0b017cde536bacb0ebaae67",
+    "semantic_hash": ""
+  },
+  ".agents/skills/tdd/mocking.md": {
+    "mtime": 1786966861.3226264,
+    "ast_hash": "c5505e8da8f516c7dacebd01c58a4c2c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/tdd/tests.md": {
+    "mtime": 1786966861.3266265,
+    "ast_hash": "0a462499661825df11a0852c42382f10",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/GLOSSARY-FORMAT.md": {
+    "mtime": 1786966861.36263,
+    "ast_hash": "4916a920577c698e81e058908bde8ae3",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/LEARNING-RECORD-FORMAT.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "ad7d92889545a0e21d44bb218fbcfae0",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/MISSION-FORMAT.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "c45dd419c9b463520912f74f87b0c351",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/RESOURCES-FORMAT.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "919b17fcf54e066d4ff8c5173262cdee",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/SKILL.md": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "43cea31639274b2f4e371ecbe108356d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/teach/agents/openai.yaml": {
+    "mtime": 1786966861.36663,
+    "ast_hash": "9728d722d80350f8a1e6f96fdcbf8db5",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-questionnaire/SKILL.md": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "6844a4677126b8ad09a715e84c348d89",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-questionnaire/agents/openai.yaml": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "f9bb141c3ec013fc2ac4197a93f2ce3f",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-spec/SKILL.md": {
+    "mtime": 1786966861.3266265,
+    "ast_hash": "f4bebf15dad8551ab1ca586f2073a459",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-spec/agents/openai.yaml": {
+    "mtime": 1786966861.3266265,
+    "ast_hash": "886d06b1f83b51e39bd2874b75730f87",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-tickets/SKILL.md": {
+    "mtime": 1786966861.3266265,
+    "ast_hash": "2c4d93328eeaef48e1f85e0b9ce1d9da",
+    "semantic_hash": ""
+  },
+  ".agents/skills/to-tickets/agents/openai.yaml": {
+    "mtime": 1786966861.330627,
+    "ast_hash": "6c4d19c426617a41441e84aacf2786d6",
+    "semantic_hash": ""
+  },
+  ".agents/skills/triage/AGENT-BRIEF.md": {
+    "mtime": 1786966861.330627,
+    "ast_hash": "64f3b89bc793673428ed93c6c583133a",
+    "semantic_hash": ""
+  },
+  ".agents/skills/triage/OUT-OF-SCOPE.md": {
+    "mtime": 1786966861.330627,
+    "ast_hash": "0d18f9ccba4c63db8b5c86c8e0000cd9",
+    "semantic_hash": ""
+  },
+  ".agents/skills/triage/SKILL.md": {
+    "mtime": 1786966861.330627,
+    "ast_hash": "589438e47c47ac6f29252218b4166675",
+    "semantic_hash": ""
+  },
+  ".agents/skills/triage/agents/openai.yaml": {
+    "mtime": 1786966861.3346274,
+    "ast_hash": "fc03336314c293aa703724167625f4b1",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wait-what/SKILL.md": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "a8e9c8178264df3bf76c50f9010cd7de",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wait-what/agents/openai.yaml": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "8f0e8ccd6ac086d3dccf0a77ac22609b",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wayfinder/SKILL.md": {
+    "mtime": 1786966861.3346274,
+    "ast_hash": "9e4961dd902bb256ebe87ae57d809a97",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wayfinder/agents/openai.yaml": {
+    "mtime": 1786966861.3346274,
+    "ast_hash": "05e37f0188c1e7d2f1cdf4143c0a5c75",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wizard/SKILL.md": {
+    "mtime": 1786966861.3346274,
+    "ast_hash": "80f94e387729321bae3b85592b00ef2d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/wizard/agents/openai.yaml": {
+    "mtime": 1786966861.3386276,
+    "ast_hash": "d613906658820c197488b4a616ce773d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-beats/SKILL.md": {
+    "mtime": 1786966861.3466284,
+    "ast_hash": "02ba42c39aefffba20c374cf4555fbbf",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-beats/agents/openai.yaml": {
+    "mtime": 1786966861.3466284,
+    "ast_hash": "9fedcd2f486220dda8bf898857af144c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-for-agents/SKILL-MECHANICS.md": {
+    "mtime": 1786966861.3706305,
+    "ast_hash": "2ffb40e9b1a55004d8eeed75b05391ae",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-for-agents/SKILL.md": {
+    "mtime": 1786966861.374631,
+    "ast_hash": "c8fa20b84af25b5b279f676212d97d27",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-for-agents/agents/openai.yaml": {
+    "mtime": 1786966861.374631,
+    "ast_hash": "1ec4866a3ad2fba3e9a44c6db860efd7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-fragments/SKILL.md": {
+    "mtime": 1786966861.3466284,
+    "ast_hash": "74edf0cd89709153176fd816353375cb",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-fragments/agents/openai.yaml": {
+    "mtime": 1786966861.3466284,
+    "ast_hash": "bec3da18b523f13e995b9b9192a28ef7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-shape/SKILL.md": {
+    "mtime": 1786966861.3506286,
+    "ast_hash": "08696385315c0763a57d161aa4b37804",
+    "semantic_hash": ""
+  },
+  ".agents/skills/writing-shape/agents/openai.yaml": {
+    "mtime": 1786966861.3506286,
+    "ast_hash": "1dccc0a6ad7ca0619c13feaeed953991",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/01-project-scaffold-domain-models-jwt.md": {
+    "mtime": 1787140748.6379285,
+    "ast_hash": "e1048256223fc1bab5198aa8071e6bd6",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/02-security-sentinel-spii-guardrails.md": {
+    "mtime": 1787140748.7205448,
+    "ast_hash": "bf4dd22fb9570863b761d9822d2a5858",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/03-workweek-hcm-mock-service.md": {
+    "mtime": 1787140748.7964485,
+    "ast_hash": "86069cafbd0e94a91e3b16bb209297fc",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/04-serviceimmediately-itsm-mock-service.md": {
+    "mtime": 1787140748.876476,
+    "ast_hash": "499bcdf1d6123f82e04de00dc7a5cd3c",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/05-policy-qa-specialist-vertex-search.md": {
+    "mtime": 1787140748.957074,
+    "ast_hash": "f45e3ded760516ae7f910b180d683838",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/06-primary-hr-orchestrator-adk.md": {
+    "mtime": 1787140749.0678067,
+    "ast_hash": "86fb49bcb11bfaa3fd3faf6031dd4add",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/07-cross-system-workflow-handlers.md": {
+    "mtime": 1787140749.1667793,
+    "ast_hash": "af8ab011222ea1971e1ddb9546958fe6",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/08-e2e-evaluation-benchmark-suite.md": {
+    "mtime": 1787140749.2553136,
+    "ast_hash": "233da434e6e1d0db691c59e29605715f",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/09-cloud-tasks-async-dlq-idempotent-worker.md": {
+    "mtime": 1787140749.335533,
+    "ast_hash": "d0ac3f629c63031aae29d7d26c10c4c6",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/10-opentelemetry-tracing-scc-threat-automation.md": {
+    "mtime": 1787140749.4138973,
+    "ast_hash": "3b7f716755240e5c46dc3989ce33f632",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/issues/11-continuous-synthetic-production-canary.md": {
+    "mtime": 1787140749.4910617,
+    "ast_hash": "631d39ff14816a606ad81a16471ad46f",
+    "semantic_hash": ""
+  },
+  ".scratch/hr-agentic-mvp1/spec.md": {
+    "mtime": 1787140748.3391232,
+    "ast_hash": "7bd845c83aeca3f4e3c57b2e3bcc52e9",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1786967300.9300957,
+    "ast_hash": "31c7f406771c0cc64a8f3c43982c20c8",
+    "semantic_hash": ""
+  },
+  "CONTEXT.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "bf5b822be33e813e8e97921b29193fca",
+    "semantic_hash": ""
+  },
+  "README.html": {
+    "mtime": 1787140298.4115837,
+    "ast_hash": "08f1b7b6e82c00f86fb4f556fe8a2c54",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1787199418.11012,
+    "ast_hash": "c08cf9f0cf009a4e26f6e3bd55dbb80d",
+    "semantic_hash": ""
+  },
+  "cloudbuild_agent_engine.yaml": {
+    "mtime": 1787198310.164792,
+    "ast_hash": "d4ca63c5aae5e5feff6059c6ab4ea58f",
+    "semantic_hash": ""
+  },
+  "docs/adr/0001-mcp-enterprise-servers.md": {
+    "mtime": 1787052478.7702732,
+    "ast_hash": "cb757a8d95f823ac310c22d442c7e4c2",
+    "semantic_hash": ""
+  },
+  "docs/adr/0002-vertex-ai-search-policy-rag.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "afc55f57c1fd2b793997633cc939148c",
+    "semantic_hash": ""
+  },
+  "docs/adr/0003-hybrid-safety-guardrails.md": {
+    "mtime": 1786968320.8610752,
+    "ast_hash": "b8f7bae352ec2062b54eb125e624844b",
+    "semantic_hash": ""
+  },
+  "docs/adr/0004-cross-system-forward-recovery.md": {
+    "mtime": 1786968320.8611863,
+    "ast_hash": "1b4152b37352fb7f1ed933ee103afa95",
+    "semantic_hash": ""
+  },
+  "docs/adr/0005-vertex-agent-development-kit.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "88e3b716859e17d71ec66b71230f5815",
+    "semantic_hash": ""
+  },
+  "docs/adr/0006-signed-jwt-delegated-authorization.md": {
+    "mtime": 1786968472.739759,
+    "ast_hash": "1096582408d3d5b72764885179b122a5",
+    "semantic_hash": ""
+  },
+  "docs/adr/0007-human-confirmation-on-state-mutations.md": {
+    "mtime": 1786969960.3709095,
+    "ast_hash": "b0e573ff7f0a2f89420f802a1a585f4b",
+    "semantic_hash": ""
+  },
+  "docs/adr/0008-strict-live-vertex-ai-search-testing.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "8befb867b7ae9675e578da6420d39b19",
+    "semantic_hash": ""
+  },
+  "docs/adr/0009-session-ttl-and-explicit-purge.md": {
+    "mtime": 1786969960.3712747,
+    "ast_hash": "001a861bce10972d113e49a081d583f9",
+    "semantic_hash": ""
+  },
+  "docs/adr/0010-interactive-priority-downgrade-guardrail.md": {
+    "mtime": 1786969960.371544,
+    "ast_hash": "18542c652f4153ff319e59e9c0b2739a",
+    "semantic_hash": ""
+  },
+  "docs/adr/0011-tiered-spii-redaction-logging.md": {
+    "mtime": 1786969960.3717434,
+    "ast_hash": "554fdb11970884d91edc66e07c374add",
+    "semantic_hash": ""
+  },
+  "docs/adr/0012-google-cloud-model-armor.md": {
+    "mtime": 1787050146.4782743,
+    "ast_hash": "c12efc0a1688403366f5309fe6ec1000",
+    "semantic_hash": ""
+  },
+  "docs/adr/0013-agents-cli-evaluation-standard.md": {
+    "mtime": 1787051039.2622647,
+    "ast_hash": "c159850b834061991025a1d78270b6a3",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0001-semver-tolerant-reader-schema-evolution.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "5a954a1bf1cd03ab07ebdc146e96d1bf",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0002-cloud-tasks-dlq-idempotent-retry-worker.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "77ae1763ecf7a93f35b92cc3ba4faa9d",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0003-layered-3-tier-mvc-codebase-architecture.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "6a65ecda5514b40d52495ad0dbe1f167",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0004-zero-downtime-expand-contract-db-migrations.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "30dc74f8da94cc94cacd633c2a8274ae",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0005-redis-semantic-cache-gemini-flash-fallback-cascade.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "22ed6196b43b18c3b28b1f192ee20413",
+    "semantic_hash": ""
+  },
+  "docs/adr/ENG-0006-continuous-synthetic-production-canaries.md": {
+    "mtime": 1787140748.2551157,
+    "ast_hash": "c2b7792aeb2b1712b1e4c6fce0de4a7d",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0001-asymmetric-kms-jwks-key-lifecycle.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "f11c43305ac0159592abd8961e1bc728",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0002-vpc-service-controls-perimeter.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "2f5561fd037e582d56d7457de5f79a9d",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0003-cmek-data-encryption-governance.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "efc2339bf8c1480445e885300c6eea2a",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0004-dual-region-active-passive-ha-dr.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "fbb6fd27af544369af18c5ac05751eb2",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0005-scc-threat-streaming-incident-automation.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "6bf7b6549b07303671f647e556449af4",
+    "semantic_hash": ""
+  },
+  "docs/adr/SEC-0006-opentelemetry-distributed-tracing.md": {
+    "mtime": 1787140748.1634634,
+    "ast_hash": "a645efc950f061da5967162da762e25a",
+    "semantic_hash": ""
+  },
+  "docs/agents/domain.md": {
+    "mtime": 1786967300.9299455,
+    "ast_hash": "35089ed6a70a657c91fd100ade31b642",
+    "semantic_hash": ""
+  },
+  "docs/agents/issue-tracker.md": {
+    "mtime": 1786967300.9295378,
+    "ast_hash": "8eef3dfb0cab4bf7e9e122ccad837f63",
+    "semantic_hash": ""
+  },
+  "docs/agents/triage-labels.md": {
+    "mtime": 1786967300.9297585,
+    "ast_hash": "22add54cb98451c55b20e6b7992d4a85",
+    "semantic_hash": ""
+  },
+  "docs/mock_implementation_plan.md": {
+    "mtime": 1787140748.568003,
+    "ast_hash": "0e1afc2ccc270b0f71ad91c2e4f1bd6c",
+    "semantic_hash": ""
+  },
+  "docs/multi_agent_architecture.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "e61248535e49463f8dd1bb385af4ba1d",
+    "semantic_hash": ""
+  },
+  "docs/slides/index.html": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "1942d41f341d38e1899f2796b2c5299a",
+    "semantic_hash": ""
+  },
+  "fixtures/sample_policies/executive_severance.md": {
+    "mtime": 1787140748.957583,
+    "ast_hash": "66657b5c9985844342bb2e29f843fed0",
+    "semantic_hash": ""
+  },
+  "fixtures/sample_policies/leave_policy.md": {
+    "mtime": 1787140748.957776,
+    "ast_hash": "aa75d54564ef77de9639c2b69dc55fdf",
+    "semantic_hash": ""
+  },
+  "knowledge/01-paid-time-off-leave-operations/1.1-outpatient-sick-time-hospitalization-leave-singapore.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "f894113b14ca472ce3017ad270cdde55",
+    "semantic_hash": ""
+  },
+  "knowledge/01-paid-time-off-leave-operations/1.2-paid-vacation-leave-singapore.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "0aecb9176b6699d0deb8b39a1ab9f07a",
+    "semantic_hash": ""
+  },
+  "knowledge/01-paid-time-off-leave-operations/1.3-childcare-leave-singapore.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "c6565aef4502a2ce74c065fe089595a1",
+    "semantic_hash": ""
+  },
+  "knowledge/01-paid-time-off-leave-operations/1.4-time-off-in-lieu-toil-singapore.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "b75b32763542af48c34f54027c02a935",
+    "semantic_hash": ""
+  },
+  "knowledge/01-paid-time-off-leave-operations/index.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "37da6e79fa0e0dd28eb967196cf04958",
+    "semantic_hash": ""
+  },
+  "knowledge/02-family-building-transition-leaves/2.1-maternity-leave-singapore.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "e1c419d70607c137f6e50a0f6c9e4d1b",
+    "semantic_hash": ""
+  },
+  "knowledge/02-family-building-transition-leaves/2.2-baby-bonding-leave-global.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "3b7653cd957f997d42bb663ddfd9e036",
+    "semantic_hash": ""
+  },
+  "knowledge/02-family-building-transition-leaves/2.3-ramp-back-time-global.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "9ce6a1e299877e18b7e66c8720c3fa80",
+    "semantic_hash": ""
+  },
+  "knowledge/02-family-building-transition-leaves/index.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "acfd89bfc3bac6233db503a27a813fc1",
+    "semantic_hash": ""
+  },
+  "knowledge/03-other-compassionate-unpaid-leaves/3.1-bereavement-leave-global.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "638b00967a6f10161a1d7ef50e64a401",
+    "semantic_hash": ""
+  },
+  "knowledge/03-other-compassionate-unpaid-leaves/3.2-carers-leave-global.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "4e341ca2028992757d08a7b9496d5a2c",
+    "semantic_hash": ""
+  },
+  "knowledge/03-other-compassionate-unpaid-leaves/3.3-unpaid-time-off-personal-leave-global.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "3c226130553439d8ba7655ffac7b6a13",
+    "semantic_hash": ""
+  },
+  "knowledge/03-other-compassionate-unpaid-leaves/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "efa7c4f279a11da9f6f9d2c9a2b910ba",
+    "semantic_hash": ""
+  },
+  "knowledge/04-travel-expense-te-guidelines/4.1-frugality-booking-timelines.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "ad60c1e4a6c80d25698ebc3a69919790",
+    "semantic_hash": ""
+  },
+  "knowledge/04-travel-expense-te-guidelines/4.2-corporate-cards-company-card-expense-submission.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "02c589ee71a5a9e7bf4e8172b3dfeafb",
+    "semantic_hash": ""
+  },
+  "knowledge/04-travel-expense-te-guidelines/4.3-lodging-transportation-caps.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "b19bf02ca3c826bac4d5703a122e7eaa",
+    "semantic_hash": ""
+  },
+  "knowledge/04-travel-expense-te-guidelines/4.4-meal-allowances-entertainment.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "41884d93cd9a3dc6489a75b52d6c07cf",
+    "semantic_hash": ""
+  },
+  "knowledge/04-travel-expense-te-guidelines/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "a001093f6fc6f46159a4f9c94d90da55",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/5.1-anti-bribery-government-ethics.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "a738163d61383e9094aa9d1787172680",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/5.2-commercial-gifts-entertainment-non-government-recipients.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "c77b7c702ee271132c8e28f29dff7f55",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/5.3-workplace-personal-relationships.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "2b74dcf20c893a94f509d4ac45f997d9",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/5.4-remote-work-telework-data-security.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "aa47d149c7bbdfe71a7dd1feda882ae9",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/5.5-community-guidelines-conversational-boundaries.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "1911890472f0f8e47cba976665cf8480",
+    "semantic_hash": ""
+  },
+  "knowledge/05-ethics-compliance-conduct-perimeters/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "8191d19c81bbd0bcbd624f8c07e9864d",
+    "semantic_hash": ""
+  },
+  "knowledge/06-confidentiality-assets-financial-integrity/6.1-preserving-confidentiality.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "dbeb4b4c945e0976278bedb2f7fa85e0",
+    "semantic_hash": ""
+  },
+  "knowledge/06-confidentiality-assets-financial-integrity/6.2-protecting-company-assets-intellectual-property.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "e45913844987a50ce9990a6360672380",
+    "semantic_hash": ""
+  },
+  "knowledge/06-confidentiality-assets-financial-integrity/6.3-financial-integrity-contracting.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "c998c338d0728305a291e2d832b82364",
+    "semantic_hash": ""
+  },
+  "knowledge/06-confidentiality-assets-financial-integrity/6.4-outside-employment-business-ventures.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "793b33ead601e091f54096dd5fc658f6",
+    "semantic_hash": ""
+  },
+  "knowledge/06-confidentiality-assets-financial-integrity/index.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "f1e0ded261ffd1dbd6e8dad48eddcc7d",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.1-general-commitment-and-applicability.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "5cdeb997b5c2d00dd79e106bc3111c7c",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.2-harassment-and-sexual-harassment.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "2a5b68d53230025a6b1e70dacc2393a4",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.3-discrimination-protected-statuses.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "31650396548fd977f8f1d49914f9d895",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.4-standards-of-conduct-bullying.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "124456329456d3b3240bd40ee7607c5a",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.5-retaliation.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "527d76d7b9bb5a3f04e26d856477fe1e",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/7.6-reporting-concerns-manager-obligations.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "6cda37c5fd39244879dea75ab06a279c",
+    "semantic_hash": ""
+  },
+  "knowledge/07-harassment-discrimination-workplace-conduct/index.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "4d6b82f6559de0e16db94c2543d845a9",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.1-general-boundaries-expectations.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "a1325383725e7de0b606a003115f667b",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.2-prohibited-supervisory-relationships.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "b9ed72f9ec04c3f1bb118b7e4c80d37d",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.3-familial-relationships.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "21ddcb34fe8a8e8a1fb064a8405b0c69",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.4-permitted-relationships-conflict-risks.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "200219f8514b55ed6c9376d56ac0a0be",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.5-mandatory-reporting-disclosures.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "08c2471cadeab65af9151adbd7d41ddf",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/8.6-remediation-actions.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "ef6ef5f4f308996815abdf4b0767cb1c",
+    "semantic_hash": ""
+  },
+  "knowledge/08-workplace-personal-relationships/index.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "b01aa28901ed978270ed7a62ef16c7a8",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/9.1-general-principles-and-expectations.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "168b4cdfad0d0dee4051886d7c025953",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/9.2-workweek-productivity-disruptive-debates.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "c53a8f42a19a0f55ffe7b34d6fae6e53",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/9.3-respect-belonging-and-anti-trolling.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "845d7d1f7cc91d24d60fb127c6242097",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/9.4-accountability-and-data-care.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "55c843c7e46e55323efb4804fe04ba9b",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/9.5-reporting-violations.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "a265b55ffe500bf72168cc43aa872bf9",
+    "semantic_hash": ""
+  },
+  "knowledge/09-community-guidelines-workplace-communications/index.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "6f766b5216e442297c10aa05dee55fb4",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.1-general-expectations.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "158c38c71c8c873fcc6a87eec087f8d5",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.2-alcohol-consumption.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "b029b9723a68b8eb1ca2b56bb0f6aebe",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.3-smoking-guidelines.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "2d51e8f9d3f43ba402c4dd3304bcb05f",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.4-illegal-drugs-controlled-substances.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "cfbcc9dab71ddcc95475abf7a828cf72",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.5-prescription-medications.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "5cc56b6aa38402005bd94501f0226827",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/10.6-screenings-reporting-and-support-resources.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "7a48b117bb0b150ddeb3680f98deb80e",
+    "semantic_hash": ""
+  },
+  "knowledge/10-alcohol-smoking-and-drugs/index.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "65364b85d1e794d1aefe64b4e8ffc802",
+    "semantic_hash": ""
+  },
+  "knowledge/12-conflicts-of-interest-policy/12.1-purpose-and-definition.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "fcf6f9822b792c3e4786d30442faac7a",
+    "semantic_hash": ""
+  },
+  "knowledge/12-conflicts-of-interest-policy/12.2-employee-and-manager-obligations.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "02f226c0933df78a67b71a44c5a43ad5",
+    "semantic_hash": ""
+  },
+  "knowledge/12-conflicts-of-interest-policy/12.3-examples-of-conflicts-of-interest.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "d0a2c7e1b6fefd162343f1196037bcde",
+    "semantic_hash": ""
+  },
+  "knowledge/12-conflicts-of-interest-policy/12.4-ethics-and-business-integrity-ebi-review.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "0ad10dcb5325e43b277e411c8f3c0c6b",
+    "semantic_hash": ""
+  },
+  "knowledge/12-conflicts-of-interest-policy/index.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "06e063e33917de8c6c4e594383d1f022",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.1-general-prohibition-core-principle.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "d6f34dcc0a25f50de880c05a4ab3e850",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.2-definitions.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "6d2d756c18b7e3228f63432bf8f87fdb",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.3-pre-approval-requirements.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "56dc783287ec7da2f48acda1b7834059",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.4-strict-prohibitions-on-business-courtesies.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "99b17b7a67706593dee7094e29ed76e6",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.5-third-party-intermediaries-and-due-diligence.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "1a867ee4c019369f82b29722a3bd14c2",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/13.6-record-keeping-and-reporting.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "7d20f9e13bed439b3f15743a27902f41",
+    "semantic_hash": ""
+  },
+  "knowledge/13-anti-bribery-government-ethics-policy/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "119b388c35e15d223437a6c5cbf1ee92",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/14.1-general-principles-and-applicability.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "6608c833dc78becbeceb4fc884e6b4e5",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/14.2-general-prohibitions.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "8a91d2014ff4e7bb85a2772973400e29",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/14.3-frequency-and-decision-factors.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "e340ffa90c29e181c2000850cce55db3",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/14.4-pre-approval-requirements.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "1d68258051ef979b18cbf746e91d12ca",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/14.5-purchasing-power-caution.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "75c15faa25716acd9740924dc4918dfe",
+    "semantic_hash": ""
+  },
+  "knowledge/14-commercial-gifts-entertainment-non-government/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "996d0a5b28dab6c67e29049fec135985",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.1-scope-and-definition.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "019adb6a9a323be84b512d14fde65acc",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.2-types-of-data-collected.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "2f4fe413fc1ddbfb15bc70d35513257f",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.3-use-of-employee-data.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "4f6e3edcc3e8c3ee6c9ae92a9619edbf",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.4-data-security-and-third-party-sharing.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "b326a51dc7247e3bfbbfb9f55eda300e",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.5-retention-and-employee-privacy-rights.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "49ab6746be92d11ed90ebd9afdc4fa33",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.6-international-data-transfers.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "e1ac6a01876698e7b9e4da4951eaebb6",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/16.7-inquiries-and-complaints.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "d835a8e83bf7cd42af24a6a4c6caf75f",
+    "semantic_hash": ""
+  },
+  "knowledge/16-employee-privacy-policy/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "5c3c293426fcd481fd6472d541759c12",
+    "semantic_hash": ""
+  },
+  "knowledge/17-flexible-work-requests-singapore/17.1-applicability-and-scope.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "5f7fc2118650ec63e9d4630435be46bd",
+    "semantic_hash": ""
+  },
+  "knowledge/17-flexible-work-requests-singapore/17.2-definition-of-a-flexible-working-request.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "121ffbdc73bb5b4b8026da06ff0272da",
+    "semantic_hash": ""
+  },
+  "knowledge/17-flexible-work-requests-singapore/17.3-submission-process-and-timelines.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "f356abd527473134e1ec1d21b710011c",
+    "semantic_hash": ""
+  },
+  "knowledge/17-flexible-work-requests-singapore/index.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "4d5030df2142925fe1cd8495083b7d99",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.1-eligibility-and-applicability.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "20186df7c09598f6083f248a509da55b",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.2-unpaid-time-off-up-to-30-days.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "23e1cbd969591fdfadf0472fcb76e1d6",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.3-personal-leave-up-to-92-days.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "a32917900229f796f33d380b13360406",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.4-unpaid-compassionate-leave.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "9fb19e7f2cfc349078b001c332580d8e",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.5-conditions-during-leave.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "3bfceb3d25fe1299ddcef5737e77207c",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/18.6-inappropriate-use-of-leave.md": {
+    "mtime": 1787140286.1575527,
+    "ast_hash": "45da0094e7a80c784ab7b2f26ce311fe",
+    "semantic_hash": ""
+  },
+  "knowledge/18-unpaid-time-off-personal-leave/index.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "f071d05579d1ea26a4a9aa57c98d0d4f",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.1-eligibility-and-scope.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "6ed8716ace81b4a24391a5a05eb32e7d",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.2-outpatient-sick-leave.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "1a8e971c9b870b0f8054d57fb4ce373d",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.3-hospitalization-leave.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "0d1a12744ef9cc6960000613c3cc5563",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.4-notification-and-medical-certificates-mc.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "48c95ac2d8a28802c8e0eff8492d8dd4",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.5-medical-and-health-appointments.md": {
+    "mtime": 1787140286.1585066,
+    "ast_hash": "17be726547450e9896d353c9b30bc1c9",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.6-compensation-benefits-and-systems-during-leave.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "29b9aff4a41b205f6a52ca6c4a23acc9",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.7-excessive-usage-disciplinary-action.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "d4ed6a6af30fe65938154a56d75b8eb1",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/19.8-leaving-or-transferring.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "9f78f4994da5eb3a55bf3e2410deb0d7",
+    "semantic_hash": ""
+  },
+  "knowledge/19-sick-time-hospitalization-leave-singapore/index.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "dacb84dc6dbaaad8d9d55b9d2bee7933",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.1-eligibility.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "7b22581d1081718bd84b0102c88c4390",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.2-accrual-rates-and-increments.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "00fc01bbd6bce15a07e4078d0fc7ca60",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.3-carryover-and-payouts.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "fe3b835da71b0231b66c806268dcabac",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.4-requesting-and-modifying-leave.md": {
+    "mtime": 1787140286.1611578,
+    "ast_hash": "fef7c72698033ad38d7542d93961edd7",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.5-compensation-and-benefits-during-leave.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "3e22ee4867b9fb2714d0f30b32be575e",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/20.6-floating-holidays.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "4fce9f8ebb20e2d7a10b52d7e35f8ca0",
+    "semantic_hash": ""
+  },
+  "knowledge/20-vacation-leave-singapore/index.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "86c76a8aea37ce980cd4c9f1df5b2d67",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/21.1-general-overview.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "23a534f5397c305cde75b1408d63782e",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/21.2-standard-paid-time-off.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "c94e5c08ee7ee5088f314a3dca26da75",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/21.3-health-and-care-leaves.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "72c8386777de56eefb39a56c9c608e96",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/21.4-family-building-and-transition-leaves.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "25ec1fadc8b0583fdafd1aacc1d55ec4",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/21.5-unpaid-and-personal-leaves.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "d76952cc95e67fa6ed7bc2dc15a6366a",
+    "semantic_hash": ""
+  },
+  "knowledge/21-global-leaves-overview/index.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "715835d06daa83725853396f33a55fb2",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/22.1-general-scope-and-eligibility.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "1aaff814f0c4702252fd22494fc826a6",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/22.2-allowance-and-timelines.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "4c9e489f1deae02131bc19abf21d61de",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/22.3-requesting-leave-and-system-access.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "cc4d2c882b728f3a3bb406cab89bc4b5",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/22.4-compensation-benefits-and-performance.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "cb6c58ae612328bc0f23ed3edfb3963a",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/22.5-support-and-returning-to-work.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "6d9a5e1d396680f4b36c618834e445b8",
+    "semantic_hash": ""
+  },
+  "knowledge/22-bereavement-leave-global/index.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "333253ad0be070fa9036a3dc45be6285",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.1-purpose-and-eligibility.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "893c4e2ca474361f7cc0ca07f3514f6f",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.2-leave-allowance-and-increments.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "2cb77f1d0d491ad0e7f60b608080958c",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.3-attestation-and-requesting-leave.md": {
+    "mtime": 1787140286.162507,
+    "ast_hash": "8b5dcfe6d097fb91d33c510d3a007c0f",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.4-compensation-and-benefits-during-leave.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "795d774893e06a78e17778fb39dccec0",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.5-conduct-and-systems-access.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "56f7da5d658e465028b66bf34589a41a",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/23.6-returning-and-separations.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "7e641e65db7d4bce53ceb855846a6674",
+    "semantic_hash": ""
+  },
+  "knowledge/23-carers-leave-global/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "8278484e7cb6fa6ce47b288aa424a858",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/24.1-eligibility-and-scope.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "2b893599311149310638de3a1bb44342",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/24.2-leave-allowance.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "12f898eb360d43df6e732e91116bedc3",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/24.3-requesting-leave.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "70200ac30c2fbcce396acd805d0f2ee3",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/24.4-conditions-during-leave.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "e3f3cdbc4da3df22f0e69a6d7ea18b7d",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/24.5-separations-and-transfers.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "af89f4d452c2f5c48000a8816d97ac68",
+    "semantic_hash": ""
+  },
+  "knowledge/24-childcare-leave-singapore/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "a5e1b67a5b7e9c075e112ee120ab0d45",
+    "semantic_hash": ""
+  },
+  "knowledge/25-time-off-in-lieu-singapore/25.1-eligibility-and-scope.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "5d80f46aa76009b759ef9de7399f7e51",
+    "semantic_hash": ""
+  },
+  "knowledge/25-time-off-in-lieu-singapore/25.2-earning-time-off-in-lieu-toil.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "9964d08212bcb2375dc7bce8ed438007",
+    "semantic_hash": ""
+  },
+  "knowledge/25-time-off-in-lieu-singapore/25.3-requesting-and-logging-toil.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "b02209ef87ffa39f292b21911342aa39",
+    "semantic_hash": ""
+  },
+  "knowledge/25-time-off-in-lieu-singapore/index.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "f77fb7c738f42cf981f4f0d6c7e38860",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.1-purpose-and-eligibility.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "cfc55c2c79365e095bc860b6efa03d17",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.2-leave-allowance-and-timelines.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "c8b8c2ab185c50c954e91d1b219aeee4",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.3-singapore-shared-parental-leave-spl-scenarios.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "a6bb5576db32fb95559aebaeb6797e6c",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.4-requesting-and-modifying-leave.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "565905ec1ff24cf52d9490859e82fcc7",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.5-compensation-and-benefits-during-leave.md": {
+    "mtime": 1787140286.1665072,
+    "ast_hash": "3b9130f9eee63c354b8308928af52e91",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/26.6-conduct-and-returning-to-work.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "e85b319d02aca5511750b1c504b30d38",
+    "semantic_hash": ""
+  },
+  "knowledge/26-baby-bonding-leave-global/index.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "a66a29dad0fe2289eb4dfea3287a1f5e",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.1-eligibility-and-scope.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "fa937c2d4036d6fc0e7b164370214e79",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.2-duration-and-shared-parental-leave-spl.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "61c3b7d06d7c3af025e7f4e7298f5a93",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.3-interns-and-part-time-employees.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "46fa0e1e886f7574b78c0f0802ccd99d",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.4-planning-and-requesting-leave.md": {
+    "mtime": 1787140286.1705077,
+    "ast_hash": "2d95bf42b365be4ba7876afeb7c202be",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.5-compensation-and-benefits-during-leave.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "1f0da9f9031f47d3d9017c12efebf862",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/27.6-return-to-work-and-conduct.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "aaded0aac7e9733cf914d21cb0bf476d",
+    "semantic_hash": ""
+  },
+  "knowledge/27-maternity-leave-singapore/index.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "1ed0f52682ce67582963e3d3a1605d62",
+    "semantic_hash": ""
+  },
+  "knowledge/28-ramp-back-time-global/28.1-purpose-and-eligibility.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "8946313cddbc22b7f13e9092cb55ab09",
+    "semantic_hash": ""
+  },
+  "knowledge/28-ramp-back-time-global/28.2-schedule-and-duration.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "875b8951df360fad852eb1c182834c9e",
+    "semantic_hash": ""
+  },
+  "knowledge/28-ramp-back-time-global/28.3-compensation-and-benefits.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "57693431b41dc84212d8b4b66f140027",
+    "semantic_hash": ""
+  },
+  "knowledge/28-ramp-back-time-global/28.4-requesting-and-system-entry.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "3b9c47d304c067081b98b737a5d009cf",
+    "semantic_hash": ""
+  },
+  "knowledge/28-ramp-back-time-global/index.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "043e6a5b96b244d5a48a9bfa04030d40",
+    "semantic_hash": ""
+  },
+  "knowledge/29-exit-policy-guidelines/29.1-notice-of-termination.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "f1e4996bbec08c6d1cf5014b26437683",
+    "semantic_hash": ""
+  },
+  "knowledge/29-exit-policy-guidelines/29.2-payout-of-leaves-upon-separation.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "88dab0030224b94b052996716fa4579a",
+    "semantic_hash": ""
+  },
+  "knowledge/29-exit-policy-guidelines/29.3-post-employment-obligations-confidentiality-ip.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "b5b5bceffded74daa8cc77b25b89c845",
+    "semantic_hash": ""
+  },
+  "knowledge/29-exit-policy-guidelines/29.4-retention-of-employee-data.md": {
+    "mtime": 1787140286.174508,
+    "ast_hash": "4a1280b4f550c1e9946e3db492d48277",
+    "semantic_hash": ""
+  },
+  "knowledge/29-exit-policy-guidelines/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "ae27aa664bcc626ecc13e86a0226570e",
+    "semantic_hash": ""
+  },
+  "knowledge/30-performance-management-disciplinary-process/30.1-performance-management.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "91fedbffb9d56956e6c3855ced5e9008",
+    "semantic_hash": ""
+  },
+  "knowledge/30-performance-management-disciplinary-process/30.2-performance-improvement.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "ac5c7233b1a0abc764b7e92fe6706973",
+    "semantic_hash": ""
+  },
+  "knowledge/30-performance-management-disciplinary-process/30.3-progressive-disciplinary-process.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "128c9f007f3ebe467335407bdee45ce9",
+    "semantic_hash": ""
+  },
+  "knowledge/30-performance-management-disciplinary-process/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "d3ef7ee15063f2abdefd1887cebc65f2",
+    "semantic_hash": ""
+  },
+  "knowledge/31-compensation-payroll-non-leave-benefits/31.1-payroll-and-salary.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "2e26e925523ae6c4eb32bbde7b01964b",
+    "semantic_hash": ""
+  },
+  "knowledge/31-compensation-payroll-non-leave-benefits/31.2-central-provident-fund-cpf.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "acbada51b959460a6c55891947048db3",
+    "semantic_hash": ""
+  },
+  "knowledge/31-compensation-payroll-non-leave-benefits/31.3-non-leave-perks-benefits.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "d4b63337e5c4734ae1c0ee71eaf42551",
+    "semantic_hash": ""
+  },
+  "knowledge/31-compensation-payroll-non-leave-benefits/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "cbd8d4a43a5ee76e61ae088acb563319",
+    "semantic_hash": ""
+  },
+  "knowledge/32-health-insurance-claims-process/32.1-coverage-overview.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "91dc2bad53f9238a02a092306163e75f",
+    "semantic_hash": ""
+  },
+  "knowledge/32-health-insurance-claims-process/32.2-health-insurance-claims-process.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "4ecd19da742dec32e02496977ac765a6",
+    "semantic_hash": ""
+  },
+  "knowledge/32-health-insurance-claims-process/index.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "d8f4632fe77c60d6f28c4626bac27af7",
+    "semantic_hash": ""
+  },
+  "knowledge/33-acceptable-use-of-it-resources-social-media/33.1-acceptable-use-of-it-systems.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "c865634c8f7e59854257b90ee0e0060d",
+    "semantic_hash": ""
+  },
+  "knowledge/33-acceptable-use-of-it-resources-social-media/33.2-social-media-guidelines.md": {
+    "mtime": 1787140286.1785083,
+    "ast_hash": "b4052b1ad7a3dd990f9cf7c5517bb525",
+    "semantic_hash": ""
+  },
+  "knowledge/33-acceptable-use-of-it-resources-social-media/index.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "2875f1998ac8cae3a8c0301baee873b8",
+    "semantic_hash": ""
+  },
+  "knowledge/34-workplace-health-safety-wsh/34.1-safety-commitment.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "20bb7b325d17f0bb10953ef5bf1c422b",
+    "semantic_hash": ""
+  },
+  "knowledge/34-workplace-health-safety-wsh/34.2-emergency-procedures.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "b98b48b48597177c368c60e6a2085247",
+    "semantic_hash": ""
+  },
+  "knowledge/34-workplace-health-safety-wsh/34.3-reporting-accidents-wica-compliance.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "cfcbd0010a30a77a6c9467fa4abaefd0",
+    "semantic_hash": ""
+  },
+  "knowledge/34-workplace-health-safety-wsh/34.4-ergonomics.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "5723daa0064fed846491c3b08d76f5e6",
+    "semantic_hash": ""
+  },
+  "knowledge/34-workplace-health-safety-wsh/index.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "f81fcb1fffe7d15ee7cb9d5761db4f0f",
+    "semantic_hash": ""
+  },
+  "knowledge/35-grievance-dispute-resolution/35.1-open-door-policy.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "dfd4fb4001948410de35278468747638",
+    "semantic_hash": ""
+  },
+  "knowledge/35-grievance-dispute-resolution/35.2-formal-grievance-process.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "e0f078075bb8b3f02411941725245c1e",
+    "semantic_hash": ""
+  },
+  "knowledge/35-grievance-dispute-resolution/35.3-non-retaliation.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "a5bf2d0a2b5bd9235ea2243ba8a01d5c",
+    "semantic_hash": ""
+  },
+  "knowledge/35-grievance-dispute-resolution/index.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "ec7eeac5ff5ae7d0ef0d26e8978c0bad",
+    "semantic_hash": ""
+  },
+  "knowledge/index.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "20e3fb7bc8cf6272e6b6338f277fd853",
+    "semantic_hash": ""
+  },
+  "knowledge/log.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "f349ac5bbd6a2c31369683a75e71a2d9",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1787200928.6067772,
+    "ast_hash": "85fc8655018c1b6d554b7d1b2ac09840",
+    "semantic_hash": ""
+  },
+  "requirements/HR-Agentic-BRD.html": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "ff9b17bb9493201023b5660082478c9a",
+    "semantic_hash": ""
+  },
+  "requirements/HR-Agentic-BRD.md": {
+    "mtime": 1787140286.1825087,
+    "ast_hash": "86fb435f1b0829aa8753b84ad731d624",
+    "semantic_hash": ""
+  },
+  "requirements/HR-Agentic-BRD.txt": {
+    "mtime": 1786967015.232156,
+    "ast_hash": "78762560ef738daa2b51200c0ea35614",
+    "semantic_hash": ""
+  },
+  "sdd-so-elevated.md": {
+    "mtime": 1787141183.493357,
+    "ast_hash": "68c7d2ff4481fc6737de2301a65cf5e2",
+    "semantic_hash": ""
+  },
+  "technical_design/README.md": {
+    "mtime": 1787140286.1905093,
+    "ast_hash": "63e2c0307bdcf126f5f0e8d4b056526b",
+    "semantic_hash": ""
+  },
+  "technical_design/architecture_tradeoffs.md": {
+    "mtime": 1787140286.1905093,
+    "ast_hash": "8b715c9a534aa806b2f038cdd1c92e77",
+    "semantic_hash": ""
+  },
+  "technical_design/capabilities_mapping_matrix.md": {
+    "mtime": 1787140286.1905093,
+    "ast_hash": "aed0e909c8c6377fe165e8161fdf695e",
+    "semantic_hash": ""
+  },
+  "technical_design/system_architecture_diagrams.md": {
+    "mtime": 1787140286.1945097,
+    "ast_hash": "1761dd6f8a72817f7d4d487cc8d9784c",
+    "semantic_hash": ""
+  },
+  "technical_design/technical_design_document.md": {
+    "mtime": 1787140286.1945097,
+    "ast_hash": "f1d3b6dff1a37fedca3012d8f062f525",
+    "semantic_hash": ""
+  },
+  "tests/eval/eval_config.yaml": {
+    "mtime": 1787140286.1945097,
+    "ast_hash": "8bd198fb2e6a73b2f92ac7c6130e665b",
+    "semantic_hash": ""
+  },
+  "tests/eval/evaluation_report.md": {
+    "mtime": 1787140286.1945097,
+    "ast_hash": "df49e48636cc946b21b973b80dd7edb8",
+    "semantic_hash": ""
+  },
+  "requirements/HR-Agentic-BRD.pdf": {
+    "mtime": 1786966533.5418062,
+    "ast_hash": "5baf4fb36f23898417c7ee4a4f170d6d",
+    "semantic_hash": ""
+  },
+  "docs/assets/cicd_pipeline.jpg": {
+    "mtime": 1787053043.7102487,
+    "ast_hash": "95f65bf5ab02070d79864f6bee530b7d",
+    "semantic_hash": ""
+  },
+  "docs/assets/database_erd.jpg": {
+    "mtime": 1787052843.0837114,
+    "ast_hash": "aacda88fa1834b6c6ef1ca2d02498014",
+    "semantic_hash": ""
+  },
+  "docs/assets/hr_agent_architecture.jpg": {
+    "mtime": 1787051548.3742042,
+    "ast_hash": "ddbe7a48a075c1af784ac75851f8d428",
+    "semantic_hash": ""
+  },
+  "docs/assets/medical_leave_sequence.jpg": {
+    "mtime": 1787052735.7209525,
+    "ast_hash": "f7744a916801e704b7469799cdfdf1f0",
+    "semantic_hash": ""
+  },
+  "docs/assets/multi_agent_architecture.jpg": {
+    "mtime": 1786969542.247038,
+    "ast_hash": "fb30ab492fdaa31787bd14386e96ed24",
+    "semantic_hash": ""
+  },
+  "docs/assets/policy_sync_pipeline.jpg": {
+    "mtime": 1787052997.4950984,
+    "ast_hash": "d3bd91773546a6dbb4e1e4e4f8420f59",
+    "semantic_hash": ""
+  },
+  "docs/assets/strategic_roadmap.jpg": {
+    "mtime": 1787053076.7357564,
+    "ast_hash": "91e6ad1ca2ee7a8abc9dbd4677245b89",
+    "semantic_hash": ""
+  },
+  "docs/assets/tracer_bullet_roadmap.jpg": {
+    "mtime": 1787050713.9376929,
+    "ast_hash": "4e79e11bbd15cb6e263daeaa730042cd",
+    "semantic_hash": ""
+  }
+}

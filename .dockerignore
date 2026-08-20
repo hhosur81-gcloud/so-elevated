@@ -1,0 +1,12 @@
+.git
+.github
+.venv
+.agents
+.scratch
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+graphify-out
+tests

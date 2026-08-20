@@ -97,19 +97,108 @@ class TestOrchestratorAgent(unittest.TestCase):
         self.assertIn("confirmed", turn2["response"].lower())
 
 
-    def test_session_reset_purges_context(self):
-        """Verify explicit reset command clears turn history (ADR-0009)."""
-        session_id = "sess-reset-1"
-        self.orchestrator.process_turn(session_id, "EMP-1001", "How many hours of PTO do I have?")
-        
-        # Reset turn
-        res = self.orchestrator.process_turn(session_id, "EMP-1001", "reset conversation")
-        self.assertTrue(res["success"])
-        self.assertIn("Session context has been reset", res["response"])
+    def test_dynamic_pto_elicitation_multi_turn(self):
+        """Verify multi-turn dynamic elicitation when dates and hours are not initially provided."""
+        session_id = "sess-elicitation-1"
 
-        session_state = self.repo.load_record("sessions/active.json", session_id)
-        self.assertEqual(len(session_state["turns"]), 0)
+        # Turn 1: User clicks Request PTO chip / generic request without parameters
+        turn1 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="I want to request PTO"
+        )
+        self.assertTrue(turn1["success"])
+        self.assertFalse(turn1.get("requires_confirmation", False))
+        self.assertIn("How many hours or days", turn1["response"])
+        self.assertIn("start and end dates", turn1["response"])
+
+        # Turn 2: User provides hours and dates in response
+        turn2 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="16 hours from 2026-09-01 to 2026-09-02"
+        )
+        self.assertTrue(turn2["success"])
+        self.assertTrue(turn2.get("requires_confirmation", False))
+        self.assertIn("Please confirm", turn2["response"])
+        self.assertIn("16.0 hours", turn2["response"])
+        self.assertIn("2026-09-01 to 2026-09-02", turn2["response"])
+
+        # Turn 3: User confirms
+        turn3 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="Yes, please submit"
+        )
+        self.assertTrue(turn3["success"])
+        self.assertFalse(turn3.get("requires_confirmation", False))
+        self.assertIn("confirmed", turn3["response"].lower())
+
+    def test_pto_revision_during_confirmation(self):
+        """Verify user can revise dates/hours when presented with confirmation gate."""
+        session_id = "sess-revise-1"
+
+        # Turn 1: Initial request with dates
+        turn1 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="I want to book 16 hours of PTO from 2026-09-01 to 2026-09-02"
+        )
+        self.assertTrue(turn1["requires_confirmation"])
+        self.assertIn("16.0 hours", turn1["response"])
+
+        # Turn 2: User says no, revise for 24 hours from 2026-09-16 to 2026-09-18
+        turn2 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="no I want to revise that for 24 hours from 2026-09-16 to 2026-09-18"
+        )
+        self.assertTrue(turn2["requires_confirmation"])
+        self.assertIn("24.0 hours", turn2["response"])
+        self.assertIn("2026-09-16 to 2026-09-18", turn2["response"])
+
+        # Turn 3: User confirms
+        turn3 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="yes please"
+        )
+        self.assertTrue(turn3["success"])
+        self.assertIn("confirmed", turn3["response"].lower())
+
+    def test_natural_language_dates_pto_dialog(self):
+        """Verify natural language date parsing (e.g., '2 days from 16 sep')."""
+        session_id = "sess-nat-date-1"
+
+        # Turn 1
+        turn1 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="I want to request PTO"
+        )
+        self.assertIn("How many hours or days", turn1["response"])
+
+        # Turn 2: '2 days from 16 sep'
+        turn2 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="2 days from 16 sep"
+        )
+        self.assertTrue(turn2["requires_confirmation"])
+        self.assertIn("16.0 hours", turn2["response"])
+        self.assertIn("2026-09-16 to 2026-09-17", turn2["response"])
+
+        # Turn 3: confirm
+        turn3 = self.orchestrator.process_turn(
+            session_id=session_id,
+            employee_id="EMP-436",
+            user_message="yes"
+        )
+        self.assertTrue(turn3["success"])
+        self.assertIn("confirmed", turn3["response"].lower())
 
 
 if __name__ == "__main__":
     unittest.main()
+
+

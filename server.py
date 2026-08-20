@@ -397,7 +397,7 @@ async def serve_ui():
         <button class="chip" onclick="sendChip('List my open support tickets')">🎟️ List My Tickets</button>
         <button class="chip" onclick="sendChip('What is the policy for bereavement leave in Singapore?')">📖 Bereavement Policy</button>
         <button class="chip" onclick="sendChip('Can I expense a $1000 gift card for a vendor?')">🎁 Gift Card Compliance</button>
-        <button class="chip" onclick="sendChip('I want to book 16 hours of PTO from 2026-09-01 to 2026-09-02')">📅 Request PTO</button>
+        <button class="chip" onclick="sendChip('I want to request PTO')">📅 Request PTO</button>
       </div>
 
       <div class="input-area">
