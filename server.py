@@ -125,7 +125,8 @@ async def process_chat(req: ChatRequest):
                 session_id=session_id,
                 employee_role=emp_role
             )
-            return orchestrator._format_result(adk_res, acting_agent=adk_res.get("acting_agent", "orchestrator"))
+            if adk_res.get("response"):
+                return orchestrator._format_result(adk_res, acting_agent=adk_res.get("acting_agent", "orchestrator"))
         except Exception as e:
             logger.warning(f"Gemini ADK execution fallback: {e}")
 

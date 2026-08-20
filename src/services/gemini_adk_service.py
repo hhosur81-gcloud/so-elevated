@@ -26,7 +26,7 @@ logger = logging.getLogger("gemini_adk_service")
 
 ORCHESTRATOR_ENGINE_ID = os.getenv(
     "ADK_ORCHESTRATOR_RESOURCE",
-    "projects/136598345275/locations/us-central1/reasoningEngines/7730773457276764160",
+    "projects/136598345275/locations/us-central1/reasoningEngines/5108552574240292864",
 )
 
 
@@ -56,8 +56,18 @@ class GeminiADKService:
 
         # Initialize Vertex AI Reasoning Engine for Remote Native ADK Execution
         try:
+            import types as py_types
+            from vertexai.reasoning_engines import _reasoning_engines
             vertexai.init(project=self.project_id, location=self.location)
             self.remote_orchestrator = reasoning_engines.ReasoningEngine(ORCHESTRATOR_ENGINE_ID)
+            for op in self.remote_orchestrator.operation_schemas():
+                mode = op.get("api_mode", "")
+                name = op.get("name")
+                doc = op.get("description", "") or "doc"
+                if mode == "" and not hasattr(self.remote_orchestrator, name):
+                    setattr(self.remote_orchestrator, name, py_types.MethodType(_reasoning_engines._wrap_query_operation(name, doc), self.remote_orchestrator))
+                elif mode == "stream" and not hasattr(self.remote_orchestrator, name):
+                    setattr(self.remote_orchestrator, name, py_types.MethodType(_reasoning_engines._wrap_stream_query_operation(name, doc), self.remote_orchestrator))
             logger.info(f"Connected to remote Vertex AI Reasoning Engine: {ORCHESTRATOR_ENGINE_ID}")
         except Exception as e:
             logger.warning(f"Could not connect to remote Reasoning Engine: {e}")
@@ -171,42 +181,70 @@ Operational Rules:
                         engine_span.set_attribute("user.id", employee_id)
 
                         formatted_prompt = f"[Authenticated Employee ID: {employee_id}, Role: {employee_role}]\nUser Request: {user_message}"
-                        remote_resp = self.remote_orchestrator.query(input=formatted_prompt)
                         
-                        raw_out = remote_resp.get("output", "") if isinstance(remote_resp, dict) else remote_resp
-                        if isinstance(raw_out, list):
-                            text_parts = [b.get("text", "") for b in raw_out if isinstance(b, dict) and "text" in b]
-                            resp_text = "\n".join(text_parts) if text_parts else str(raw_out)
-                        else:
-                            resp_text = str(raw_out)
+                        resp_text = ""
+                        # Check for AdkApp stream_query
+                        if hasattr(self.remote_orchestrator, "stream_query"):
+                            try:
+                                events = list(self.remote_orchestrator.stream_query(message=formatted_prompt, user_id=employee_id))
+                                parts = []
+                                for ev in events:
+                                    if isinstance(ev, dict):
+                                        if ev.get("error_code"):
+                                            logger.warning(f"AdkApp remote event error: {ev.get('error_code')} - {ev.get('error_message')}")
+                                            continue
+                                        content = ev.get("content", {})
+                                        if isinstance(content, dict):
+                                            for p in content.get("parts", []):
+                                                if isinstance(p, dict) and "text" in p and p["text"]:
+                                                    parts.append(p["text"])
+                                    elif hasattr(ev, "text") and ev.text:
+                                        parts.append(ev.text)
+                                if parts:
+                                    resp_text = "\n".join(parts).strip()
+                            except Exception as st_err:
+                                logger.warning(f"stream_query error, trying query: {st_err}")
 
-                        elapsed_ms = (time.perf_counter() - start_time) * 1000.0
-                        root_span.set_attribute("execution.latency_ms", elapsed_ms)
-                        root_span.set_attribute("engine.type", "native_adk_reasoning_engine")
+                        if not resp_text and hasattr(self.remote_orchestrator, "query"):
+                            try:
+                                remote_resp = self.remote_orchestrator.query(input=formatted_prompt)
+                                raw_out = remote_resp.get("output", "") if isinstance(remote_resp, dict) else remote_resp
+                                if isinstance(raw_out, list):
+                                    text_parts = [b.get("text", "") for b in raw_out if isinstance(b, dict) and "text" in b]
+                                    resp_text = "\n".join(text_parts).strip() if text_parts else ""
+                                else:
+                                    resp_text = str(raw_out).strip()
+                            except Exception as q_err:
+                                logger.warning(f"query error: {q_err}")
 
-                        # Infer acting agent
-                        msg_lower = user_message.lower()
-                        if any(k in msg_lower for k in ["leave", "pto", "vacation", "sick", "balance", "off"]):
-                            acting_agent = "workweek_agent"
-                        elif any(k in msg_lower for k in ["ticket", "laptop", "keyboard", "mouse", "support", "incident", "issue"]):
-                            acting_agent = "itsm_agent"
-                        elif any(k in msg_lower for k in ["policy", "bereavement", "expense", "travel", "allowance", "handbook"]):
-                            acting_agent = "policy_agent"
-                        else:
-                            acting_agent = "orchestrator"
+                        if resp_text and not resp_text.startswith("{'error_code'"):
+                            elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+                            root_span.set_attribute("execution.latency_ms", elapsed_ms)
+                            root_span.set_attribute("engine.type", "native_google_adk_reasoning_engine")
 
-                        if self.provider:
-                            self.provider.force_flush()
+                            # Infer acting agent
+                            msg_lower = user_message.lower()
+                            if any(k in msg_lower for k in ["leave", "pto", "vacation", "sick", "balance", "off"]):
+                                acting_agent = "workweek_agent"
+                            elif any(k in msg_lower for k in ["ticket", "laptop", "keyboard", "mouse", "support", "incident", "issue"]):
+                                acting_agent = "itsm_agent"
+                            elif any(k in msg_lower for k in ["policy", "bereavement", "expense", "allowance", "benefit", "singapore"]):
+                                acting_agent = "policy_agent"
+                            else:
+                                acting_agent = "orchestrator"
 
-                        return {
-                            "success": True,
-                            "response": resp_text.strip(),
-                            "acting_agent": acting_agent,
-                            "tools_called": [f"adk_reasoning_engine_{acting_agent}"],
-                            "latency_ms": elapsed_ms,
-                            "trace_id": format(root_span.get_span_context().trace_id, "032x"),
-                            "requires_confirmation": False
-                        }
+                            if self.provider:
+                                self.provider.force_flush()
+
+                            return {
+                                "success": True,
+                                "response": resp_text.strip(),
+                                "acting_agent": acting_agent,
+                                "tools_called": [f"adk_reasoning_engine_{acting_agent}"],
+                                "latency_ms": elapsed_ms,
+                                "trace_id": format(root_span.get_span_context().trace_id, "032x"),
+                                "requires_confirmation": False
+                            }
                 except Exception as remote_err:
                     logger.warning(f"Remote Reasoning Engine query failed, falling back to direct GenAI: {remote_err}")
                     root_span.record_exception(remote_err)

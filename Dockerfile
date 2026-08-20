@@ -19,7 +19,8 @@ ENV PYTHONUNBUFFERED=1 \
     ITSM_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ
 
 # Install dependencies via pip
-COPY requirements.txt ./
+ARG CACHE_BUST=1
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code, knowledge base, and configuration
