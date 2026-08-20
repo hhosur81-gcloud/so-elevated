@@ -1,13 +1,17 @@
 """FastAPI Production Server for So-Elevated Enterprise HR Assistant on Google Cloud Run."""
 
 import os
+import re
 import sys
 import time
+import logging
 from typing import Any, Dict, Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
+
+logger = logging.getLogger("server")
 
 # Ensure project root is in sys.path
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
@@ -15,6 +19,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from src.agents.orchestrator_agent import PrimaryHROrchestrator
 from src.config.settings import settings
 from src.services.canary_service import ContinuousSyntheticCanary
+from src.services.gemini_adk_service import GeminiADKService
 
 app = FastAPI(
     title="So-Elevated Enterprise HR Agentic Solution",
@@ -30,9 +35,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Canary (which encapsulates Orchestrator)
+# Initialize Canary (which encapsulates Orchestrator) & Gemini ADK Engine
 canary = ContinuousSyntheticCanary(policy_dir="knowledge")
 orchestrator = canary.orchestrator
+gemini_adk = GeminiADKService(
+    workweek_agent=orchestrator.workweek_agent,
+    itsm_agent=orchestrator.itsm_agent,
+    policy_agent=orchestrator.policy_agent
+)
 
 
 class ChatRequest(BaseModel):
@@ -55,17 +65,57 @@ async def health_check():
     status["region"] = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
     status["model"] = settings.gemini_model_primary
     status["mcp_target"] = settings.workweek_mcp_url
+    status["adk_connected"] = gemini_adk.is_connected
     return status
 
 
 
 @app.post("/api/chat")
 async def process_chat(req: ChatRequest):
-    """Execute conversational turn across Model Armor, ADK Router, and FastMCP."""
+    """Execute conversational turn across Model Armor, Gemini ADK Tool Calling, and FastMCP."""
     if not req.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
     
     session_id = req.session_id or f"sess-{req.employee_id}"
+    
+    # 1. Layer 0 Security Sentinel Gate (Model Armor)
+    inspection = orchestrator.guardrail.inspect_inbound_prompt(req.message, employee_id=req.employee_id)
+    if not inspection.is_valid:
+        return orchestrator._format_result({
+            "success": False,
+            "error_code": "SECURITY_BLOCKED",
+            "response": inspection.sanitized_text,
+            "category": inspection.category,
+            "requires_confirmation": False
+        }, acting_agent="security_sentinel")
+
+    # 2. Check if currently inside a pending confirmation gate
+    session = orchestrator._get_or_create_session(session_id, req.employee_id)
+    if session.pending_confirmation:
+        return orchestrator.process_turn(session_id=session_id, employee_id=req.employee_id, user_message=req.message)
+
+    # 3. Check for greeting / capabilities intent
+    lowered = req.message.lower().strip()
+    is_greeting = bool(re.search(r"\b(hello|hi|hey|good\s*(morning|afternoon|evening)|howdy|greetings|help|help\s*me|who\s*are\s*you|what\s*(else\s*)?can\s*you\s*(do|help\s*with)|what\s*(else\s*)?do\s*you\s*do|what\s*are\s*your\s*capabilities|what\s*services\s*do\s*you\s*offer|what\s*can\s*i\s*ask|capabilities|features|menu)\b", lowered))
+    if is_greeting:
+        return orchestrator.process_turn(session_id=session_id, employee_id=req.employee_id, user_message=req.message)
+
+    # 4. Invoke Vertex AI Gemini ADK with dynamic FastMCP Function Calling & Cloud Trace
+    if gemini_adk.is_connected:
+        try:
+            profile = orchestrator.repo.load_record("workweek/employees.json", req.employee_id)
+            emp_role = "Executive" if profile and profile.get("role") in ["VP of Engineering", "Executive", "VP"] else "Employee"
+            adk_res = gemini_adk.query(
+                user_message=req.message,
+                employee_id=req.employee_id,
+                session_id=session_id,
+                employee_role=emp_role
+            )
+            return orchestrator._format_result(adk_res, acting_agent=adk_res.get("acting_agent", "orchestrator"))
+        except Exception as e:
+            logger.warning(f"Gemini ADK execution fallback: {e}")
+
+    # 5. Fallback to in-process Orchestrator
     try:
         res = orchestrator.process_turn(
             session_id=session_id,
