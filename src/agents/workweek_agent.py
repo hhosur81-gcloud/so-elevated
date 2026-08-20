@@ -174,12 +174,14 @@ class WorkWeekAgent:
                 hours = 8.0
                 end_d = start_d
 
+        leave_type = "Sick" if any(w in lowered_msg for w in ["sick", "medical", "illness"]) else "Vacation"
+
         prompt_msg = f"Please confirm: You are requesting {hours:.1f} hours of PTO from {start_d} to {end_d}. Shall I proceed with submitting this request?"
         pending = PendingConfirmation(
             action_type="SUBMIT_LEAVE",
             target_system="WORKWEEK",
             payload={
-                "leave_type": "PTO",
+                "leave_type": leave_type,
                 "start_date": start_d,
                 "end_date": end_d,
                 "hours": hours,
@@ -204,16 +206,23 @@ class WorkWeekAgent:
         payload: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Execute state mutation to live WorkWeek FastMCP server upon human approval."""
+        raw_type = payload.get("leave_type", "Vacation")
+        mapped_type = "Sick" if "sick" in str(raw_type).lower() or "medical" in str(raw_type).lower() else "Vacation"
         days_req = float(payload.get("days", payload.get("hours", 16.0) / 8.0))
         booking_res = self.mcp.request_time_off(
             employee_id=employee_id,
             start_date=payload["start_date"],
             end_date=payload["end_date"],
-            leave_type=payload["leave_type"],
+            leave_type=mapped_type,
             days=days_req
         )
         if booking_res.get("success", False):
-            resp_text = "Your leave request has been confirmed and submitted to WorkWeek. Remaining leave balances updated."
+            bal_res = self.mcp.get_employee_balances(employee_id)
+            bal_text = bal_res.get("result", "")
+            if bal_text:
+                resp_text = f"Your leave request has been confirmed and submitted to WorkWeek.\n\n{bal_text}"
+            else:
+                resp_text = "Your leave request has been confirmed and submitted to WorkWeek. Remaining leave balances updated."
         else:
             resp_text = f"Leave booking failed: {booking_res.get('error', 'Unable to process time off request')}"
 

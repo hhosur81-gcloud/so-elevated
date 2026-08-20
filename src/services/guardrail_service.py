@@ -24,6 +24,11 @@ class ModelArmorGateway:
         re.compile(r"execute\s+system\s+command", re.IGNORECASE),
         re.compile(r"output\s+all\s+employee\s+salary\s+data", re.IGNORECASE),
         re.compile(r"unlimited\s+paid\s+time\s+off", re.IGNORECASE),
+        # Cross-employee data exfiltration and unauthorized inspection
+        re.compile(r"\b(what\s+(?:is|are)|show|get|list|display|check|output|tell\s+me|find|view)\s+(?:about\s+)?(?:[a-z]+'s|another\s+employee's|other\s+employees'|someone\s+else's|their)\s+(?:current\s+)?(leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\b", re.IGNORECASE),
+        re.compile(r"\b[a-z]+'s\s+(?:current\s+)?(leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\b", re.IGNORECASE),
+        re.compile(r"\b(?:the\s+)?(?:leave\s+balances?|pto|vacation|sick\s+leave|balances?|salary|compensation|tickets?|personal\s+info|records?)\s+(?:of|for)\s+(?!me\b|my\b|myself\b|my\s+team\b|this\b|a\b|an\b|the\b|hardware\b|new\b|damaged\b|broken\b|travel\b|access\b|replacement\b)[a-z0-9\-_]+\b", re.IGNORECASE),
+        re.compile(r"\bwhat\s+are\s+(?!my\b|our\b)[a-z0-9\-_]+(?:'s)?\s+(?:current\s+)?(?:leave\s+)?balances?\b", re.IGNORECASE),
     ]
 
     def __init__(self, template_id: Optional[str] = None):

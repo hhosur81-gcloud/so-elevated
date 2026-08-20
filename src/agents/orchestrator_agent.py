@@ -37,7 +37,7 @@ class PrimaryHROrchestrator:
         self.dlp = DLPFilter()
         
         # Dedicated Specialist Sub-Agents (Hierarchical ADK Pattern)
-        self.policy_agent = policy_agent or PolicyAgent(policy_dir=policy_dir)
+        self.policy_agent = policy_agent or (PolicyAgent(policy_dir=policy_dir) if policy_dir else PolicyAgent())
         self.workweek_agent = workweek_agent or WorkWeekAgent(repository=self.repo)
         self.itsm_agent = itsm_agent or ITSMAgent(repository=self.repo)
 
@@ -205,6 +205,40 @@ class PrimaryHROrchestrator:
 
         # 6. Intent Classification & Routing
 
+        # Greetings & Help Intent (Supervisor Level)
+        is_greeting = bool(re.search(r"\b(hello|hi|hey|good\s*(morning|afternoon|evening)|howdy|greetings|help|help\s*me|who\s*are\s*you|what\s*(else\s*)?can\s*you\s*(do|help\s*with)|what\s*(else\s*)?do\s*you\s*do|what\s*are\s*your\s*capabilities|what\s*services\s*do\s*you\s*offer|what\s*can\s*i\s*ask|capabilities|features|menu)\b", lowered_msg))
+        if is_greeting:
+            profile = self.repo.load_record("workweek/employees.json", employee_id)
+            first_name = profile.get("first_name", "") if profile else ""
+            greeting_name = f", {first_name}" if first_name else ""
+            resp_text = f"""Hello{greeting_name}! 👋 I am your Enterprise HR & IT Assistant powered by Vertex AI and FastMCP.
+
+Here is a full breakdown of what I can help you with:
+
+### 🌴 1. WorkWeek HCM (Time Off & Leave)
+• **Check Balances**: Look up your current vacation and sick leave days remaining.
+• **Book Time Off**: Request PTO, vacation, or medical leave (with multi-step confirmation gates).
+• **Manage Leaves**: View your leave request history or cancel pending time-off.
+
+### 🎫 2. ServiceImmediately ITSM (IT Support & Hardware)
+• **Submit Support Tickets**: Request loaner laptops, monitors, replacement accessories, VPN/SSO access, or facilities orders.
+• **Track Tickets**: Check real-time ticket status, assigned groups, and technician updates.
+• **Priority Guardrails**: Automatic ADR-0010 triage and downgrade protection for non-critical requests.
+
+### 📖 3. Policy Specialist (Enterprise Knowledge Base)
+• **Leave Programs**: Bereavement, baby bonding, parental leave, and medical LOA rules.
+• **Travel & Expenses**: Frugality rules, booking timelines, $120/day meal caps, and combining vacation with business trips.
+• **Allowances & Compliance**: $500 home office equipment allowance, internet reimbursement, and gift/entertainment pre-approval thresholds.
+
+### 🛡️ 4. Security Sentinel (Model Armor & DLP)
+• **Enterprise Safety**: Active protection against prompt injections and jailbreaks.
+• **Data Privacy**: Automatic redaction and masking of sensitive SPII (SSNs, credit card numbers, phone numbers).
+
+Feel free to ask a policy question, check your balances, or log an IT ticket!"""
+            self._record_turn(session, user_message, resp_text, "orchestrator", "greeting", start_time)
+            self._save_session(session)
+            return self._format_result({"success": True, "response": resp_text, "requires_confirmation": False}, acting_agent="orchestrator")
+
         is_pto_balance_query = (
             ("pto" in lowered_msg and ("balance" in lowered_msg or "how many" in lowered_msg or "how much" in lowered_msg or "remaining" in lowered_msg or "available" in lowered_msg)) or
             ("balance" in lowered_msg and "pto" in lowered_msg) or
@@ -212,9 +246,10 @@ class PrimaryHROrchestrator:
         )
 
         ticket_create_patterns = [
-            r"\b(open|create|log|file|submit|raise)\s+(an?\s+)?([\w\-]+\s+)?(ticket|incident|case|request)\b",
-            r"\b(want|need)\s+to\s+(open|create|log|file|submit|raise)\s+(an?\s+)?([\w\-]+\s+)?(ticket|incident|case|request)\b",
-            r"\b(order|request)\s+(a\s+)?(new\s+)?(loaner|laptop|keyboard|mouse|monitor|hardware|equipment|mac\s*pro|macbook)\b"
+            r"\b(open|create|log|file|submit|raise)\s+(?:an?\s+)?(?:[\w\-]+\s+)*(?:ticket|incident|case|request|inquiry|issue)\b",
+            r"\b(want|need)\s+to\s+(open|create|log|file|submit|raise)\s+(?:an?\s+)?(?:[\w\-]+\s+)*(?:ticket|incident|case|request|inquiry|issue)\b",
+            r"\b(order|request|need|get)\s+(?:an?\s+)?(?:new\s+)?(loaner|laptop|keyboard|mouse|monitor|hardware|equipment|headset|charger|mac\s*pro|macbook)\b",
+            r"\b(ticket|incident)\b.*\b(broken|damaged|stolen|lost|flickering|crash|replace|replacement|repair|new\s+mouse|new\s+laptop|new\s+keyboard)\b"
         ]
         is_ticket_intent = any(re.search(p, lowered_msg) for p in ticket_create_patterns)
 
@@ -234,16 +269,18 @@ class PrimaryHROrchestrator:
         has_duration = bool(re.search(r"\d+(?:\.\d+)?\s*(?:hours|hrs|hr|h|days|day|d|weeks|week|wks|wk)\b", lowered_msg))
 
         is_pto_booking = (
-            (
-                ("pto" in lowered_msg or "vacation" in lowered_msg or "time off" in lowered_msg or "time-off" in lowered_msg or "leave" in lowered_msg)
-                and any(w in lowered_msg for w in ["request", "book", "take", "apply", "schedule", "submit", "want", "need", "revise", "change"])
-                and not is_pto_balance_query
-                and not ("policy" in lowered_msg or "rules" in lowered_msg)
+            not is_ticket_intent and (
+                bool(re.search(r"\b(request|book|take|apply\s+for|schedule)\s+(?:an?\s+)?(?:[\w\-]+\s+)?\b(pto|vacation|time\s*off|leave)\b", lowered_msg))
+                or (
+                    bool(re.search(r"\b(pto|vacation|time\s*off|time-off|annual\s+leave)\b", lowered_msg))
+                    and any(w in lowered_msg for w in ["request", "book", "take", "apply", "schedule", "submit", "want", "need", "revise", "change"])
+                    and not is_pto_balance_query
+                    and not ("policy" in lowered_msg or "rules" in lowered_msg or "can i" in lowered_msg or "allowed" in lowered_msg)
+                )
             )
-            or bool(re.search(r"\b(request|book|take|apply\s+for)\s+(pto|vacation|time\s*off|leave)\b", lowered_msg))
             or (was_awaiting_pto and (has_dates or has_duration))
             or (was_confirming_leave and (has_dates or has_duration))
-            or (has_dates and has_duration and not is_pto_balance_query and not is_ticket_intent and not ("policy" in lowered_msg or "rules" in lowered_msg))
+            or (has_dates and has_duration and not is_pto_balance_query and not is_ticket_intent and not ("policy" in lowered_msg or "rules" in lowered_msg or "can i" in lowered_msg))
         )
 
         if is_pto_booking and not is_pto_balance_query:
@@ -280,15 +317,38 @@ class PrimaryHROrchestrator:
         # D. ITSM Ticket Creation Intent
         if is_ticket_intent:
             # Check for compound policy query in the same message
-            has_policy_subquery = any(w in lowered_msg for w in ["can i claim", "can i expense", "is it eligible", "what is the policy", "allowance", "reimburse", "reimbursement", "home office", "gift card", "policy for", "stipend"])
+            has_policy_subquery = any(w in lowered_msg for w in [
+                "can i claim", "can i expense", "is it eligible", "what is the policy", "allowance",
+                "reimburse", "reimbursement", "home office", "gift card", "policy for", "stipend",
+                "can i do that", "extra day", "extra day off", "business travel", "can i take", "is it permitted"
+            ])
             policy_guidance = ""
             if has_policy_subquery:
                 profile = self.repo.load_record("workweek/employees.json", employee_id)
                 emp_role = "Executive" if profile and profile.get("role") in ["VP of Engineering", "Executive", "VP"] else "Employee"
-                p_res = self.policy_agent.answer_policy_query(user_message, employee_role=emp_role)
-                if p_res.get("success", True) and p_res.get("answer"):
-                    cit_link = f"\n\nSource: [{p_res['citation_label']}]({p_res['citation_url']})" if p_res.get("citation_label") else ""
-                    policy_guidance = f"\n\n---\n### 📖 Policy Guidance\n{p_res['answer']}{cit_link}"
+
+                policy_blocks = []
+                # Check for Home office allowance
+                if any(w in lowered_msg for w in ["home office", "500", "allowance", "claim"]):
+                    p1 = self.policy_agent.answer_policy_query("5.4 Home Office Equipment Allowance remote work", employee_role=emp_role)
+                    if p1.get("success", True) and p1.get("has_policy_match"):
+                        cit = f"\n*Source: [{p1['citation_label']}]({p1['citation_url']})*" if p1.get("citation_label") else ""
+                        policy_blocks.append(f"**Home Office Equipment Allowance ($500)**:\n{p1['answer']}{cit}")
+
+                # Check for Travel / extending business trip with vacation
+                if any(w in lowered_msg for w in ["travel", "conference", "extra day", "business travel", "day off"]):
+                    p2 = self.policy_agent.answer_policy_query("4.1 Frugality & Booking Timelines pre-travel checklist and travel", employee_role=emp_role)
+                    if p2.get("success", True) and p2.get("has_policy_match"):
+                        cit = f"\n*Source: [{p2['citation_label']}]({p2['citation_url']})*" if p2.get("citation_label") else ""
+                        policy_blocks.append(f"**Business Travel & Extra Day Off Policy**:\n{p2['answer']}\n*Note: Taking personal vacation days in conjunction with business travel requires prior manager alignment. The extra day must be logged as Vacation in WorkWeek, and personal travel/lodging expenses are non-reimbursable.*{cit}")
+
+                if policy_blocks:
+                    policy_guidance = "\n\n---\n### 📖 Relevant Policy Guidance\n\n" + "\n\n".join(policy_blocks)
+                else:
+                    p_res = self.policy_agent.answer_policy_query(user_message, employee_role=emp_role)
+                    if p_res.get("success", True) and p_res.get("answer"):
+                        cit_link = f"\n\nSource: [{p_res['citation_label']}]({p_res['citation_url']})" if p_res.get("citation_label") else ""
+                        policy_guidance = f"\n\n---\n### 📖 Policy Guidance\n{p_res['answer']}{cit_link}"
 
             res = self.itsm_agent.create_ticket(user_message, employee_id, policy_guidance=policy_guidance)
             self._record_turn(session, user_message, res["response"], res.get("acting_agent", "itsm_agent"), res.get("tool_invoked", "itsm_create_incident"), start_time)

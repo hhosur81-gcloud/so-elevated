@@ -25,7 +25,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -46,6 +46,7 @@ class ResetRequest(BaseModel):
     session_id: str = Field("web-session-1")
 
 
+@app.get("/api/health")
 @app.get("/healthz")
 async def health_check():
     """Deep Liveness & Dual-Region Readiness Probe for Cloud Load Balancer."""
@@ -323,6 +324,49 @@ async def serve_ui():
       color: #c5221f;
       border: 1px solid #f5c2c7;
     }
+    .badge-system-error {
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f5c2c7;
+    }
+    .badge-live {
+      background: var(--google-green-light);
+      color: var(--google-green);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .badge-offline {
+      background: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f5c2c7;
+    }
+    .badge-reconnecting {
+      background: #fef7e0;
+      color: #b06000;
+      border: 1px solid #fdd663;
+    }
+    .retry-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      background: #ffffff;
+      color: var(--google-blue);
+      border: 1px solid var(--google-blue);
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .retry-btn:hover {
+      background: var(--google-blue-light);
+    }
     .bubble a {
       color: var(--google-blue);
       text-decoration: underline;
@@ -412,9 +456,10 @@ async def serve_ui():
       </div>
     </div>
     <div class="controls">
-      <span class="badge-live">● LIVE GCP CLOUD RUN</span>
+      <span id="connBadge" class="badge-live">● LIVE GCP CLOUD RUN</span>
       <select id="personaSelector" onchange="switchPersona()">
         <option value="EMP-436">Skhadkikar (EMP-436) [Live SaaS]</option>
+        <option value="EMP-477">Harshahosur (EMP-477) [Live SaaS]</option>
         <option value="EMP-1001">Jane Doe (EMP-1001) [Engineer]</option>
         <option value="EMP-1002">John Smith (EMP-1002) [Sales]</option>
         <option value="EMP-1004">Maria Chen (EMP-1004) [DPO]</option>
@@ -455,6 +500,27 @@ async def serve_ui():
     let currentEmpId = "EMP-436";
     let sessionId = "session-" + Math.random().toString(36).substring(7);
 
+    // Live Heartbeat Probe to monitor Cloud Run connection
+    async function checkHealth() {
+      const badge = document.getElementById("connBadge");
+      try {
+        const res = await fetch("/api/health", { cache: "no-store" });
+        if (res.ok) {
+          badge.className = "badge-live";
+          badge.innerText = "● LIVE GCP CLOUD RUN";
+        } else {
+          badge.className = "badge-live badge-reconnecting";
+          badge.innerText = "● SERVICE DEGRADATION";
+        }
+      } catch (e) {
+        badge.className = "badge-live badge-offline";
+        badge.innerText = "● NETWORK OFFLINE";
+      }
+    }
+    setInterval(checkHealth, 15000);
+    window.addEventListener("online", checkHealth);
+    window.addEventListener("offline", checkHealth);
+
     function switchPersona() {
       currentEmpId = document.getElementById("personaSelector").value;
       sessionId = "session-" + currentEmpId + "-" + Math.random().toString(36).substring(7);
@@ -469,14 +535,14 @@ async def serve_ui():
       sendMessage();
     }
 
-    function appendMessage(role, text, agentData) {
+    function appendMessage(role, text, agentData, failedMsgText = null) {
       const container = document.getElementById("messages");
       const msgDiv = document.createElement("div");
       msgDiv.className = "message " + role;
       
       const avatar = document.createElement("div");
       avatar.className = "avatar";
-      avatar.innerText = role === "user" ? "👤" : "🤖";
+      avatar.innerText = role === "user" ? "👤" : (agentData && agentData.acting_agent === "system_error" ? "⚠️" : "🤖");
       
       const bubble = document.createElement("div");
       bubble.className = "bubble";
@@ -498,11 +564,36 @@ async def serve_ui():
       const linkified = text.replace(/\[(.*?)\]\((https?:[^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
       textDiv.innerHTML = linkified;
       bubble.appendChild(textDiv);
+
+      if (failedMsgText) {
+        const retryBtn = document.createElement("button");
+        retryBtn.className = "retry-btn";
+        retryBtn.innerHTML = "🔄 Click to Retry";
+        retryBtn.onclick = () => {
+          document.getElementById("userInput").value = failedMsgText;
+          sendMessage();
+        };
+        bubble.appendChild(retryBtn);
+      }
       
       msgDiv.appendChild(avatar);
       msgDiv.appendChild(bubble);
       container.appendChild(msgDiv);
       container.scrollTop = container.scrollHeight;
+    }
+
+    async function fetchWithRetry(url, options, retries = 1, delay = 1000) {
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+          return await fetch(url, options);
+        } catch (err) {
+          if (attempt < retries) {
+            await new Promise(r => setTimeout(r, delay));
+            continue;
+          }
+          throw err;
+        }
+      }
     }
 
     async function sendMessage() {
@@ -517,7 +608,7 @@ async def serve_ui():
       btn.innerHTML = '<span class="spinner"></span>';
 
       try {
-        const resp = await fetch("/api/chat", {
+        const resp = await fetchWithRetry("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -526,6 +617,20 @@ async def serve_ui():
             session_id: sessionId
           })
         });
+
+        if (!resp.ok) {
+          let errorDetail = "Server returned status " + resp.status;
+          try {
+            const errJson = await resp.json();
+            if (errJson.detail) errorDetail = errJson.detail;
+          } catch (_) {}
+          appendMessage("assistant", "Server Error (" + resp.status + "): " + errorDetail, {
+            acting_agent: "system_error",
+            agent_badge: "⚠️ Service Notice"
+          }, msg);
+          return;
+        }
+
         const data = await resp.json();
         if (data.response) {
           appendMessage("assistant", data.response, {
@@ -533,26 +638,31 @@ async def serve_ui():
             agent_name: data.agent_name,
             agent_badge: data.agent_badge
           });
-        } else if (data.detail) {
-          appendMessage("assistant", "Error: " + data.detail, {
-            acting_agent: "orchestrator",
-            agent_badge: "👑 HR Supervisor"
-          });
+        } else {
+          appendMessage("assistant", "Received unexpected response format from agent router.", {
+            acting_agent: "system_error",
+            agent_badge: "⚠️ Notice"
+          }, msg);
         }
       } catch (err) {
-        appendMessage("assistant", "Network Error: " + err.message, {
-          acting_agent: "orchestrator",
-          agent_badge: "👑 HR Supervisor"
-        });
+        const isOffline = !navigator.onLine;
+        const errMsg = isOffline 
+          ? "Network connection is currently offline. Please check your internet or VPN connection."
+          : "Temporary network interruption (" + err.message + "). The server could not be reached.";
+        appendMessage("assistant", errMsg, {
+          acting_agent: "system_error",
+          agent_badge: "⚠️ Network Interruption"
+        }, msg);
       } finally {
         btn.disabled = false;
         btn.innerText = "Send";
+        input.focus();
       }
     }
 
     async function resetSession() {
       try {
-        await fetch("/api/reset", {
+        const resp = await fetchWithRetry("/api/reset", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -560,14 +670,14 @@ async def serve_ui():
             session_id: sessionId
           })
         });
-        appendMessage("assistant", "Session context cleared.", {
+        appendMessage("assistant", "Session context has been reset. How may I assist you today?", {
           acting_agent: "orchestrator",
           agent_badge: "👑 HR Supervisor"
         });
       } catch(err) {
-        appendMessage("assistant", "Reset Error: " + err.message, {
-          acting_agent: "orchestrator",
-          agent_badge: "👑 HR Supervisor"
+        appendMessage("assistant", "Failed to reset session: " + err.message, {
+          acting_agent: "system_error",
+          agent_badge: "⚠️ Connection Notice"
         });
       }
     }

@@ -9,8 +9,14 @@ from src.services.semantic_cache_service import RedisSemanticCache
 class PolicyAgent:
     """Specialist sub-agent resolving enterprise policy queries with strict grounding and citations."""
 
-    def __init__(self, policy_dir: str = "fixtures/sample_policies"):
-        self.retriever = PolicySearchRetriever(policy_dir=policy_dir)
+    def __init__(self, policy_dir: Optional[str] = None, policy_dirs: Optional[list] = None):
+        if policy_dirs:
+            dirs = policy_dirs
+        elif policy_dir:
+            dirs = [policy_dir]
+        else:
+            dirs = ["knowledge", "fixtures/sample_policies"]
+        self.retriever = PolicySearchRetriever(policy_dirs=dirs)
         self.cache = RedisSemanticCache()
 
     def answer_policy_query(self, query: str, employee_role: str = "Employee") -> Dict[str, Any]:

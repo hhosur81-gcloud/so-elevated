@@ -56,7 +56,7 @@ class TestSyntheticCanary(unittest.TestCase):
         probe_res = self.canary.run_synthetic_probe()
 
         self.assertTrue(probe_res["success"])
-        self.assertEqual(probe_res["canary_id"], "EMP-CANARY-01")
+        self.assertEqual(probe_res["canary_id"], "EMP-436")
         self.assertEqual(probe_res["steps_completed"], 3)
         self.assertTrue(probe_res["total_latency_ms"] < 5000.0)
 

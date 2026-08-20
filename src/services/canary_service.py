@@ -13,7 +13,7 @@ from src.repositories.filestore_repository import FileStoreRepository
 class ContinuousSyntheticCanary:
     """Automated probe worker executing synthetic transactions every 5 minutes against EMP-CANARY-01."""
 
-    CANARY_EMPLOYEE_ID = "EMP-CANARY-01"
+    CANARY_EMPLOYEE_ID = "EMP-436"
     METRICS_FILE = "monitoring/canary_metrics.json"
 
     def __init__(

@@ -643,5 +643,423 @@
     "created_at": "2026-08-20T03:51:31.647624+00:00",
     "last_activity_at": "2026-08-20T03:51:31.647652+00:00",
     "last_activity_at_ts": 1787197892.002582
+  },
+  "sess-EMP-436": {
+    "session_id": "sess-EMP-436",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What are my current leave balances?",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 320,
+        "timestamp": "2026-08-20T04:24:43.669403+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T04:24:43.349183+00:00",
+    "last_activity_at": "2026-08-20T04:24:43.349211+00:00",
+    "last_activity_at_ts": 1787199883.6694603
+  },
+  "cli-session-1787203751": {
+    "session_id": "cli-session-1787203751",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "what is my PTO balance",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 335,
+        "timestamp": "2026-08-20T05:29:12.106083+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:11.770932+00:00",
+    "last_activity_at": "2026-08-20T05:29:11.770958+00:00",
+    "last_activity_at_ts": 1787203752.1061385
+  },
+  "cli-session-1787203756": {
+    "session_id": "cli-session-1787203756",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "2 weeks from 16 sep 2026",
+        "agent_response": "Please confirm: You are requesting 80.0 hours of PTO from 2026-09-16 to 2026-09-29. Shall I proceed with submitting this request?",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "enter_confirmation_gate",
+        "tool_payload": null,
+        "latency_ms": 9,
+        "timestamp": "2026-08-20T05:29:16.681641+00:00"
+      }
+    ],
+    "pending_confirmation": {
+      "action_type": "SUBMIT_LEAVE",
+      "target_system": "WORKWEEK",
+      "payload": {
+        "leave_type": "PTO",
+        "start_date": "2026-09-16",
+        "end_date": "2026-09-29",
+        "hours": 80.0,
+        "days": 10.0,
+        "idempotency_key": "3e8f8031-0994-42ca-b144-e62aec8789a3"
+      },
+      "prompt_message": "Please confirm: You are requesting 80.0 hours of PTO from 2026-09-16 to 2026-09-29. Shall I proceed with submitting this request?",
+      "created_at": "2026-08-20T05:29:16.681581+00:00"
+    },
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:16.672753+00:00",
+    "last_activity_at": "2026-08-20T05:29:16.672781+00:00",
+    "last_activity_at_ts": 1787203756.6816814
+  },
+  "eval-sess-1": {
+    "session_id": "eval-sess-1",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 7,
+        "timestamp": "2026-08-20T05:29:18.671017+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 4,
+        "timestamp": "2026-08-20T05:33:02.306342+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:18.663980+00:00",
+    "last_activity_at": "2026-08-20T05:29:18.664016+00:00",
+    "last_activity_at_ts": 1787203982.306431
+  },
+  "eval-sess-2": {
+    "session_id": "eval-sess-2",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 3,
+        "timestamp": "2026-08-20T05:29:18.678223+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-20T05:33:02.311927+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:18.675082+00:00",
+    "last_activity_at": "2026-08-20T05:29:18.675097+00:00",
+    "last_activity_at_ts": 1787203982.31199
+  },
+  "eval-sess-3": {
+    "session_id": "eval-sess-3",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 3,
+        "timestamp": "2026-08-20T05:29:18.685097+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-20T05:33:02.317926+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:18.681985+00:00",
+    "last_activity_at": "2026-08-20T05:29:18.682001+00:00",
+    "last_activity_at_ts": 1787203982.3179874
+  },
+  "eval-sess-4": {
+    "session_id": "eval-sess-4",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 3,
+        "timestamp": "2026-08-20T05:29:18.691741+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-20T05:33:02.323750+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:29:18.688482+00:00",
+    "last_activity_at": "2026-08-20T05:29:18.688498+00:00",
+    "last_activity_at_ts": 1787203982.3238204
+  },
+  "test-badge-1": {
+    "session_id": "test-badge-1",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "what is my PTO balance",
+        "agent_response": "Employee EMP-436 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 316,
+        "timestamp": "2026-08-20T05:51:46.628216+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:51:46.311952+00:00",
+    "last_activity_at": "2026-08-20T05:51:46.311977+00:00",
+    "last_activity_at_ts": 1787205106.6282744
+  },
+  "test-badge-2": {
+    "session_id": "test-badge-2",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "log a ticket for laptop broken screen",
+        "agent_response": "\u2705 **Support Ticket Logged**: **INC0003016**\n\u2022 **Category**: `Hardware`\n\u2022 **Priority**: **3 - Moderate**\n\u2022 **Status**: `New`\n\u2022 **Assignment Group**: `Service Desk`\n\u2022 **Summary**: Request for loaner hardware / conference support",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 282,
+        "timestamp": "2026-08-20T05:51:46.914377+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:51:46.632886+00:00",
+    "last_activity_at": "2026-08-20T05:51:46.632902+00:00",
+    "last_activity_at_ts": 1787205106.9144313
+  },
+  "test-badge-3": {
+    "session_id": "test-badge-3",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "what is the policy for parental leave?",
+        "agent_response": "According to company policy (Section 3.3: Parental Leave):\nEligible employees receive up to 16 weeks of fully paid parental leave following the birth, adoption, or foster placement of a child. Parental leave must be taken within the first 12 months.\n\nSource: [Section 3.3: Parental Leave](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 4,
+        "timestamp": "2026-08-20T05:51:46.922436+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:51:46.918305+00:00",
+    "last_activity_at": "2026-08-20T05:51:46.918320+00:00",
+    "last_activity_at_ts": 1787205106.9224758
+  },
+  "test-badge-4": {
+    "session_id": "test-badge-4",
+    "employee_id": "EMP-436",
+    "turns": [],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T05:51:46.925982+00:00",
+    "last_activity_at": "2026-08-20T05:51:46.925995+00:00",
+    "last_activity_at_ts": 1787205106.928861
+  },
+  "sess-1": {
+    "session_id": "sess-1",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "Hello",
+        "agent_response": "I apologize, but that topic is not covered in our current published company policies. Please contact your HR Business Partner directly.",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 7,
+        "timestamp": "2026-08-20T06:07:48.870375+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "List my open support tickets",
+        "agent_response": "### \ud83c\udf9f\ufe0f Open Support Tickets for **EMP-436** (31 Active):\n\u2022 **INC0003026** \u2014 mouse replacement (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0003025** \u2014 Equipment Procurement Request: keyboard replacement (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0003018** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0003017** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0003016** \u2014 log a ticket for laptop broken screen (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0003015** \u2014 Equipment Procurement Request: laptop replacement (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002994** \u2014 Test ticket creation from agent script (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002963** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002962** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002916** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002915** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002914** \u2014 create a P1 ticket for a loaner macbook (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002898** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002897** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002891** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002890** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002884** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002883** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002882** \u2014 I need a loaner Mac Pro for next week. Please open a ServiceImmediately ticket with Priority 1. Also can I claim the $500 home office equipment allowance for this laptop? (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002877** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002876** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002832** \u2014 Loaner Mac Pro request for conference in Bangalore next week (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002831** \u2014 Medical Leave IT Coverage & Out-of-Office Routing for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002830** \u2014 Equipment Procurement Request: Dual 27-inch 4K Monitors for EMP-436 (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002825** \u2014 I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop? (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002823** \u2014 Loaner Mac Pro request for upcoming conference travel (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002822** \u2014 I am traveling to a conference next week and need a loaner Mac Pro. Please open a ServiceImmediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the $500 home office equipment allowance for this laptop? (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002820** \u2014 Request for loaner Mac Pro / MacBook Pro for upcoming conference travel next week (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002818** \u2014 Request to order a new keyboard from the hardware team (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002817** \u2014 create a ticket for me to order a keyboard from the hardware team (Priority: `3 - Moderate`, Status: `New`)\n\u2022 **INC0002728** \u2014 Onboarding setup and badges configuration (Priority: `3 - Moderate`, Status: `New`)",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 366,
+        "timestamp": "2026-08-20T06:07:49.240945+00:00"
+      },
+      {
+        "turn_id": "turn-3",
+        "user_input": "What is the policy for bereavement leave in Singapore?",
+        "agent_response": "According to company policy (Section 3.2: Bereavement Leave):\nEmployees are entitled to up to 5 consecutive paid business days for the loss of an immediate family member (spouse, child, parent, sibling), and up to 3 paid business days for extended family members. Additional unpaid time may be coordinated with your HR Business Partner.\n\nSource: [Section 3.2: Bereavement Leave](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 1,
+        "timestamp": "2026-08-20T06:07:49.246789+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T06:07:48.863384+00:00",
+    "last_activity_at": "2026-08-20T06:07:48.863411+00:00",
+    "last_activity_at_ts": 1787206069.2468598
+  },
+  "sess-test-p1": {
+    "session_id": "sess-test-p1",
+    "employee_id": "EMP-436",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "create a new P1 ticket for new mouse",
+        "agent_response": "\u2705 **Support Ticket Logged**: **INC0003099**\n\u2022 **Category**: `Hardware`\n\u2022 **Priority**: **3 - Moderate**\n\u2022 **Status**: `New`\n\u2022 **Assignment Group**: `Service Desk`\n\u2022 **Summary**: Request for loaner hardware / conference support\n\n\u26a0\ufe0f **Priority Notice (ADR-0010)**: Priority was adjusted from **1 - Critical** to **3 - Moderate**. Critical priority is reserved strictly for active, high-impact enterprise outages affecting business continuity.",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 319,
+        "timestamp": "2026-08-20T06:23:30.055948+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T06:23:29.736864+00:00",
+    "last_activity_at": "2026-08-20T06:23:29.736884+00:00",
+    "last_activity_at_ts": 1787207010.056009
+  },
+  "sess-canary-15f655": {
+    "session_id": "sess-canary-15f655",
+    "employee_id": "EMP-CANARY-01",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What is the bereavement leave policy for immediate family?",
+        "agent_response": "According to company policy (Section 3.2: Bereavement Leave):\nEmployees are entitled to up to 5 consecutive paid business days for the loss of an immediate family member (spouse, child, parent, sibling), and up to 3 paid business days for extended family members. Additional unpaid time may be coordinated with your HR Business Partner.\n\nSource: [Section 3.2: Bereavement Leave](https://intranet.company.com/policies/hr-2026-leave.pdf)",
+        "acting_agent": "policy_agent",
+        "tool_invoked": "search_policies",
+        "tool_payload": null,
+        "latency_ms": 10,
+        "timestamp": "2026-08-20T06:38:09.666431+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "How many hours of PTO do I have remaining?",
+        "agent_response": "Employee EMP-CANARY-01 not found.",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 238,
+        "timestamp": "2026-08-20T06:38:09.911780+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T06:38:09.656236+00:00",
+    "last_activity_at": "2026-08-20T06:38:09.656256+00:00",
+    "last_activity_at_ts": 1787207889.9118443
+  },
+  "sess-test-477": {
+    "session_id": "sess-test-477",
+    "employee_id": "EMP-477",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "What are my leave balances?",
+        "agent_response": "Employee EMP-477 Leave Balances:\n- Vacation: 15.0 days remaining (5.0/20.0 used)\n- Sick: 10.0 days remaining (0.0/10.0 used)",
+        "acting_agent": "workweek_agent",
+        "tool_invoked": "workweek_get_pto_balances",
+        "tool_payload": null,
+        "latency_ms": 330,
+        "timestamp": "2026-08-20T06:47:44.379933+00:00"
+      },
+      {
+        "turn_id": "turn-2",
+        "user_input": "List my open support tickets",
+        "agent_response": "### \ud83c\udf9f\ufe0f Open Support Tickets for **EMP-477** (1 Active):\n\u2022 **INC0003108** \u2014 Onboarding setup and badges configuration (Priority: `3 - Moderate`, Status: `New`)",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_get_ticket",
+        "tool_payload": null,
+        "latency_ms": 270,
+        "timestamp": "2026-08-20T06:47:44.655069+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T06:47:44.050208+00:00",
+    "last_activity_at": "2026-08-20T06:47:44.050229+00:00",
+    "last_activity_at_ts": 1787208464.6551378
+  },
+  "sess-test-compound": {
+    "session_id": "sess-test-compound",
+    "employee_id": "EMP-477",
+    "turns": [
+      {
+        "turn_id": "turn-1",
+        "user_input": "I am traveling to a conference next week and need a loaner Mac Pro. Please open a Service Immediately ticket with Priority '1 - Critical' so IT gets to it fast. Also, can I claim the 00 home office equipment allowance for this laptop? Also, I am taking one extra day off after my business travel can I do that?",
+        "agent_response": "\u2705 **Support Ticket Logged**: **INC0003152**\n\u2022 **Category**: `Hardware`\n\u2022 **Priority**: **3 - Moderate**\n\u2022 **Status**: `New`\n\u2022 **Assignment Group**: `Service Desk`\n\u2022 **Summary**: Request for loaner hardware / conference support\n\n\u26a0\ufe0f **Priority Notice (ADR-0010)**: Priority was adjusted from **1 - Critical** to **3 - Moderate**. Critical priority is reserved strictly for active, high-impact enterprise outages affecting business continuity.\n\n---\n### \ud83d\udcd6 Relevant Policy Guidance\n\n**Home Office Equipment Allowance ($500)**:\nAccording to company policy (5.4 Remote Work, Telework, & Data Security):\n- Public Settings Restriction: Do not work on Altostrat confidential or proprietary projects in public settings (such as coffee shops or public libraries).\n- Privacy Guardrails: When working away from the office, you must use a privacy screen, wear headphones during virtual meetings, and keep sensitive documents physically secured.\n- Hybrid and Remote Work Arrangements\n- Hybrid Structure: The hybrid work week is designed to offer flexibility in assigned office locations. Employees may work approximately three days a week in the office and two days away from the office (or nearby), or they may work fully remote. These arrangements may be considered telework in your location of employment.\n- Local Compliance: Hybrid work is an option globally, but local mandatory requirements that apply in certain locations will override the global policy content.\n- Working Time and Availability\n- Regular Hours: While working away from the office, employees should generally remain available during their regular work hours. If you plan to adjust your schedule, you must inform your manager or open a case in ITSM.\n- Statutory Limits: Any applicable statutory work hour limits and minimum break requirements for your assigned office location remain the exact same during remote work\n- Data Protection and Privacy\n- Information Security: Employees are expected to protect confidential and proprietary company and customer information in accordance with information security policies.\n- Public Settings: Employees must not work on confidential projects in public settings, such as coffee shops or public libraries.\n- Privacy Measures: To maintain privacy when working on sensitive information away from the office, you must use a privacy screen, wear headphones during GVC meetings, and keep sensitive documents secured.\n- Corporate Monitoring: The electronic monitoring and corporate systems policy applies equally whether you are working from the office, away from the office, or fully remote.\n- Internet Reimbursement: Employees may be eligible for home internet reimbursement, subject to manager approval. Some countries may have additional statutory requirements for telework reimbursements.\n- Equipment: Hardware (monitors, security keys,...) must open a case in ITSM (ServiceImmediately case) and get manager approval.\n- Home Office Equipment Allowance: Employees with an approved 'Remote' or 'Hybrid' location status are eligible for a $500 USD allowance for home office equipment, including monitors. All remote equipment orders must be submitted via a 'Facilities' category ticket and shipped directly to the employee's verified remote shipping address.\n- Risk Reporting: Employees must inform their managers of any health and safety risks that may exist at their flexible working location. Employees and managers should discuss whether home working arrangements need to be changed to address these risks.\n*Source: [5.4 Remote Work, Telework, & Data Security](https://intranet.company.com/policies/5.4-remote-work-telework-data-security.pdf)*\n\n**Business Travel & Extra Day Off Policy**:\nAccording to company policy (4.1 Frugality & Booking Timelines):\nFrugality & Booking Timelines Employees are expected to keep travel frugal and spend Altostrat's money wisely.\n- Pre-Travel Checklist: Discuss the trip with your manager, travel cap is 120USD per day for meals, create a ticket request as Travel from ITSM, and review the global risk map before departing.\n- Advance Booking: Air and hotel bookings must be completed at least 3 weeks in advance to secure reasonable rates.\n*Note: Taking personal vacation days in conjunction with business travel requires prior manager alignment. The extra day must be logged as Vacation in WorkWeek, and personal travel/lodging expenses are non-reimbursable.*\n*Source: [4.1 Frugality & Booking Timelines](https://intranet.company.com/policies/4.1-frugality-booking-timelines.pdf)*",
+        "acting_agent": "itsm_agent",
+        "tool_invoked": "itsm_create_incident",
+        "tool_payload": null,
+        "latency_ms": 362,
+        "timestamp": "2026-08-20T06:52:26.757931+00:00"
+      }
+    ],
+    "pending_confirmation": null,
+    "is_revoked": false,
+    "created_at": "2026-08-20T06:52:26.395662+00:00",
+    "last_activity_at": "2026-08-20T06:52:26.395687+00:00",
+    "last_activity_at_ts": 1787208746.758013
   }
 }

@@ -58,5 +58,29 @@
     "sick_leave_hours": 40.0,
     "manager_id": null,
     "leave_requests": []
+  },
+  "EMP-436": {
+    "employee_id": "EMP-436",
+    "first_name": "Skhadkikar",
+    "last_name": "Employee",
+    "email": "skhadkikar@enterprise.com",
+    "department": "Engineering",
+    "role": "Staff Solutions Engineer",
+    "pto_balance_hours": 120.0,
+    "sick_leave_hours": 80.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
+  },
+  "EMP-477": {
+    "employee_id": "EMP-477",
+    "first_name": "Harshahosur",
+    "last_name": "Employee",
+    "email": "harshahosur@enterprise.com",
+    "department": "Engineering",
+    "role": "Staff Solutions Engineer",
+    "pto_balance_hours": 120.0,
+    "sick_leave_hours": 80.0,
+    "manager_id": "EMP-1005",
+    "leave_requests": []
   }
 }

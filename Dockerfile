@@ -13,8 +13,10 @@ ENV PYTHONUNBUFFERED=1 \
     GOOGLE_CLOUD_REGION=us-central1 \
     WORKWEEK_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/ \
     WORKWEEK_MCP_TOKEN=mcp_fZFYPQVV1fAkmOYz4Lal8OVc9ltyLmfHiO4BZGCm-Tw \
+    WORKWEEK_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ \
     ITSM_MCP_URL=https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/ \
-    ITSM_MCP_TOKEN=mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag
+    ITSM_MCP_TOKEN=mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag \
+    ITSM_MCP_TOKEN_EMP_477=mcp_hleEvQkByz82OySU1A7CoX0-Jk4nyfxzMFujS-YDTLQ
 
 # Install dependencies via pip
 COPY requirements.txt ./

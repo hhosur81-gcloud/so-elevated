@@ -50,6 +50,32 @@ class TestOrchestratorAgent(unittest.TestCase):
         self.assertFalse(res["success"])
         self.assertEqual(res["error_code"], "SECURITY_BLOCKED")
 
+    def test_greeting_routing(self):
+        """Verify conversational greetings route to orchestrator supervisor with helpful guidance."""
+        res = self.orchestrator.process_turn(
+            session_id="sess-greet-1",
+            employee_id="EMP-1001",
+            user_message="Hello"
+        )
+        self.assertTrue(res["success"])
+        self.assertEqual(res["acting_agent"], "orchestrator")
+        self.assertIn("Hello, Jane!", res["response"])
+        self.assertIn("WorkWeek HCM", res["response"])
+        self.assertIn("ServiceImmediately ITSM", res["response"])
+
+    def test_capabilities_inquiry_routing(self):
+        """Verify 'what else can you do' routes to supervisor capabilities overview."""
+        res = self.orchestrator.process_turn(
+            session_id="sess-cap-1",
+            employee_id="EMP-1001",
+            user_message="what else can you do"
+        )
+        self.assertTrue(res["success"])
+        self.assertEqual(res["acting_agent"], "orchestrator")
+        self.assertIn("WorkWeek HCM", res["response"])
+        self.assertIn("ServiceImmediately ITSM", res["response"])
+        self.assertIn("Policy Specialist", res["response"])
+
     def test_policy_inquiry_routing(self):
         """Verify general policy inquiries route to PolicyAgent with citations."""
         res = self.orchestrator.process_turn(
@@ -238,6 +264,49 @@ class TestOrchestratorAgent(unittest.TestCase):
         )
         self.assertTrue(turn4["success"])
         self.assertIn("confirmed", turn4["response"].lower())
+
+
+    def test_ticket_creation_with_multi_word_modifier(self):
+        """Verify queries with multiple modifiers like 'create a new P1 ticket for new mouse' route to ITSM Agent."""
+        res = self.orchestrator.process_turn(
+            session_id="sess-ticket-p1-1",
+            employee_id="EMP-436",
+            user_message="create a new P1 ticket for new mouse"
+        )
+        self.assertTrue(res["success"])
+        self.assertEqual(res["acting_agent"], "itsm_agent")
+        self.assertEqual(res["agent_badge"], "🎫 ITSM Agent")
+        self.assertIn("INC", res["response"])
+        self.assertIn("Priority Notice (ADR-0010)", res["response"])
+    def test_emp_477_multi_tenant_access(self):
+        """Verify EMP-477 token routing resolves balances and tickets from live SaaS."""
+        res = self.orchestrator.process_turn(
+            session_id="sess-emp477-bal",
+            employee_id="EMP-477",
+            user_message="What are my leave balances?"
+        )
+        self.assertTrue(res["success"])
+        self.assertEqual(res["acting_agent"], "workweek_agent")
+        self.assertIn("EMP-477", res["response"])
+    def test_compound_ticket_and_policy_inquiry(self):
+        """Verify compound query with loaner ticket and policy questions routes to ITSM with policy answers."""
+        user_msg = (
+            "I am traveling to a conference next week and need a loaner Mac Pro. "
+            "Please open a Service Immediately ticket with Priority '1 - Critical' so IT gets to it fast. "
+            "Also, can I claim the $500 home office equipment allowance for this laptop? "
+            "Also, I am taking one extra day off after my business travel can I do that?"
+        )
+        res = self.orchestrator.process_turn(
+            session_id="sess-compound-travel-1",
+            employee_id="EMP-1001",
+            user_message=user_msg
+        )
+        self.assertTrue(res["success"])
+        self.assertEqual(res["acting_agent"], "itsm_agent")
+        self.assertIn("INC", res["response"])
+        self.assertIn("Priority Notice (ADR-0010)", res["response"])
+        self.assertIn("Relevant Policy Guidance", res["response"])
+        self.assertIn("Home Office Equipment Allowance", res["response"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,15 @@
+{
+  "probe-804b3980": {
+    "probe_id": "probe-804b3980",
+    "canary_id": "EMP-CANARY-01",
+    "success": false,
+    "steps_completed": 3,
+    "total_latency_ms": 0.0,
+    "step_latencies": {
+      "policy_qa_ms": 17.397477000486106,
+      "pto_query_ms": 244.82342699775472
+    },
+    "error": "ITSM synthetic ticket creation failed: Error: Access denied. Authenticated context is restricted to EMP-436. Cannot act on behalf of EMP-CANARY-01.",
+    "timestamp": "2026-08-20T06:38:10.153182+00:00"
+  }
+}

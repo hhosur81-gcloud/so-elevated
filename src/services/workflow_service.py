@@ -44,7 +44,7 @@ class CrossSystemWorkflowCoordinator:
         t_res = self.itsm_client.create_ticket(
             requested_by=employee_id,
             category="Hardware",
-            short_description=f"{title} for {employee_id}",
+            short_description=f"{title} for {employee_id} [{uuid.uuid4().hex[:6]}]",
             priority="3 - Moderate"
         )
 
@@ -73,7 +73,7 @@ class CrossSystemWorkflowCoordinator:
         # Step 1: Book Medical Leave in WorkWeek
         loa_res = self.workweek_client.request_time_off(
             employee_id=employee_id,
-            leave_type="Medical",
+            leave_type="Sick",
             start_date=start_date,
             end_date=end_date,
             days=days
@@ -85,7 +85,7 @@ class CrossSystemWorkflowCoordinator:
         leave_id = "LOA-2026-001"
 
         # Step 2: Create IT Routing ticket for email auto-forward and equipment lock
-        it_title = f"Medical Leave IT Coverage & Out-of-Office Routing for {employee_id}"
+        it_title = f"Medical Leave IT Coverage & Out-of-Office Routing for {employee_id} [{uuid.uuid4().hex[:6]}]"
         t_res = self.itsm_client.create_ticket(
             requested_by=employee_id,
             category="Access_Network",
