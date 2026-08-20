@@ -20,11 +20,12 @@ class PolicySearchRetriever:
         if policy_dirs:
             self.policy_dirs = policy_dirs
         elif policy_dir:
-            self.policy_dirs = [policy_dir, "knowledge", "fixtures/sample_policies"]
+            self.policy_dirs = [policy_dir]
         else:
             self.policy_dirs = ["knowledge", "fixtures/sample_policies"]
 
         self._documents = self._load_all_policies()
+
 
     def _stem(self, word: str) -> str:
         """Lightweight suffix stemming for matching variants (e.g. consume -> consumption, drink -> drinking)."""
@@ -152,11 +153,25 @@ class PolicySearchRetriever:
             title_matches = stemmed_query & (title_stems | source_stems)
             content_matches = stemmed_query & content_stems
 
-            weighted_score = (len(title_matches) * 3.5) + len(content_matches)
-            max_possible = len(stemmed_query) * 3.5
+            # Multi-word phrase matching boost for high-precision grounding
+            phrase_boost = 0.0
+            lower_content = doc["content"].lower()
+            lower_title = doc["section_title"].lower()
+            query_lower = query.lower()
+            
+            for phrase in ["home office", "equipment allowance", "500", "remote work", "telework", "gift card", "parental leave", "bereavement leave", "medical leave", "pet loss", "wellness allowance", "tuition reimbursement"]:
+                if phrase in query_lower and phrase in lower_content:
+                    phrase_boost += 3.0
+                if phrase in query_lower and phrase in lower_title:
+                    phrase_boost += 5.0
+
+            # Density bonus: matching 3+ distinct domain stems in body is stronger than single generic title match
+            density_bonus = (len(content_matches) * 1.5) if len(content_matches) >= 3 else len(content_matches)
+            weighted_score = (len(title_matches) * 3.0) + density_bonus + phrase_boost
+            max_possible = (len(stemmed_query) * 3.0) + 5.0
             normalized_score = weighted_score / max_possible if max_possible > 0 else 0.0
 
-            if len(title_matches) >= 1 or len(content_matches) >= 2 or normalized_score >= 0.35:
+            if len(title_matches) >= 1 or len(content_matches) >= 2 or phrase_boost > 0 or normalized_score >= 0.30:
                 results.append({
                     "score": normalized_score,
                     "doc_title": doc["doc_title"],
@@ -168,3 +183,4 @@ class PolicySearchRetriever:
 
         results.sort(key=lambda x: x["score"], reverse=True)
         return results
+

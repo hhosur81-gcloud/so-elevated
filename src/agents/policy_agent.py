@@ -1,7 +1,7 @@
-"""Policy Q&A Specialist Agent with Semantic Caching and Grounded Citations (ADR-0002, ADR-0008, ENG-0005)."""
-
+import re
 import time
 from typing import Any, Dict, Optional
+
 from src.repositories.search_repository import PolicySearchRetriever
 from src.services.semantic_cache_service import RedisSemanticCache
 
@@ -38,12 +38,12 @@ class PolicyAgent:
             }
 
         top_match = search_results[0]
-        content_snippet = top_match["content"]
+        content_snippet = top_match["content"].strip()
         section_label = top_match["section_title"]
         doc_url = top_match["url"]
 
-        # Synthesize grounded response
-        answer_text = f"According to company policy ({section_label}): {content_snippet}"
+        # Synthesize grounded response preserving complete factual body
+        answer_text = f"According to company policy ({section_label}):\n{content_snippet}"
         elapsed_ms = (time.perf_counter() - start_time) * 1000.0
 
         response = {
@@ -55,6 +55,7 @@ class PolicyAgent:
             "latency_ms": elapsed_ms,
             "cache_hit": False
         }
+
 
         # 3. Store in Semantic Vector Cache
         self.cache.set(query, employee_role, response)
