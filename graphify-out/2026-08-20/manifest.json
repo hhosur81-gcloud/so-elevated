@@ -35,8 +35,8 @@
     "semantic_hash": ""
   },
   "data/filestore/sessions/active.json": {
-    "mtime": 1787199883.6721296,
-    "ast_hash": "dff31062af6045f6c809655e89f36326",
+    "mtime": 1787203758.6941078,
+    "ast_hash": "a62a7eb74c0ae34bfc823740cb736a38",
     "semantic_hash": ""
   },
   "data/filestore/workweek/employees.json": {
@@ -120,8 +120,8 @@
     "semantic_hash": ""
   },
   "src/agents/orchestrator_agent.py": {
-    "mtime": 1787202166.6355648,
-    "ast_hash": "5222cf2f28bbfc7ee7b74522826f9478",
+    "mtime": 1787203743.8303099,
+    "ast_hash": "d890e1c44340c1d6240f2c14d359b865",
     "semantic_hash": ""
   },
   "src/agents/policy_agent.py": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "tests/integration/test_synthetic_canary.py": {
-    "mtime": 1787140749.4916983,
-    "ast_hash": "6dbdfb0caebfdf19462312e1d2049dff",
+    "mtime": 1787203790.5784187,
+    "ast_hash": "6b07baf17a0b9b68fdf23d8e9db9bafc",
     "semantic_hash": ""
   },
   "tests/integration/test_telemetry_and_scc.py": {
@@ -2097,6 +2097,26 @@
   "docs/assets/tracer_bullet_roadmap.jpg": {
     "mtime": 1787050713.9376929,
     "ast_hash": "4e79e11bbd15cb6e263daeaa730042cd",
+    "semantic_hash": ""
+  },
+  "scripts/agent_cli.py": {
+    "mtime": 1787203736.2456431,
+    "ast_hash": "b7303dd6918faf3e220c4a8d2c113b8e",
+    "semantic_hash": ""
+  },
+  "src/agents/itsm_agent.py": {
+    "mtime": 1787203772.776854,
+    "ast_hash": "a11ec3c012b74fb18cfcde218593dc28",
+    "semantic_hash": ""
+  },
+  "src/agents/workweek_agent.py": {
+    "mtime": 1787203702.9812374,
+    "ast_hash": "82109b5a98d4c127134bbabed74b1376",
+    "semantic_hash": ""
+  },
+  "tests/unit/test_dedicated_agents.py": {
+    "mtime": 1787203729.8456535,
+    "ast_hash": "c6316ec28963e09f24dd5cb0bc38df4d",
     "semantic_hash": ""
   }
 }
