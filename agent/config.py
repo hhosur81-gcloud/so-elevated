@@ -16,7 +16,7 @@ os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
 os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GOOGLE_CLOUD_PROJECT", "so-elevated")
 os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-south1")
 
-# Cleanse external API keys so calls never route to AI Studio project 786834062124
+# Cleanse external API keys so calls never route to AI Studio
 for key in ("GOOGLE_API_KEY", "GEMINI_API_KEY"):
     if key in os.environ:
         os.environ.pop(key, None)
@@ -52,7 +52,7 @@ KNOWLEDGE_DIR = _resolve_knowledge_dir()
 # Gemini Model identifier (gemini-2.5-flash on Vertex AI in asia-south1)
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-# Live FastMCP Server URLs and Tokens
+# Live FastMCP Server URLs and Hardcoded Swapna Token
 WORKWEEK_MCP_URL = os.getenv(
     "WORKWEEK_MCP_URL",
     "https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/"
@@ -68,5 +68,5 @@ SERVICEIMMEDIATELY_MCP_URL = os.getenv(
 )
 SERVICEIMMEDIATELY_MCP_TOKEN = os.getenv(
     "SERVICEIMMEDIATELY_MCP_TOKEN",
-    "mcp_iimWc8kxBKZR5m8hSgy_0tYy22fURzCR7Tn3KWsAOag"
+    "mcp_fZFYPQVV1fAkmOYz4Lal8OVc9ltyLmfHiO4BZGCm-Tw"
 )

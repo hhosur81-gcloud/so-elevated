@@ -1,14 +1,13 @@
-"""Unit tests verifying the ADK agent architecture and FastMCP configurations."""
+"""Unit tests verifying the ADK root agent configuration and tool registrations."""
 import pytest
 from google.adk.agents import LlmAgent
 from google.adk.tools.mcp_tool import McpToolset, StreamableHTTPConnectionParams
+from agent import agent, config
+from agent.agent import root_agent, list_concepts, read_concept, workweek_mcp, serviceimmediately_mcp
 
-from agent.agent import root_agent, workweek_mcp, serviceimmediately_mcp, list_concepts, read_concept
-from agent import config
 
-
-def test_agent_structure():
-    """Verify that root_agent is properly instantiated as an ADK LlmAgent."""
+def test_agent_initialization():
+    """Verify that root agent is correctly initialized with expected model and instruction."""
     assert isinstance(root_agent, LlmAgent)
     assert root_agent.name == "hr_agentic_orchestrator"
     assert root_agent.model == config.GEMINI_MODEL

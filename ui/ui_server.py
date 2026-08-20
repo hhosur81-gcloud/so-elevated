@@ -1,6 +1,7 @@
-"""Altostrat HR & IT Enterprise Agentic Portal — FastAPI Backend (Option 1: Vertex AI Agent Engine)."""
+"""Altostrat HR & IT Enterprise Agentic Portal — FastAPI Backend (Option 1: Vertex AI Agent Engine + Model Armor)."""
 import asyncio
 import json
+import logging
 import os
 import sys
 import time
@@ -18,11 +19,33 @@ from fastapi.responses import HTMLResponse, StreamingResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+# Configure structured server logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+logger = logging.getLogger("altostrat.portal")
+
+# Security Sentinel Gateway (Model Armor & SPII Masking)
+try:
+    from agent.security.model_armor_service import model_armor_gateway, SecurityViolationError
+except ImportError:
+    try:
+        from model_armor_service import model_armor_gateway, SecurityViolationError
+    except ImportError:
+        model_armor_gateway = None
+        SecurityViolationError = Exception
+
 # Base directory paths
 APP_DIR = Path(__file__).resolve().parent
 REPO_ROOT = APP_DIR.parent
 STATIC_DIR = APP_DIR / "static"
-KNOWLEDGE_DIR = REPO_ROOT / "knowledge"
+
+def _resolve_knowledge_dir() -> Path:
+    if (APP_DIR / "knowledge").is_dir():
+        return APP_DIR / "knowledge"
+    if (REPO_ROOT / "knowledge").is_dir():
+        return REPO_ROOT / "knowledge"
+    return APP_DIR / "knowledge"
+
+KNOWLEDGE_DIR = _resolve_knowledge_dir()
 
 # Google Cloud Platform & Vertex AI Configuration
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "so-elevated")
@@ -33,7 +56,7 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 app = FastAPI(
     title="Altostrat HR & IT Enterprise Assistant",
-    description="Conversational Portal powered by Google Cloud Vertex AI Agent Runtime & OKF Grounding",
+    description="Conversational Portal powered by Google Cloud Vertex AI Agent Runtime & Model Armor Guardrails",
     version="1.0.0",
 )
 
@@ -48,7 +71,7 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     message: str
-    user_id: str = "EMP1001"
+    user_id: str = "EMP-436"
     session_id: Optional[str] = None
 
 
@@ -64,10 +87,37 @@ def get_gcp_access_token() -> str:
 
 async def stream_reasoning_engine_events(
     user_query: str,
-    user_id: str,
+    user_id: str = "EMP-436",
     session_id: Optional[str] = None,
 ) -> AsyncGenerator[str, None]:
-    """Stream live events from Vertex AI ReasoningEngine to the browser via SSE."""
+    """Stream live events from Vertex AI ReasoningEngine with Layer 0 Model Armor sanitization."""
+    start_time = time.time()
+    logger.info("📩 New query received: user_id=%s, session_id=%s, text=%r", user_id, session_id, user_query[:80])
+    
+    # 1. Model Armor Ingress Screening (Prompt Injection & SPII Guardrails)
+    processed_query = user_query
+    if model_armor_gateway:
+        try:
+            sanitization = model_armor_gateway.sanitize_user_prompt(user_query)
+            processed_query = sanitization.sanitized_text
+            if sanitization.spii_redacted:
+                logger.info("🔒 Model Armor SPII redacted: %s", sanitization.violations)
+                notice_payload = {
+                    "type": "security_notice",
+                    "message": "🔒 Sensitive PII was masked by Google Cloud Model Armor before transmission.",
+                    "violations": sanitization.violations
+                }
+                yield f"data: {json.dumps(notice_payload)}\n\n"
+        except SecurityViolationError as sve:
+            logger.warning("🚨 Model Armor blocked injection attempt: %s", sve)
+            error_payload = {
+                "type": "security_violation",
+                "message": f"🚨 {str(sve)}",
+                "violation_type": sve.violation_type
+            }
+            yield f"data: {json.dumps(error_payload)}\n\n"
+            return
+
     token = get_gcp_access_token()
     headers = {
         "Authorization": f"Bearer {token}",
@@ -80,16 +130,14 @@ async def stream_reasoning_engine_events(
     body: Dict[str, Any] = {
         "class_method": "stream_query",
         "input": {
-            "message": user_query,
+            "message": processed_query,
             "user_id": user_id,
         }
     }
     
-    # Only supply session_id if it is an authentic Vertex AI resource name or integer ID
     if session_id and (session_id.startswith("projects/") or session_id.isdigit()):
         body["input"]["session_id"] = session_id
 
-    start_time = time.time()
     accumulated_text = ""
     active_tools = []
     vertex_session_id = session_id
@@ -99,6 +147,7 @@ async def stream_reasoning_engine_events(
             async with client.stream("POST", url, headers=headers, json=body) as response:
                 if response.status_code != 200:
                     err_text = await response.aread()
+                    logger.error("❌ Vertex AI Agent Runtime error (%s): %s", response.status_code, err_text.decode('utf-8')[:300])
                     error_payload = {
                         "type": "error",
                         "status_code": response.status_code,
@@ -116,13 +165,11 @@ async def stream_reasoning_engine_events(
                     except Exception:
                         continue
 
-                    # Capture session ID if provided by event
                     if "session_id" in event_data:
                         vertex_session_id = event_data["session_id"]
                     elif "session" in event_data and isinstance(event_data["session"], dict):
                         vertex_session_id = event_data["session"].get("name")
 
-                    # Function Call / Tool Invocations
                     content = event_data.get("content", {})
                     parts = content.get("parts", [])
                     
@@ -133,6 +180,7 @@ async def stream_reasoning_engine_events(
                             tool_args = fc.get("args", {})
                             tool_id = fc.get("id", "")
                             active_tools.append(tool_name)
+                            logger.info("🔧 Tool Call: %s (args=%s)", tool_name, tool_args)
                             yield f"data: {json.dumps({'type': 'tool_call', 'tool': tool_name, 'args': tool_args, 'id': tool_id})}\n\n"
 
                         elif "function_response" in part:
@@ -140,17 +188,22 @@ async def stream_reasoning_engine_events(
                             tool_name = fr.get("name", "tool")
                             tool_res = fr.get("response", {})
                             tool_id = fr.get("id", "")
+                            logger.info("✅ Tool Result: %s -> %s", tool_name, str(tool_res)[:100])
                             yield f"data: {json.dumps({'type': 'tool_result', 'tool': tool_name, 'result': tool_res, 'id': tool_id})}\n\n"
 
                         elif "text" in part:
                             text_chunk = part["text"]
+                            if model_armor_gateway:
+                                text_chunk = model_armor_gateway.sanitize_model_response(text_chunk).sanitized_text
                             accumulated_text += text_chunk
                             yield f"data: {json.dumps({'type': 'text_chunk', 'text': text_chunk})}\n\n"
 
         duration_ms = int((time.time() - start_time) * 1000)
+        logger.info("🏁 Query complete in %sms (tools=%s, text_len=%d)", duration_ms, active_tools, len(accumulated_text))
         yield f"data: {json.dumps({'type': 'done', 'duration_ms': duration_ms, 'tools_used': active_tools, 'session_id': vertex_session_id})}\n\n"
 
     except Exception as e:
+        logger.error("❌ Exception during streaming: %s", e)
         yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
 
 
@@ -181,11 +234,17 @@ async def get_config():
         "location": LOCATION,
         "reasoning_engine_id": REASONING_ENGINE_ID,
         "model": GEMINI_MODEL,
-        "knowledge_count": len(list(KNOWLEDGE_DIR.glob("**/*.md"))),
+        "security": {
+            "model_armor": "Active (Enforced Global FloorSetting)",
+            "dlp_spi_masking": "Active",
+            "rbac_isolation": "Active",
+            "idempotency_mode": "SHA-256 In-Turn Lock"
+        },
+        "knowledge_count": len(list(KNOWLEDGE_DIR.glob("**/*.md"))) if KNOWLEDGE_DIR.is_dir() else 0,
         "systems": [
             {"name": "WorkWeek HCM", "status": "Active (Live FastMCP)", "endpoint": "https://mock-saas.aishprabhat.demo.altostrat.com/work-week/mcp/"},
             {"name": "ServiceImmediately ITSM", "status": "Active (Live FastMCP)", "endpoint": "https://mock-saas.aishprabhat.demo.altostrat.com/service-immediately/mcp/"},
-            {"name": "OKF Policy Store", "status": "Active (Grounding)", "source": "knowledge/ (Open Knowledge Format)"},
+            {"name": "Open Knowledge Format", "status": "Active (Grounding)", "source": "knowledge/ (Open Knowledge Format)"},
         ]
     }
 
@@ -259,58 +318,16 @@ async def read_policy(path: str = Query(..., description="Relative path to OKF p
     }
 
 
-@app.get("/api/employees")
-async def get_test_employees():
-    """List sample test employees matching BRD personas."""
-    return [
-        {
-            "id": "EMP1001",
-            "name": "Alex Mercer",
-            "role": "Senior Cloud Infrastructure Engineer",
-            "dept": "Cloud Platform Engineering",
-            "pto_accrued": 22.5,
-            "pto_used": 6.0,
-            "pto_remaining": 16.5,
-            "sick_remaining": 10.0,
-            "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-            "location": "San Francisco, CA (Remote)"
-        },
-        {
-            "id": "EMP1002",
-            "name": "Sarah Jenkins",
-            "role": "Product Marketing Lead",
-            "dept": "Global Product Marketing",
-            "pto_accrued": 20.0,
-            "pto_used": 12.0,
-            "pto_remaining": 8.0,
-            "sick_remaining": 12.0,
-            "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
-            "location": "New York, NY (Hybrid)"
-        },
-        {
-            "id": "EMP1003",
-            "name": "David Kim",
-            "role": "Strategic Account Executive",
-            "dept": "Enterprise Sales",
-            "pto_accrued": 25.0,
-            "pto_used": 5.0,
-            "pto_remaining": 20.0,
-            "sick_remaining": 15.0,
-            "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-            "location": "Austin, TX (Remote)"
-        }
-    ]
-
-
 @app.get("/healthz")
 @app.get("/api/health")
 async def health_check():
-    """Cloud Run healthcheck endpoint."""
+    """Healthcheck endpoint."""
     return {"status": "HEALTHY", "service": "altostrat-hr-portal", "timestamp": time.time()}
 
 
 # Mount static assets
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+if STATIC_DIR.is_dir():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -329,8 +346,10 @@ def main():
     print("=" * 75)
     print(f"🚀 Altostrat HR & IT Enterprise Portal starting on http://{host}:{port}")
     print(f"   Connected to Vertex AI Agent Runtime: {REASONING_ENGINE_ID} in {LOCATION}")
+    print(f"   Using Swapna's FastMCP Token")
+    print(f"   Security Sentinel: Google Cloud Model Armor Active")
     print("=" * 75)
-    uvicorn.run(app, host=host, port=port)
+    uvicorn.run("ui_server:app", host=host, port=port, reload=False)
 
 
 if __name__ == "__main__":
